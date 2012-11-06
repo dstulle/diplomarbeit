@@ -27,9 +27,9 @@
 \paperfontsize default
 \spacing single
 \use_hyperref true
-\pdf_title "Structure, Compararive Analysis and Evolution of Networks"
+\pdf_title "Expose - Übersetzen von ReActor-Spezifikationen in TLA"
 \pdf_author "Daniel Sturm"
-\pdf_subject "Computer Science"
+\pdf_keywords "ReActor, Scheme, TLA+, TLC, Model Checking"
 \pdf_bookmarks true
 \pdf_bookmarksnumbered false
 \pdf_bookmarksopen false
