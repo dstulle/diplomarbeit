@@ -270,7 +270,7 @@ einfacher Zeitplan / wichtige Zwischenziele
 \begin_inset CommandInset bibtex
 LatexCommand bibtex
 btprint "btPrintAll"
-bibfiles "/home/dstulle/usr/uni/diplom/bibtex/general"
+bibfiles "../bibtex/general"
 options "bibtotoc,unsrt"
 
 \end_inset
