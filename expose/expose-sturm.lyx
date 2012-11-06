@@ -1,0 +1,282 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass scrartcl
+\use_default_options false
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding utf8
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref true
+\pdf_title "Structure, Compararive Analysis and Evolution of Networks"
+\pdf_author "Daniel Sturm"
+\pdf_subject "Computer Science"
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks true
+\pdf_pdfborder true
+\pdf_colorlinks true
+\pdf_backref section
+\pdf_pdfusetitle true
+\papersize a4paper
+\use_geometry true
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation skip
+\defskip bigskip
+\quotes_language swedish
+\papercolumns 1
+\papersides 1
+\paperpagestyle fancy
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+title{Expose - Übersetzen von ReActor-Spezifikationen in TLA}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+author{Daniel Sturm, Informatik (Diplom), 221586}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+maketitle
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Einführung in das Themengebiet
+\end_layout
+
+\begin_layout Standard
+Laut dem Mooreschen Gesetz
+\begin_inset CommandInset citation
+LatexCommand cite
+key "nil"
+
+\end_inset
+
+ verdoppelt sich alle n Jahre die Leistung der Computer die man für das
+ gleiche geld bekommen kann\SpecialChar \@.
+ Über lange Jahre ging das über die erhöhung
+ der CPU-Taktfrequez\SpecialChar \@.
+ In letzter Zeit zeichnet sich allerdings ein anderer
+ Trend ab: Multicore CPUs\SpecialChar \@.
+ Im Jahre n wird laut aussage von Intel
+\begin_inset CommandInset citation
+LatexCommand cite
+key "nil"
+
+\end_inset
+
+ eine normale CPU n kerne haben\SpecialChar \@.
+ Diese Trendwende hat zur folge, dass sich
+ die Art wie Programme geschrieben werden darauf anpassen muss\SpecialChar \@.
+ Hierzu braucht
+ es neue Paradigmen.
+ Eines dieser dazu geeigneten Paradigmen ist das Aktor-Object-Model\SpecialChar \@.
+
+\end_layout
+
+\begin_layout Subsection
+Aktor-Objekt-Model
+\end_layout
+
+\begin_layout Standard
+Das Aktor-Objekt-Model erweitert die üblichen Objekte aus der Objektorientierten
+ Programmierung um einige Fähigkeiten, die für die Parallele Programmierung
+ hilfreich sind\SpecialChar \@.
+
+\end_layout
+
+\begin_layout Description
+Message
+\begin_inset space ~
+\end_inset
+
+queue
+\begin_inset space ~
+\end_inset
+
+mit
+\begin_inset space ~
+\end_inset
+
+addresse Jedes Objekt hat eine eindeutige addresse, an die Jedes andere
+ Objekt zu jeder Zeit nachrichten senden kann\SpecialChar \@.
+ Alle diese Nachrichten landen
+ zunächst in einer Queue und werden dann einzelnd vom Objekt bearbeitet\SpecialChar \@.
+
+\end_layout
+
+\begin_layout Description
+Mutual
+\begin_inset space ~
+\end_inset
+
+exclusion Nachrichten an das Objekt werden nacheinander verarbeitet, zu
+ keinem Zeitpunkt werden mehrere Stellen des Codes gleichzeitig ausgeführt,
+ alles geschieht sequenziell\SpecialChar \@.
+
+\end_layout
+
+\begin_layout Description
+Zustandsabhängiges
+\begin_inset space ~
+\end_inset
+
+Verhalten Abhängig vom eigenen Zustand entscheidet das Objekt, was es tuen
+ soll und Transformiert sich selber ggf.
+ zu einem anderen Aktor\SpecialChar \@.
+
+\end_layout
+
+\begin_layout Subsection
+Deklarative Spezifikationssprachen
+\end_layout
+
+\begin_layout Standard
+Formale Sprache um Problemstellungen im Kern zu beschreiben optimiert beweise
+ zu führen und nicht compilieren.
+\end_layout
+
+\begin_layout Subsection
+Model Checker
+\end_layout
+
+\begin_layout Standard
+Gegeben: ein Model eines Systems (eventuel referenz auf Mahr?) und eine
+ Spezifikation\SpecialChar \@.
+ Ein Model Checker überprüft automatisch ob das Model die
+ gegebene Spezifikation erfüllt.
+\end_layout
+
+\begin_layout Subsection
+ReActor
+\end_layout
+
+\begin_layout Standard
+Ist eine Formale beschreibung Aktor basierten Programmiermodells\SpecialChar \@.
+
+\end_layout
+
+\begin_layout Section
+Problembeschreibung
+\end_layout
+
+\begin_layout Subsection
+Abbildung der Sprache ReActor auf TLA
+\end_layout
+
+\begin_layout Standard
+Um Automatisierte Formale Beweise mithilfe des Model Checkers TLC fur ReActor
+ zu führen muss ReActor zunächst in TLA übersetzt werden\SpecialChar \@.
+
+\end_layout
+
+\begin_layout Subsection
+TLA-Model soll mit TLC untersucht werden können
+\end_layout
+
+\begin_layout Section
+Lösungsansatz/Arbeitsbeschreibung
+\end_layout
+
+\begin_layout Subsection
+Parser für Scheme-inspirierte Syntax
+\end_layout
+
+\begin_layout Subsection
+Mechanisierung der ReActor-Semantik, evtl.
+ LaTeX als Target?
+\end_layout
+
+\begin_layout Section
+Entwurf der Diplomarbeitsstruktur
+\end_layout
+
+\begin_layout Standard
+Kapitel & wichtige Unterkapitel, kann sich später noch ändern.
+\end_layout
+
+\begin_layout Section
+einfacher Zeitplan / wichtige Zwischenziele
+\end_layout
+
+\begin_layout Standard
+\start_of_appendix
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+btprint "btPrintAll"
+bibfiles "/home/dstulle/usr/uni/diplom/bibtex/general"
+options "bibtotoc,unsrt"
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
