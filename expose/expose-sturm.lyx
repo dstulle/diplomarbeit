@@ -118,12 +118,11 @@ key "Moore"
 
 \end_inset
 
- verdoppelt sich alle 1-2 Jahre die Leistung der Computer die man für das
- gleiche geld bekommen kann\SpecialChar \@.
- Über lange Zeit drückte sich das in Form einer
- Erhöhung der CPU-Taktfrequez aus\SpecialChar \@.
- In letzter Zeit geht der Trend in die
- Richtung, dass eine CPU mehrere Kerne bzw.
+ verdoppelt sich alle 1-2 Jahre die Leistung der Computer\SpecialChar \@.
+ Über lange Zeit
+ drückte sich das in Form einer Erhöhung der CPU-Taktfrequez aus\SpecialChar \@.
+ In letzter
+ Zeit geht der Trend in die Richtung, dass eine CPU mehrere Kerne bzw.
  ein Computer mehrere CPUs besitzt\SpecialChar \@.
 
 \end_layout
@@ -136,7 +135,7 @@ Diese Trendwende hat zur Folge, dass sich die Art und Weise wie Programme
  Eines der dazu geeigneten Paradigmen ist das Aktor-Object-Model
 \begin_inset CommandInset citation
 LatexCommand cite
-key "nil"
+key "agha1990a"
 
 \end_inset
 
@@ -148,7 +147,7 @@ key "nil"
 Das Aktor-Objekt-Model erweitert die üblichen Objekte aus der Objektorientierten
  Programmierung um einige Fähigkeiten, die für die Parallele Programmierung
  hilfreich sind\SpecialChar \@.
- Diese Erweiterten Objekte werden Aktoren genannt\SpecialChar \@.
+ Diese erweiterten Objekte werden Aktoren genannt\SpecialChar \@.
 
 \end_layout
 
@@ -165,8 +164,8 @@ mit
 \begin_inset space ~
 \end_inset
 
-addresse Jedes Objekt hat eine eindeutige addresse, an die Jedes andere
- Objekt zu jeder Zeit nachrichten senden kann\SpecialChar \@.
+Addresse Jedes Objekt hat eine eindeutige Addresse, an die jedes andere
+ Objekt zu jeder Zeit Nachrichten senden kann\SpecialChar \@.
  Alle diese Nachrichten landen
  zunächst in einer Queue und werden dann einzelnd vom Objekt bearbeitet\SpecialChar \@.
 
@@ -188,8 +187,8 @@ Zustandsabhängiges
 \begin_inset space ~
 \end_inset
 
-Verhalten Abhängig vom eigenen Zustand entscheidet das Objekt, was es tuen
- soll und Transformiert sich selber ggf.
+Verhalten Abhängig vom eigenen Zustand entscheidet das Objekt, was es tun
+ soll und transformiert sich selber ggf.
  zu einem anderen Aktor\SpecialChar \@.
 
 \end_layout
@@ -198,14 +197,14 @@ Verhalten Abhängig vom eigenen Zustand entscheidet das Objekt, was es tuen
 ReActor
 \begin_inset CommandInset citation
 LatexCommand cite
-key "nil"
+key "burmeister2013a"
 
 \end_inset
 
- ist eine Sprache auf Basis von scheme
+ ist eine Sprache auf Basis von Scheme
 \begin_inset CommandInset citation
 LatexCommand cite
-key "nil"
+key "Scheme"
 
 \end_inset
 
@@ -218,23 +217,23 @@ Problembeschreibung
 \end_layout
 
 \begin_layout Standard
-Um Automatisierte Formale Beweise mithilfe des Model Checkers TLC
+Um automatisierte formale Beweise mithilfe des Model Checkers TLC
 \begin_inset CommandInset citation
 LatexCommand cite
-key "nil"
+key "lamport2002a"
 
 \end_inset
 
- fur ReActor zu führen muss ReActor zunächst in TLA+
+ für ReActor zu führen, muss ReActor zunächst in TLA+
 \begin_inset CommandInset citation
 LatexCommand cite
-key "nil"
+key "lamport2002a"
 
 \end_inset
 
  übersetzt werden\SpecialChar \@.
  Ziel der Arbeit ist es daher einen Compiler zu implementieren,
- der ReActor-code in TLA-code übersetzt.
+ der ReActor-Code in TLA-Code übersetzt.
 \end_layout
 
 \begin_layout Section
@@ -242,11 +241,11 @@ Lösungsansatz/Arbeitsbeschreibung
 \end_layout
 
 \begin_layout Standard
-Um die Sprache ReActor in TLA+ zu übersetzen wird wird folgender Ansatz
- gewählt: Scheme wird durch Macros
+Um die Sprache ReActor in TLA+ zu übersetzen wird folgender Ansatz gewählt:
+ Scheme wird durch Macros
 \begin_inset CommandInset citation
 LatexCommand cite
-key "nil"
+key "defmacro/lisp"
 
 \end_inset
 
@@ -261,7 +260,7 @@ Genaue Festsetzung der Syntax von ReActor.
 \end_layout
 
 \begin_layout Enumerate
-Festlegung wie Spezielle ReActor Konstrukte in TLA ausgedrückt werden sollen.
+Festlegung wie spezielle ReActor Konstrukte in TLA ausgedrückt werden sollen.
 \end_layout
 
 \begin_layout Enumerate
@@ -273,7 +272,7 @@ Struktur der Arbeit
 \end_layout
 
 \begin_layout Standard
-Dieser Entwurf ist derzeit noch rein Spekulativ.
+Dieser Entwurf ist derzeit noch rein spekulativ.
  Jede Ähnlichkeit mit der tatsächlichen Struktur ist noch rein zufällig.
 \end_layout
 
@@ -385,7 +384,7 @@ Einführung in TLA
 \begin_inset Text
 
 \begin_layout Plain Layout
-Einführung in ReActor (inklusive definition der Syntax)
+Einführung in ReActor (inklusive Definition der Syntax)
 \end_layout
 
 \end_inset
@@ -731,7 +730,6 @@ Implementierung des Parsers mit Abbildung auf TLA
 \start_of_appendix
 \begin_inset CommandInset bibtex
 LatexCommand bibtex
-btprint "btPrintAll"
 bibfiles "../bibtex/general"
 options "bibtotoc,unsrt"
 
