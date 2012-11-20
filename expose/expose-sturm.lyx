@@ -114,40 +114,41 @@ Einführung in das Themengebiet
 Laut dem Mooreschen Gesetz
 \begin_inset CommandInset citation
 LatexCommand cite
-key "nil"
+key "Moore"
 
 \end_inset
 
- verdoppelt sich alle n Jahre die Leistung der Computer die man für das
+ verdoppelt sich alle 1-2 Jahre die Leistung der Computer die man für das
  gleiche geld bekommen kann\SpecialChar \@.
- Über lange Jahre ging das über die erhöhung
- der CPU-Taktfrequez\SpecialChar \@.
- In letzter Zeit zeichnet sich allerdings ein anderer
- Trend ab: Multicore CPUs\SpecialChar \@.
- Im Jahre n wird laut aussage von Intel
+ Über lange Zeit drückte sich das in Form einer
+ Erhöhung der CPU-Taktfrequez aus\SpecialChar \@.
+ In letzter Zeit geht der Trend in die
+ Richtung, dass eine CPU mehrere Kerne bzw.
+ ein Computer mehrere CPUs besitzt\SpecialChar \@.
+
+\end_layout
+
+\begin_layout Standard
+Diese Trendwende hat zur Folge, dass sich die Art und Weise wie Programme
+ geschrieben werden darauf anpassen muss\SpecialChar \@.
+ Hierzu braucht es neue Paradigmen\SpecialChar \@.
+
+ Eines der dazu geeigneten Paradigmen ist das Aktor-Object-Model
 \begin_inset CommandInset citation
 LatexCommand cite
 key "nil"
 
 \end_inset
 
- eine normale CPU n kerne haben\SpecialChar \@.
- Diese Trendwende hat zur folge, dass sich
- die Art wie Programme geschrieben werden darauf anpassen muss\SpecialChar \@.
- Hierzu braucht
- es neue Paradigmen.
- Eines dieser dazu geeigneten Paradigmen ist das Aktor-Object-Model\SpecialChar \@.
+\SpecialChar \@.
 
-\end_layout
-
-\begin_layout Subsection
-Aktor-Objekt-Model
 \end_layout
 
 \begin_layout Standard
 Das Aktor-Objekt-Model erweitert die üblichen Objekte aus der Objektorientierten
  Programmierung um einige Fähigkeiten, die für die Parallele Programmierung
  hilfreich sind\SpecialChar \@.
+ Diese Erweiterten Objekte werden Aktoren genannt\SpecialChar \@.
 
 \end_layout
 
@@ -193,33 +194,22 @@ Verhalten Abhängig vom eigenen Zustand entscheidet das Objekt, was es tuen
 
 \end_layout
 
-\begin_layout Subsection
-Deklarative Spezifikationssprachen
-\end_layout
-
 \begin_layout Standard
-Formale Sprache um Problemstellungen im Kern zu beschreiben optimiert beweise
- zu führen und nicht compilieren.
-\end_layout
-
-\begin_layout Subsection
-Model Checker
-\end_layout
-
-\begin_layout Standard
-Gegeben: ein Model eines Systems (eventuel referenz auf Mahr?) und eine
- Spezifikation\SpecialChar \@.
- Ein Model Checker überprüft automatisch ob das Model die
- gegebene Spezifikation erfüllt.
-\end_layout
-
-\begin_layout Subsection
 ReActor
-\end_layout
+\begin_inset CommandInset citation
+LatexCommand cite
+key "nil"
 
-\begin_layout Standard
-Ist eine Formale beschreibung Aktor basierten Programmiermodells, inspiriert
- von Scheme\SpecialChar \@.
+\end_inset
+
+ ist eine Sprache auf Basis von scheme
+\begin_inset CommandInset citation
+LatexCommand cite
+key "nil"
+
+\end_inset
+
+ die sich auf die Beschreibung oben genannter Aktoren spezialisiert hat\SpecialChar \@.
 
 \end_layout
 
@@ -228,24 +218,54 @@ Problembeschreibung
 \end_layout
 
 \begin_layout Standard
-Um Automatisierte Formale Beweise mithilfe des Model Checkers TLC fur ReActor
- zu führen muss ReActor zunächst in TLA übersetzt werden\SpecialChar \@.
- Ziel der Arbeit
- ist es deswegen einen Compiler zu implementieren, der ReActor-code in TLA-code
- übersetzt.
+Um Automatisierte Formale Beweise mithilfe des Model Checkers TLC
+\begin_inset CommandInset citation
+LatexCommand cite
+key "nil"
+
+\end_inset
+
+ fur ReActor zu führen muss ReActor zunächst in TLA+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "nil"
+
+\end_inset
+
+ übersetzt werden\SpecialChar \@.
+ Ziel der Arbeit ist es daher einen Compiler zu implementieren,
+ der ReActor-code in TLA-code übersetzt.
 \end_layout
 
 \begin_layout Section
 Lösungsansatz/Arbeitsbeschreibung
 \end_layout
 
-\begin_layout Subsection
-Parser für Scheme-inspirierte Syntax
+\begin_layout Standard
+Um die Sprache ReActor in TLA+ zu übersetzen wird wird folgender Ansatz
+ gewählt: Scheme wird durch Macros
+\begin_inset CommandInset citation
+LatexCommand cite
+key "nil"
+
+\end_inset
+
+ zu ReActor erweitert\SpecialChar \@.
+ In Scheme wird dann ein Parser implementiert, der
+ aus dem Code TLA+ erzeugt\SpecialChar \@.
+ Dafür ist folgendes notwendig:
 \end_layout
 
-\begin_layout Subsection
-Mechanisierung der ReActor-Semantik, evtl.
- LaTeX als Target?
+\begin_layout Enumerate
+Genaue Festsetzung der Syntax von ReActor.
+\end_layout
+
+\begin_layout Enumerate
+Festlegung wie Spezielle ReActor Konstrukte in TLA ausgedrückt werden sollen.
+\end_layout
+
+\begin_layout Enumerate
+Implementierung des Parsers.
 \end_layout
 
 \begin_layout Section
@@ -307,36 +327,7 @@ Seiten (ca.)
 \begin_inset Text
 
 \begin_layout Plain Layout
-Einführung in ReActor
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-2
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-1.2
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Einführung in Scheme oder Racket
+Einführung in Scheme
 \end_layout
 
 \end_inset
@@ -356,7 +347,7 @@ Einführung in Scheme oder Racket
 \begin_inset Text
 
 \begin_layout Plain Layout
-1.3
+1.2
 \end_layout
 
 \end_inset
@@ -385,7 +376,7 @@ Einführung in TLA
 \begin_inset Text
 
 \begin_layout Plain Layout
-2.1
+1.3
 \end_layout
 
 \end_inset
@@ -394,7 +385,7 @@ Einführung in TLA
 \begin_inset Text
 
 \begin_layout Plain Layout
-Definition einer Abbildung von ReActor nach TLA
+Einführung in ReActor (inklusive definition der Syntax)
 \end_layout
 
 \end_inset
@@ -403,7 +394,7 @@ Definition einer Abbildung von ReActor nach TLA
 \begin_inset Text
 
 \begin_layout Plain Layout
-6
+4
 \end_layout
 
 \end_inset
@@ -414,7 +405,7 @@ Definition einer Abbildung von ReActor nach TLA
 \begin_inset Text
 
 \begin_layout Plain Layout
-2.2
+2.1
 \end_layout
 
 \end_inset
@@ -423,7 +414,7 @@ Definition einer Abbildung von ReActor nach TLA
 \begin_inset Text
 
 \begin_layout Plain Layout
-Spezifikation einer Grammatik für ReActor in Scheme
+Definition der Scheme Makros die ReActor erzeugen
 \end_layout
 
 \end_inset
@@ -433,6 +424,35 @@ Spezifikation einer Grammatik für ReActor in Scheme
 
 \begin_layout Plain Layout
 5
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2.2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Definition einer Abbildung von ReActor nach TLA
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+6
 \end_layout
 
 \end_inset
@@ -526,7 +546,7 @@ Quellcode des Parsers
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -535,16 +555,16 @@ Quellcode des Parsers
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+???
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -577,7 +597,7 @@ Gesamt:
 \begin_inset Text
 
 \begin_layout Plain Layout
-43
+45
 \end_layout
 
 \end_inset
@@ -596,7 +616,7 @@ Zeitplan
 
 \begin_layout Standard
 \begin_inset Tabular
-<lyxtabular version="3" rows="4" columns="2">
+<lyxtabular version="3" rows="5" columns="2">
 <features tabularvalignment="middle">
 <column alignment="left" valignment="top" width="0">
 <column alignment="left" valignment="top" width="0">
@@ -625,12 +645,32 @@ Dauer
 \begin_inset Text
 
 \begin_layout Plain Layout
-Spezifikation einer Grammatik für ReActor
+Einarbeitung in das Thema
 \end_layout
 
 \end_inset
 </cell>
 <cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3 Monate
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Spezifikation einer Grammatik für ReActor
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -665,7 +705,7 @@ Implementierung des Parsers mit Abbildung auf TLA
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+???
 \end_layout
 
 \end_inset
