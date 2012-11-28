@@ -119,10 +119,10 @@ key "Moore"
 \end_inset
 
  verdoppelt sich alle 1-2 Jahre die Leistung der Computer\SpecialChar \@.
- Über lange Zeit
- drückte sich das in Form einer Erhöhung der CPU-Taktfrequez aus\SpecialChar \@.
- In letzter
- Zeit geht der Trend in die Richtung, dass eine CPU mehrere Kerne bzw.
+ Lange drückte
+ sich das in Form einer Erhöhung der CPU-Taktfrequez aus\SpecialChar \@.
+ In letzter Zeit
+ geht der Trend in die Richtung, dass eine CPU mehrere Kerne bzw.
  ein Computer mehrere CPUs besitzt\SpecialChar \@.
 
 \end_layout
@@ -130,9 +130,10 @@ key "Moore"
 \begin_layout Standard
 Diese Trendwende hat zur Folge, dass sich die Art und Weise wie Programme
  geschrieben werden darauf anpassen muss\SpecialChar \@.
- Hierzu braucht es neue Paradigmen\SpecialChar \@.
-
- Eines der dazu geeigneten Paradigmen ist das Aktor-Object-Model
+ Hierzu braucht es neue Paradigmen
+ die der Herausforderung der Nebenläufigkeit gewachsen sind\SpecialChar \@.
+ Eines der dazu
+ geeigneten Paradigmen ist das Aktor-Object-Model
 \begin_inset CommandInset citation
 LatexCommand cite
 key "agha1990a"
@@ -145,50 +146,38 @@ key "agha1990a"
 
 \begin_layout Standard
 Das Aktor-Objekt-Model erweitert die üblichen Objekte aus der Objektorientierten
- Programmierung um einige Fähigkeiten, die für die Parallele Programmierung
+ Programmierung um Eigenschaften, die für die nebenläufige Programmierung
  hilfreich sind\SpecialChar \@.
  Diese erweiterten Objekte werden Aktoren genannt\SpecialChar \@.
 
 \end_layout
 
+\begin_layout Standard
+Diese Aktoren sind durch Folgende Characteristiken gekennzeichnet:
+\end_layout
+
 \begin_layout Description
-Message
-\begin_inset space ~
-\end_inset
-
-queue
-\begin_inset space ~
-\end_inset
-
-mit
-\begin_inset space ~
-\end_inset
-
-Addresse Jedes Objekt hat eine eindeutige Addresse, an die jedes andere
- Objekt zu jeder Zeit Nachrichten senden kann\SpecialChar \@.
- Alle diese Nachrichten landen
- zunächst in einer Queue und werden dann einzelnd vom Objekt bearbeitet\SpecialChar \@.
+Mailbox Jeder Aktor hat eine eindeutige Addresse, an die jedes andere Objekt
+ zu jeder Zeit Nachrichten senden kann\SpecialChar \@.
+ Alle diese Nachrichten landen zunächst
+ in einer Queue und werden dann einzelnd vom Objekt bearbeitet\SpecialChar \@.
 
 \end_layout
 
 \begin_layout Description
-Mutual
+Serielle
 \begin_inset space ~
 \end_inset
 
-exclusion Nachrichten an das Objekt werden nacheinander verarbeitet, zu
+abarbeitung Nachrichten für den Aktor werden nacheinander verarbeitet, zu
  keinem Zeitpunkt werden mehrere Stellen des Codes gleichzeitig ausgeführt,
  alles geschieht sequenziell\SpecialChar \@.
 
 \end_layout
 
 \begin_layout Description
-Zustandsabhängiges
-\begin_inset space ~
-\end_inset
-
-Verhalten Abhängig vom eigenen Zustand entscheidet das Objekt, was es tun
- soll und transformiert sich selber ggf.
+Zustandsabhängkeit Abhängig vom eigenen Zustand entscheidet der Aktor, was
+ er tun soll und transformiert sich selber ggf.
  zu einem anderen Aktor\SpecialChar \@.
 
 \end_layout
@@ -201,14 +190,14 @@ key "burmeister2013a"
 
 \end_inset
 
- ist eine Sprache auf Basis von Scheme
+ ist eine deklarative Sprache inspiriert von Scheme
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Scheme"
 
 \end_inset
 
- die sich auf die Beschreibung oben genannter Aktoren spezialisiert hat\SpecialChar \@.
+, die sich auf die Beschreibung oben genannter Aktoren spezialisiert hat\SpecialChar \@.
 
 \end_layout
 
@@ -217,7 +206,18 @@ Problembeschreibung
 \end_layout
 
 \begin_layout Standard
-Um automatisierte formale Beweise mithilfe des Model Checkers TLC
+Bei der parallelen Programmierung ist neben dem Bedarf an neuen Denkweisen
+ und angepassenten Algorithmen besonders wichtig mögliche Deadlocks und
+ Race Conditions zu verhindern\SpecialChar \@.
+ Hierbei ist kommt man mit Unit-Testen meistens
+ nicht sehr weit\SpecialChar \@.
+ Daher sind automatisierte formale Beweise mit einem Model
+ Checker hier die bessere Wahl\SpecialChar \@.
+
+\end_layout
+
+\begin_layout Standard
+Um Beweise mithilfe eines Model Checkers, wie TLC
 \begin_inset CommandInset citation
 LatexCommand cite
 key "lamport2002a"
@@ -232,8 +232,22 @@ key "lamport2002a"
 \end_inset
 
  übersetzt werden\SpecialChar \@.
- Ziel der Arbeit ist es daher einen Compiler zu implementieren,
- der ReActor-Code in TLA-Code übersetzt.
+ Ziel der Arbeit ist es daher eine Infrastruktur zu enwicklen
+ die es ermöglicht, ReActor-Code in TLA-Code zu übersetzen\SpecialChar \@.
+
+\end_layout
+
+\begin_layout Standard
+Das so entstandene Framework soll zunächst nur exemplarisch einige Teilaspekte
+ der Sprache übersetzt und später erweitert werden\SpecialChar \@.
+
+\end_layout
+
+\begin_layout Standard
+Dieses Framework soll so modular werden, dass durch Austausch des Ausgabe-Moduls
+ verschiedene Zielsprachen Erzeugt werden können, wie z.B.
+ eine auf LaTeX basierte graphische Representation von ReActor\SpecialChar \@.
+
 \end_layout
 
 \begin_layout Section
@@ -326,7 +340,7 @@ Seiten (ca.)
 \begin_inset Text
 
 \begin_layout Plain Layout
-Einführung in Scheme
+Einführung in Deklarative Spezifikationssprachen
 \end_layout
 
 \end_inset
@@ -355,7 +369,7 @@ Einführung in Scheme
 \begin_inset Text
 
 \begin_layout Plain Layout
-Einführung in TLA
+Einführung in ReActor (inklusive Definition der Syntax)
 \end_layout
 
 \end_inset
@@ -384,7 +398,7 @@ Einführung in TLA
 \begin_inset Text
 
 \begin_layout Plain Layout
-Einführung in ReActor (inklusive Definition der Syntax)
+Einführung in TLA
 \end_layout
 
 \end_inset
