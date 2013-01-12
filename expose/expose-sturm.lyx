@@ -80,7 +80,7 @@ status open
 
 
 \backslash
-title{Expose - Übersetzen von ReActor-Spezifikationen in TLA}
+title{Expose - Infrastruktur zur Übersetzung von ReActor Spezifikationen}
 \end_layout
 
 \begin_layout Plain Layout
@@ -111,18 +111,18 @@ Einführung in das Themengebiet
 \end_layout
 
 \begin_layout Standard
-Laut dem Mooreschen Gesetz
+Gemäß dem Mooreschen Gesetz
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Moore"
 
 \end_inset
 
- verdoppelt sich alle 1-2 Jahre die Leistung der Computer\SpecialChar \@.
- Lange drückte
- sich das in Form einer Erhöhung der CPU-Taktfrequez aus\SpecialChar \@.
- In letzter Zeit
- geht der Trend in die Richtung, dass eine CPU mehrere Kerne bzw.
+ verdoppelt sich alle 1-2 Jahre die Leistung der Prozessoren\SpecialChar \@.
+ Lange geschah
+ das in Form einer Erhöhung der CPU-Taktfrequez aus\SpecialChar \@.
+ In letzter Zeit geht
+ der Trend in die Richtung, dass eine CPU mehrere Kerne bzw.
  ein Computer mehrere CPUs besitzt\SpecialChar \@.
 
 \end_layout
@@ -130,10 +130,10 @@ key "Moore"
 \begin_layout Standard
 Diese Trendwende hat zur Folge, dass sich die Art und Weise wie Programme
  geschrieben werden darauf anpassen muss\SpecialChar \@.
- Hierzu braucht es neue Paradigmen
- die der Herausforderung der Nebenläufigkeit gewachsen sind\SpecialChar \@.
- Eines der dazu
- geeigneten Paradigmen ist das Aktor-Object-Model
+ Hierzu braucht es neue Programmiermodel
+le die der Herausforderung der Nebenläufigkeit gewachsen sind\SpecialChar \@.
+ Ein dazu geeignets
+ ist das Aktor-Objekt-Model
 \begin_inset CommandInset citation
 LatexCommand cite
 key "agha1990a"
@@ -145,7 +145,7 @@ key "agha1990a"
 \end_layout
 
 \begin_layout Standard
-Das Aktor-Objekt-Model erweitert die üblichen Objekte aus der Objektorientierten
+Das Aktor-Objekt-Model erweitert die üblichen Objekte aus der objektorientierten
  Programmierung um Eigenschaften, die für die nebenläufige Programmierung
  hilfreich sind\SpecialChar \@.
  Diese erweiterten Objekte werden Aktoren genannt\SpecialChar \@.
@@ -153,7 +153,7 @@ Das Aktor-Objekt-Model erweitert die üblichen Objekte aus der Objektorientierte
 \end_layout
 
 \begin_layout Standard
-Diese Aktoren sind durch Folgende Characteristiken gekennzeichnet:
+Diese Aktoren zeichnen sind durch Folgende Characteristiken aus:
 \end_layout
 
 \begin_layout Description
@@ -190,7 +190,7 @@ key "burmeister2013a"
 
 \end_inset
 
- ist eine deklarative Sprache inspiriert von Scheme
+ ist eine deklarative Spezifikationssprache inspiriert von Scheme
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Scheme"
@@ -279,6 +279,10 @@ Festlegung wie spezielle ReActor Konstrukte in TLA ausgedrückt werden sollen.
 
 \begin_layout Enumerate
 Implementierung des Parsers.
+\begin_inset Newpage clearpage
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section
@@ -292,9 +296,8 @@ Dieser Entwurf ist derzeit noch rein spekulativ.
 
 \begin_layout Standard
 \begin_inset Tabular
-<lyxtabular version="3" rows="11" columns="3">
+<lyxtabular version="3" rows="14" columns="2">
 <features tabularvalignment="middle">
-<column alignment="left" valignment="top" width="0">
 <column alignment="left" valignment="top" width="0">
 <column alignment="left" valignment="top" width="0">
 <row>
@@ -307,7 +310,7 @@ Kapitel
 
 \end_inset
 </cell>
-<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -316,11 +319,22 @@ Thema
 
 \end_inset
 </cell>
-<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-Seiten (ca.)
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Motivation
 \end_layout
 
 \end_inset
@@ -336,20 +350,11 @@ Seiten (ca.)
 
 \end_inset
 </cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Einführung in das Themengebiet und die Herausforderungen
-\end_layout
-
-\end_inset
-</cell>
 <cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-3
+Problemstellung
 \end_layout
 
 \end_inset
@@ -365,20 +370,11 @@ Einführung in das Themengebiet und die Herausforderungen
 
 \end_inset
 </cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Einführung in ReActor (inklusive Definition der Syntax)
-\end_layout
-
-\end_inset
-</cell>
 <cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-4
+Verwandte Arbeiten
 \end_layout
 
 \end_inset
@@ -389,16 +385,7 @@ Einführung in ReActor (inklusive Definition der Syntax)
 \begin_inset Text
 
 \begin_layout Plain Layout
-1.3
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Einführung in TLA
+2
 \end_layout
 
 \end_inset
@@ -407,14 +394,14 @@ Einführung in TLA
 \begin_inset Text
 
 \begin_layout Plain Layout
-4
+Reflektion
 \end_layout
 
 \end_inset
 </cell>
 </row>
 <row>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -423,20 +410,11 @@ Einführung in TLA
 
 \end_inset
 </cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-Definition der Scheme Makros die ReActor erzeugen
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-5
+TLA
 \end_layout
 
 \end_inset
@@ -452,27 +430,38 @@ Definition der Scheme Makros die ReActor erzeugen
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Definition einer Abbildung von ReActor nach TLA
-\end_layout
-
-\end_inset
-</cell>
 <cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-6
+ReActor
 \end_layout
 
 \end_inset
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2.3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Code Transformation
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -481,11 +470,22 @@ Definition einer Abbildung von ReActor nach TLA
 
 \end_inset
 </cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Der Transformator
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-Erläuterung anhand von Beispielen
+3.1
 \end_layout
 
 \end_inset
@@ -494,65 +494,7 @@ Erläuterung anhand von Beispielen
 \begin_inset Text
 
 \begin_layout Plain Layout
-10
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-A
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Grammatik von ReActor
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-6
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-B
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Quellcode des Parsers
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-7
+Zwischenrepresentation
 \end_layout
 
 \end_inset
@@ -563,16 +505,27 @@ Quellcode des Parsers
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+3.2
 \end_layout
 
 \end_inset
 </cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Frontend
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-???
+3.3
 \end_layout
 
 \end_inset
@@ -581,7 +534,27 @@ Quellcode des Parsers
 \begin_inset Text
 
 \begin_layout Plain Layout
+Backend
+\end_layout
 
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Beispiele
 \end_layout
 
 \end_inset
@@ -592,16 +565,7 @@ Quellcode des Parsers
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Gesamt:
+5
 \end_layout
 
 \end_inset
@@ -610,7 +574,7 @@ Gesamt:
 \begin_inset Text
 
 \begin_layout Plain Layout
-45
+Erweiterbarkeit am Beispiel von LaTeX
 \end_layout
 
 \end_inset
@@ -629,7 +593,7 @@ Zeitplan
 
 \begin_layout Standard
 \begin_inset Tabular
-<lyxtabular version="3" rows="5" columns="2">
+<lyxtabular version="3" rows="11" columns="2">
 <features tabularvalignment="middle">
 <column alignment="left" valignment="top" width="0">
 <column alignment="left" valignment="top" width="0">
@@ -647,7 +611,7 @@ Ziel
 \begin_inset Text
 
 \begin_layout Plain Layout
-Dauer
+Termin
 \end_layout
 
 \end_inset
@@ -658,7 +622,7 @@ Dauer
 \begin_inset Text
 
 \begin_layout Plain Layout
-Einarbeitung in das Thema
+Motivationsteil schreiben
 \end_layout
 
 \end_inset
@@ -667,7 +631,7 @@ Einarbeitung in das Thema
 \begin_inset Text
 
 \begin_layout Plain Layout
-3 Monate
+2013-03-01
 \end_layout
 
 \end_inset
@@ -678,7 +642,7 @@ Einarbeitung in das Thema
 \begin_inset Text
 
 \begin_layout Plain Layout
-Spezifikation einer Grammatik für ReActor
+Reflektionsteil schreiben
 \end_layout
 
 \end_inset
@@ -687,7 +651,7 @@ Spezifikation einer Grammatik für ReActor
 \begin_inset Text
 
 \begin_layout Plain Layout
-2 Monate
+2013-03-29
 \end_layout
 
 \end_inset
@@ -698,7 +662,7 @@ Spezifikation einer Grammatik für ReActor
 \begin_inset Text
 
 \begin_layout Plain Layout
-Implementierung des Parsers mit Abbildung auf TLA
+Zwischenrepresentation Entwickeln
 \end_layout
 
 \end_inset
@@ -707,27 +671,147 @@ Implementierung des Parsers mit Abbildung auf TLA
 \begin_inset Text
 
 \begin_layout Plain Layout
-3 Monate
+2013-04-12
 \end_layout
 
 \end_inset
 </cell>
 </row>
 <row>
-<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-???
+Frontend Entwickeln
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
+2013-04-26
+\end_layout
 
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Backend Entwickeln
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2013-05-24
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Transformatorteil schreiben
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2013-06-07
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Beispielteil schreiben
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2013-06-21
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Erweiterbarkeitsteil schreiben
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2013-07-19
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+- Korrekturlesen -
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2013-09-13
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+- Abgeben -
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2013-09-30
 \end_layout
 
 \end_inset
@@ -742,6 +826,10 @@ Implementierung des Parsers mit Abbildung auf TLA
 
 \begin_layout Standard
 \start_of_appendix
+\begin_inset Newpage clearpage
+\end_inset
+
+
 \begin_inset CommandInset bibtex
 LatexCommand bibtex
 bibfiles "../bibtex/general"
