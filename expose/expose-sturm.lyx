@@ -111,7 +111,11 @@ Einführung in das Themengebiet
 \end_layout
 
 \begin_layout Standard
-Gemäß dem Mooreschen Gesetz
+Gemäß dem 
+\lang ngerman
+Mooreschen
+\lang english
+ Gesetz
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Moore"
@@ -120,20 +124,43 @@ key "Moore"
 
  verdoppelt sich alle 1-2 Jahre die Leistungsfähigkeit der Prozessoren\SpecialChar \@.
  Lange
- geschah das in Form einer Erhöhung der CPU-Taktfrequez aus\SpecialChar \@.
+ geschah dies in Form einer Erhöhung der CPU-Taktfrequez\SpecialChar \@.
  In letzter Zeit
- geht der Trend in die Richtung, dass eine CPU mehrere Kerne bzw.
- ein Computer mehrere CPUs besitzt\SpecialChar \@.
+ geht der Trend in die Richtung, dass die Leistungsfähigkeit durch mehrere
+ Kerne in CPUs bzw.
+ Rechnern mit mehreren CPUs erhöht wird\SpecialChar \@.
 
 \end_layout
 
 \begin_layout Standard
 Diese Trendwende hat zur Folge, dass sich die Art und Weise wie Programme
- geschrieben werden darauf anpassen muss\SpecialChar \@.
- Hierzu braucht es neue Programmiermodel
-le die der Herausforderung der Nebenläufigkeit gewachsen sind\SpecialChar \@.
- Ein dazu geeignets
- ist das Aktor-Objekt-Model
+ entwickelt werden darauf anpassen muss\SpecialChar \@.
+ Programme bestehen nicht mehr aus
+ strikt nacheinander auszuführenden Anweisungen sondern Teile des Programmcodes
+ konnen und werden parrallel zueinander ausgeführt\SpecialChar \@.
+ Bei der einer Parallelen
+ ausführung ist die Reihenfolge der ausgeführten Anweisungen nicht vorhersehbar\SpecialChar \@.
+
+\end_layout
+
+\begin_layout Standard
+Dadurch entstehen neue Probleme und 
+\lang ngerman
+Herausforderungen
+\lang english
+\SpecialChar \@.
+ Z.B.
+ muss der Zugriff auf gemeinsame Resourcen wie z.B.
+ Bereiche im Speicher muss koordiniert werden, damit sich Prozesse nicht
+ gegenseitig blockieren oder durch ungeschicktes timing Speicherinhalte
+ verfälscht werden.
+\end_layout
+
+\begin_layout Standard
+Probleme, die durch die gemeinsame Nutzung von Speicherbereichen entstehen
+ kann man entweder geschickt Synchronisieren oder gänzlich vermeiden.
+ Ein Pattern zur Vermeidung des gleichzeitigen Zugriffs auf identische Speicherb
+ereiche ist das Aktor-Objekt-Model
 \begin_inset CommandInset citation
 LatexCommand cite
 key "agha1990a"
@@ -145,22 +172,22 @@ key "agha1990a"
 \end_layout
 
 \begin_layout Standard
-Das Aktor-Objekt-Model erweitert die üblichen Objekte aus der objektorientierten
- Programmierung um Eigenschaften, die für die nebenläufige Programmierung
- hilfreich sind\SpecialChar \@.
+Beim Aktor-Objekt-Model ist ein üblichens Objekt aus der objektorientierten
+ Programmierung um einige Eigenschaften erweitert worden, die die Kommunikation
+ zwischen Objekten regeln\SpecialChar \@.
  Diese erweiterten Objekte werden Aktoren genannt\SpecialChar \@.
 
 \end_layout
 
 \begin_layout Standard
-Diese Aktoren zeichnen sind durch Folgende Characteristiken aus:
+Ein Aktor zeichnet sind durch Folgende Zusatzeigenschaften aus:
 \end_layout
 
 \begin_layout Description
 Mailbox Jeder Aktor hat eine eindeutige Addresse, an die jedes andere Objekt
  zu jeder Zeit Nachrichten senden kann\SpecialChar \@.
  Alle diese Nachrichten landen zunächst
- in einer Queue und werden dann einzelnd vom Objekt bearbeitet\SpecialChar \@.
+ in einer Queue (Warteschlange) und werden dann einzelnd vom Objekt bearbeitet\SpecialChar \@.
 
 \end_layout
 
@@ -169,15 +196,15 @@ Serielle
 \begin_inset space ~
 \end_inset
 
-abarbeitung Nachrichten für den Aktor werden nacheinander verarbeitet, zu
- keinem Zeitpunkt werden mehrere Stellen des Codes gleichzeitig ausgeführt,
- alles geschieht sequenziell\SpecialChar \@.
+abarbeitung Code im Aktor wird immer nacheinander verarbeitet, zu keinem
+ Zeitpunkt werden mehrere Stellen des Codes gleichzeitig ausgeführt, alles
+ geschieht sequenziell und in abarbeitung der Mailboxqueue\SpecialChar \@.
 
 \end_layout
 
 \begin_layout Description
-Zustandsabhängkeit Abhängig vom eigenen Zustand entscheidet der Aktor, was
- er tun soll und transformiert sich selber ggf.
+Zustandsabhängkeit Abhängig vom eigenen Zustand kann der der Aktor entscheiden,
+ was zu tun ist und transformiert sich selber dann ggf.
  zu einem anderen Aktor\SpecialChar \@.
 
 \end_layout
