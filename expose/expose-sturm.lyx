@@ -128,7 +128,14 @@ key "Moore"
  In letzter Zeit
  geht der Trend in die Richtung, dass die Leistungsfähigkeit durch mehrere
  Kerne in CPUs bzw.
- Rechnern mit mehreren CPUs erhöht wird\SpecialChar \@.
+ Rechnern mit mehreren CPUs erhöht wird
+\begin_inset CommandInset citation
+LatexCommand cite
+key "sutter2005"
+
+\end_inset
+
+\SpecialChar \@.
 
 \end_layout
 
@@ -180,14 +187,22 @@ Beim Aktor-Objekt-Model ist ein üblichens Objekt aus der objektorientierten
 \end_layout
 
 \begin_layout Standard
-Ein Aktor zeichnet sind durch Folgende Zusatzeigenschaften aus:
+Aktoren können unabhängig von einander agieren und aufeinander reagieren.
+ Das Konzept eines Aktors binhaltet im allgemeinden zwei wichtige Teilaufgaben:
+ Nachrichten entgegen nehmen und Nachrichten verarbeiten.
+ Ein Aktor verarbeitet Nachrichten vollständig unabhängig von anderen Aktoren.
+\end_layout
+
+\begin_layout Standard
+Ein Aktor zeichnet sind daher durch Folgende Eigenschaften aus:
 \end_layout
 
 \begin_layout Description
-Mailbox Jeder Aktor hat eine eindeutige Addresse, an die jedes andere Objekt
- zu jeder Zeit Nachrichten senden kann\SpecialChar \@.
- Alle diese Nachrichten landen zunächst
- in einer Queue (Warteschlange) und werden dann einzelnd vom Objekt bearbeitet\SpecialChar \@.
+Mailbox Jeder Aktor kann zu jeder Zeit nachrichten von anderen Aktoren und
+ Objekten entgegen nehmen\SpecialChar \@.
+ Alle diese Nachrichten landen zunächst in einer
+ Queue (Warteschlange) und können anschließend eine nach der anderen vom
+ Objekt bearbeitet werden\SpecialChar \@.
 
 \end_layout
 
@@ -198,7 +213,7 @@ Serielle
 
 abarbeitung Code im Aktor wird immer nacheinander verarbeitet, zu keinem
  Zeitpunkt werden mehrere Stellen des Codes gleichzeitig ausgeführt, alles
- geschieht sequenziell und in abarbeitung der Mailboxqueue\SpecialChar \@.
+ geschieht sequenziell\SpecialChar \@.
 
 \end_layout
 
@@ -306,10 +321,6 @@ Festlegung wie spezielle ReActor Konstrukte in TLA ausgedrückt werden sollen.
 
 \begin_layout Enumerate
 Implementierung des Parsers.
-\begin_inset Newpage clearpage
-\end_inset
-
-
 \end_layout
 
 \begin_layout Section
