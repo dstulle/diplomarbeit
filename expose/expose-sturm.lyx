@@ -163,6 +163,10 @@ Herausforderungen
  verfälscht werden.
 \end_layout
 
+\begin_layout Subsection*
+Aktor-Modell
+\end_layout
+
 \begin_layout Standard
 Probleme, die durch die gemeinsame Nutzung von Speicherbereichen entstehen
  kann man entweder geschickt Synchronisieren oder gänzlich vermeiden.
@@ -190,7 +194,8 @@ Beim Aktor-Objekt-Model ist ein üblichens Objekt aus der objektorientierten
 Aktoren können unabhängig von einander agieren und aufeinander reagieren.
  Das Konzept eines Aktors binhaltet im allgemeinden zwei wichtige Teilaufgaben:
  Nachrichten entgegen nehmen und Nachrichten verarbeiten.
- Ein Aktor verarbeitet Nachrichten vollständig unabhängig von anderen Aktoren.
+ Ein Aktor verarbeitet Nachrichten vollständig unabhängig von anderen Aktoren\SpecialChar \@.
+
 \end_layout
 
 \begin_layout Standard
@@ -244,52 +249,136 @@ key "Scheme"
 \end_layout
 
 \begin_layout Section
-Problembeschreibung
+Aufgabenbeschreibung
 \end_layout
 
 \begin_layout Standard
 Bei der parallelen Programmierung ist neben dem Bedarf an neuen Denkweisen
  und angepassenten Algorithmen besonders wichtig mögliche Deadlocks und
  Race Conditions zu verhindern\SpecialChar \@.
- Hierbei ist kommt man mit Unit-Testen meistens
- nicht sehr weit\SpecialChar \@.
- Daher sind automatisierte formale Beweise mit einem Model
- Checker hier die bessere Wahl\SpecialChar \@.
+ Hierbei ist kommt man mit herkömmlichem Unit-Test
+en meistens nicht sehr weit\SpecialChar \@.
+ Unit-Tests überprüfen die stichpunktartich die
+ Funktionalität, daher kann es besonders im bereich der Parrallelen programmieru
+ng passieren, das genau die Situationen die zu problemen führen nie geprüft\SpecialChar \@.
+
+ Daher sind automatisierte formale Beweise mit einem Model Checker hier
+ die bessere Wahl, weil bei dieser Methode ein allgemeingültiger beweis
+ geführt wird, der alle möglichen situationen in Betracht zieht\SpecialChar \@.
 
 \end_layout
 
 \begin_layout Standard
-Um Beweise mithilfe eines Model Checkers, wie TLC
+Um diese Beweise mithilfe eines Model Checkers, wie TLC
 \begin_inset CommandInset citation
 LatexCommand cite
 key "lamport2002a"
 
 \end_inset
 
- für ReActor zu führen, muss ReActor zunächst in TLA+
+ für ReActor zu führen, muss ReActor in TLA+
 \begin_inset CommandInset citation
 LatexCommand cite
 key "lamport2002a"
 
 \end_inset
 
- übersetzt werden\SpecialChar \@.
- Ziel der Arbeit ist es daher eine Infrastruktur zu enwicklen
- die es ermöglicht, ReActor-Code in TLA-Code zu übersetzen\SpecialChar \@.
+ übertragen (engl.
+ code
+\begin_inset space ~
+\end_inset
 
+transformation) werden\SpecialChar \@.
+ Die Übertragung soll sich auf den Anteil von TLA+
+ beschränken, der von TLC unterstützt wird.
+\end_layout
+
+\begin_layout Subsection*
+Framework
 \end_layout
 
 \begin_layout Standard
-Das so entstandene Framework soll zunächst nur exemplarisch einige Teilaspekte
- der Sprache übersetzt und später erweitert werden\SpecialChar \@.
-
+Für die Aufgabe der Übertragung soll ein Framework Entwickelt werden, das
+ zunächst nur exemplarisch einige Teilaspekte der Sprache übersetzt und
+ später erweitert werden kann\SpecialChar \@.
+ Um die Funktion des Frameworks soll durch
+ eine TLC-gestützte Verifikation von einfachen Systemeigenschaften (z.B.
+ Zustandsinvarianten für Aktor-Objekte) an zwei Entwurfsmusterspezifikationen
+ (u.a.
+ am Observer Pattern) demonstriert werden.
 \end_layout
 
 \begin_layout Standard
-Dieses Framework soll so modular werden, dass durch Austausch des Ausgabe-Moduls
- verschiedene Zielsprachen Erzeugt werden können, wie z.B.
+Das Framework soll im wesentlichen aus zwei Teilen bestehen, einem Fontend
+ und einem Backend.
+ Das Frontend dient dem einlesen der Eingabesprache und das Backend dient
+ der Ausgabe in die Zielsprache.
+\end_layout
+
+\begin_layout Subsection*
+Frontend
+\end_layout
+
+\begin_layout Standard
+Die Eingabesprache ReActor ist als eine in Scheme/LISP eingebettete domänenspezi
+fische Sprache (engl.
+ internal or embedded DSL) zu verarbeiten.
+ Die Grammatik der von der Infrastruktur unterstützten Sprachkonstrukte
+ ist in Form einer EBNF-Grammatik zu definieren.
+ Ein Frontend soll gemäß dieser Grammatik Eingaben in eine Zwischendarstellung
+ (z.B.
+ semantisch angereicherter abstrakter Syntaxbaum) überführen.
+ Die Struktur der Zwischendarstellung und das Anreichern der selbigen sind
+ zu erörtern.
+ 
+\end_layout
+
+\begin_layout Subsection*
+Backend
+\end_layout
+
+\begin_layout Standard
+Im Backend soll die Zwischendarstellung in ein TLA-Modell überführt werden.
+ Eine für die Übersetzung notwendige Semantik, welche die Interaktion von
+ Aktorobjekten in ReActor beschreibt, wird bereitgestellt.
+ Die Semantik funktionaler und prädikatenlogischer Ausdrücke (Operationen,
+ Aktivitäten, Initialisierungsschema etc.) entspricht im Wesentlichen der
+ von TLA.
+\end_layout
+
+\begin_layout Standard
+Die Spezifikation der in einem Schritt (Operation oder Aktivität) neu erzeugten
+ Aktoren und gesendeten Nachrichten darf zum Zwecke der Vereinfachung als
+ explizit angenommen werden.
+ Die Syntax von Operationen und Aktivitäten ist hierfür anzupassen.
+ Das erzeugte Modell soll durch Parameter die Möglichkeit bieten den Zustandsrau
+m (Anzahl instanziierter Objekte, Länge der Nachrichtenqueues, endliche
+ Datentypen) zu begrenzen.
+ Semantische Schritte im System sind grundsätzlich als fair anzunehmen (engl.
+ fair scheduling).
+\end_layout
+
+\begin_layout Subsection*
+Modularität
+\end_layout
+
+\begin_layout Standard
+Das Framework soll modular sein, also durch Austausch des Backends verschiedene
+ Zielsprachen erzeugt werden können, wie z.B.
  eine auf LaTeX basierte graphische Representation von ReActor\SpecialChar \@.
 
+\end_layout
+
+\begin_layout Standard
+Die Zwischendarstellung soll neben der Generierung von TLA-Modellen perspektivis
+ch auch andere Backends unterstützen, z.B.
+ für LaTeX.
+ Bei der Gestaltung der Zwischendarstellung ist daher auf Generizität zu
+ achten.
+ Die Leistungsfähigkeit der Infrastruktur soll am Beispiel von zwei Entwurfsmust
+ern nachgewiesen werden.
+ Maßnahmen und Möglichkeiten zur Erweiterung sind zu skizzieren.
+ Die Infrastruktur soll nach Möglichkeit in Scheme oder LISP umgesetzt werden.
 \end_layout
 
 \begin_layout Section
