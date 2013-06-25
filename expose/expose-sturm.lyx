@@ -5,7 +5,7 @@
 \textclass scrartcl
 \use_default_options false
 \maintain_unincluded_children false
-\language english
+\language ngerman
 \language_package default
 \inputencoding utf8
 \fontencoding global
@@ -22,14 +22,14 @@
 \graphics default
 \default_output_format default
 \output_sync 0
-\bibtex_command default
+\bibtex_command bibtex
 \index_command default
 \paperfontsize default
 \spacing single
 \use_hyperref true
 \pdf_title "Expose - Übersetzen von ReActor-Spezifikationen in TLA"
 \pdf_author "Daniel Sturm"
-\pdf_keywords "ReActor, Scheme, TLA+, TLC, Model Checking"
+\pdf_keywords "ReActor, Actor, TLA+, TLC, Model Checking"
 \pdf_bookmarks true
 \pdf_bookmarksnumbered false
 \pdf_bookmarksopen false
@@ -37,7 +37,7 @@
 \pdf_breaklinks true
 \pdf_pdfborder true
 \pdf_colorlinks true
-\pdf_backref section
+\pdf_backref false
 \pdf_pdfusetitle true
 \papersize a4paper
 \use_geometry true
@@ -45,7 +45,7 @@
 \use_esint 1
 \use_mhchem 1
 \use_mathdots 1
-\cite_engine basic
+\cite_engine natbib_numerical
 \use_bibtopic false
 \use_indices false
 \paperorientation portrait
@@ -72,38 +72,13 @@
 
 \begin_body
 
-\begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-title{Expose - Infrastruktur zur Übersetzung von ReActor Spezifikationen}
+\begin_layout Title
+Exposé zur Konzeption und Implementierung eines Übersetzungsschemas zur
+ automatischen Verifikation von ReActor-Spezifikationen
 \end_layout
 
-\begin_layout Plain Layout
-
-
-\backslash
-author{Daniel Sturm, Informatik (Diplom), 221586}
-\end_layout
-
-\begin_layout Plain Layout
-
-
-\backslash
-maketitle
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
+\begin_layout Author
+Daniel Sturm, Informatik (Diplom), 221586
 \end_layout
 
 \begin_layout Section
@@ -111,11 +86,7 @@ Einführung in das Themengebiet
 \end_layout
 
 \begin_layout Standard
-Gemäß dem 
-\lang ngerman
-Mooreschen
-\lang english
- Gesetz
+Gemäß dem Mooreschen Gesetz
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Moore"
@@ -124,11 +95,11 @@ key "Moore"
 
  verdoppelt sich alle 1-2 Jahre die Leistungsfähigkeit der Prozessoren\SpecialChar \@.
  Lange
- geschah dies in Form einer Erhöhung der CPU-Taktfrequez\SpecialChar \@.
+ geschah dies in Form einer Erhöhung der CPU-Taktfrequenz\SpecialChar \@.
  In letzter Zeit
- geht der Trend in die Richtung, dass die Leistungsfähigkeit durch mehrere
- Kerne in CPUs bzw.
- Rechnern mit mehreren CPUs erhöht wird
+ geht der Trend eine andere Richtung\SpecialChar \@.
+ Die Leistungsfähigkeit erhöht sich
+ durch die Möglichkeit mehrere Prozesse parallel arbeiten lassen zu können
 \begin_inset CommandInset citation
 LatexCommand cite
 key "sutter2005"
@@ -142,36 +113,43 @@ key "sutter2005"
 \begin_layout Standard
 Diese Trendwende hat zur Folge, dass sich die Art und Weise wie Programme
  entwickelt werden darauf anpassen muss\SpecialChar \@.
- Programme bestehen nicht mehr aus
- strikt nacheinander auszuführenden Anweisungen sondern Teile des Programmcodes
- konnen und werden parrallel zueinander ausgeführt\SpecialChar \@.
- Bei der einer Parallelen
- ausführung ist die Reihenfolge der ausgeführten Anweisungen nicht vorhersehbar\SpecialChar \@.
+ Programme können nicht mehr nur
+ aus strikt nacheinander auszuführenden Anweisungen bestehen\SpecialChar \@.
+ Statt dessen
+ müssen Teile des Programmcodes parallel zueinander ausgeführt können\SpecialChar \@.
 
 \end_layout
 
 \begin_layout Standard
-Dadurch entstehen neue Probleme und 
-\lang ngerman
-Herausforderungen
-\lang english
-\SpecialChar \@.
- Z.B.
- muss der Zugriff auf gemeinsame Resourcen wie z.B.
- Bereiche im Speicher muss koordiniert werden, damit sich Prozesse nicht
- gegenseitig blockieren oder durch ungeschicktes timing Speicherinhalte
- verfälscht werden.
+Bei der einer parallelen Ausführung von Programmen ist die Reihenfolge der
+ ausgeführten Anweisungen nicht immer vorhersehbar\SpecialChar \@.
+ Dadurch entstehen neue
+ Probleme und Herausforderungen\SpecialChar \@.
+ Unter anderem muss der Zugriff auf gemeinsame
+ Ressourcen wie beispielsweise Bereiche im Arbeitsspeicher koordiniert werden,
+ damit sich Prozesse nicht gegenseitig blockieren (dead-lock) oder durch
+ ungeschicktes Timing Speicherinhalte verfälscht werden (race-condition)\SpecialChar \@.
+
 \end_layout
 
 \begin_layout Subsection*
-Aktor-Modell
+Aktormodell
 \end_layout
 
 \begin_layout Standard
-Probleme, die durch die gemeinsame Nutzung von Speicherbereichen entstehen
- kann man entweder geschickt Synchronisieren oder gänzlich vermeiden.
- Ein Pattern zur Vermeidung des gleichzeitigen Zugriffs auf identische Speicherb
-ereiche ist das Aktor-Objekt-Model
+Probleme, die durch die gemeinsame Nutzung von Speicherbereichen oder der
+ zeitlichen Ausführung von Operationen entstehen, können entweder durch
+ komplizierte Synchronisationsmechanismen vermieden werden oder durch die
+ Einhaltung gewisser Grundprinzipien umgangen werden.
+ Ein grundlegendes Rechenmodell zur Modellierung von zeitlich und räumlich
+ unabhängigen Prozessen ist das Aktormodell
+\begin_inset CommandInset citation
+LatexCommand citep
+key "agha1985"
+
+\end_inset
+
+
 \begin_inset CommandInset citation
 LatexCommand cite
 key "agha1990a"
@@ -183,50 +161,63 @@ key "agha1990a"
 \end_layout
 
 \begin_layout Standard
-Beim Aktor-Objekt-Model ist ein üblichens Objekt aus der objektorientierten
- Programmierung um einige Eigenschaften erweitert worden, die die Kommunikation
- zwischen Objekten regeln\SpecialChar \@.
- Diese erweiterten Objekte werden Aktoren genannt\SpecialChar \@.
-
+Die Grundlage des Aktormodells ist der Aktor\SpecialChar \@.
+ Der Aktor, als kleinste Einheit
+ des Rechenmodells existiert um drei wesentliche Aufgaben zu erfüllen: Informati
+onen zu verarbeiten, Informationen zu speichern und mit anderen Aktoren
+ zu kommunizieren.
 \end_layout
 
 \begin_layout Standard
-Aktoren können unabhängig von einander agieren und aufeinander reagieren.
- Das Konzept eines Aktors binhaltet im allgemeinden zwei wichtige Teilaufgaben:
- Nachrichten entgegen nehmen und Nachrichten verarbeiten.
- Ein Aktor verarbeitet Nachrichten vollständig unabhängig von anderen Aktoren\SpecialChar \@.
-
-\end_layout
-
-\begin_layout Standard
-Ein Aktor zeichnet sind daher durch Folgende Eigenschaften aus:
+Ein Aktor hat folgende Möglichkeiten eine eingehende Nachrichten zu verarbeiten:
 \end_layout
 
 \begin_layout Description
-Mailbox Jeder Aktor kann zu jeder Zeit nachrichten von anderen Aktoren und
- Objekten entgegen nehmen\SpecialChar \@.
- Alle diese Nachrichten landen zunächst in einer
- Queue (Warteschlange) und können anschließend eine nach der anderen vom
- Objekt bearbeitet werden\SpecialChar \@.
-
-\end_layout
-
-\begin_layout Description
-Serielle
+Nachrichten
 \begin_inset space ~
 \end_inset
 
-abarbeitung Code im Aktor wird immer nacheinander verarbeitet, zu keinem
- Zeitpunkt werden mehrere Stellen des Codes gleichzeitig ausgeführt, alles
- geschieht sequenziell\SpecialChar \@.
+senden Der Aktor sendet eine endliche Menge von Nachrichten an ihm bekannte
+ Aktoren\SpecialChar \@.
 
 \end_layout
 
 \begin_layout Description
-Zustandsabhängkeit Abhängig vom eigenen Zustand kann der der Aktor entscheiden,
- was zu tun ist und transformiert sich selber dann ggf.
- zu einem anderen Aktor\SpecialChar \@.
+Verhalten
+\begin_inset space ~
+\end_inset
 
+anpassen Der Aktor legt fest wie auf die nächste Nachricht reagiert werden
+ soll\SpecialChar \@.
+ Dies geschieht entweder durch Änderung seines Zustandes oder seines
+ Verhaltens\SpecialChar \@.
+
+\end_layout
+
+\begin_layout Description
+Aktoren
+\begin_inset space ~
+\end_inset
+
+erzeugen Der Aktor erzeugt eine endliche Menge von neuen Aktoren\SpecialChar \@.
+
+\end_layout
+
+\begin_layout Standard
+Aktoren können unabhängig von einander aufeinander reagieren\SpecialChar \@.
+ Das Konzept
+ eines Aktors baut auf zwei voneinander getrennten Vorgängen: Nachrichten
+ entgegen nehmen und Nachrichten verarbeiten\SpecialChar \@.
+ Jeder Aktor kann zu jeder Zeit
+ Nachrichten empfangen, und verarbeitet unabhängig davon diese Nachrich\SpecialChar \-
+ten.
+ Die Verarbeitung geschieht dabei sequenziell und zeitlich sowie räumlich
+ vollständig separat von anderen Aktoren\SpecialChar \@.
+
+\end_layout
+
+\begin_layout Subsection*
+ReActor
 \end_layout
 
 \begin_layout Standard
@@ -237,15 +228,72 @@ key "burmeister2013a"
 
 \end_inset
 
- ist eine deklarative Spezifikationssprache inspiriert von Scheme
+ ist eine deklarative Spezifikationssprache zur Beschreibung von Aktormodelspezi
+fikationen\SpecialChar \@.
+ Die Beschreibung orientiert sich dabei an den Möglichkeiten von
+ TLA+\SpecialChar \@.
+ Mit ReActor wird ein Modell definiert, welches mehrere Aktor-Klassen
+ enthält, deren Instanzen gemäß der Semantik von ReActor miteinander interagiere
+n\SpecialChar \@.
+
+\end_layout
+
+\begin_layout Standard
+Die Beschreibung eines Aktors besteht dabei aus der Spezifizierung des Initialzu
+standes und der Deklaration von Zustandsübergängen (Schritten) die Ereignisse
+ und Operationen beschreiben\SpecialChar \@.
+ Ereignisse können unabhängig von eingehenden
+ Nachrichten eintreten, Operationen werden nur im Zusammenhang mit einer
+ eingehenden Nachricht evaluiert\SpecialChar \@.
+
+\end_layout
+
+\begin_layout Standard
+Eine Besonderheit der Beschreibungen von Aktoren in ReActor ist, dass zusätzlich
+ zur expliziten Verarbeitung einer Nachricht (Operation) auch die Möglichkeit
+ zur Beschreibung einer internen Zustandsveränderung (Ereignis) besteht\SpecialChar \@.
+
+\end_layout
+
+\begin_layout Subsection*
+Modellprüfung
+\end_layout
+
+\begin_layout Standard
+Die Aufgabe eines Modellprüfers (engl.
+ Model Checker) ist es zu validieren, ob eine abstrakte Systembeschreibung
+ (Modell) die an sie gestellten Anforderungen (Spezifikation) erfüllt\SpecialChar \@.
+ Zum
+ automatischen Prüfen muss eine Beschreibung des Systems als formales Modell
+ und eine formale Spezifikation des zu prüfenden Systems vorliegen\SpecialChar \@.
+ Das Modell
+ des Systems beschreibt alle möglichen Zustände des Systems, setzt die Startzust
+ände fest und legt fest, welcher Zustand in welchen anderen übergehen kann\SpecialChar \@.
+
+ Die Spezifikation legt Bedingungen für Startzustände und Übergänge in andere
+ Zustände fest\SpecialChar \@.
+ Ein Modellprüfer verifiziert ob die Startzustände und alle
+ Zustandsübergänge des Modells die Bedingungen der Spezifikation erfüllen\SpecialChar \@.
+
 \begin_inset CommandInset citation
-LatexCommand cite
-key "Scheme"
+LatexCommand citep
+key "clarke1999"
 
 \end_inset
 
-, die sich auf die Beschreibung oben genannter Aktoren spezialisiert hat\SpecialChar \@.
 
+\end_layout
+
+\begin_layout Standard
+Ein Modellprüfer generiert vom Initialzustand ausgehend durch Anwendung
+ der Regeln eine Art Kripke-Struktur aller möglichen Zustände (Zustandsraum)\SpecialChar \@.
+
+ Da dieser Zustands\SpecialChar \-
+raum unter gewissen Voraussetzungen unendlich groß werden
+ kann, sollte dessen Exploration in diesem Fall Grenzen unterliegen.
+ Dies kann zum einen dadurch geschehen, dass der Wertebereich der einzelnen
+ Zustandsvariablen eingeschränkt wird oder die maximale Anzahl der anzuwendenden
+ Regelschritte begrenzt wird.
 \end_layout
 
 \begin_layout Section
@@ -253,44 +301,40 @@ Aufgabenbeschreibung
 \end_layout
 
 \begin_layout Standard
-Bei der parallelen Programmierung ist neben dem Bedarf an neuen Denkweisen
- und angepassenten Algorithmen besonders wichtig mögliche Deadlocks und
- Race Conditions zu verhindern\SpecialChar \@.
- Hierbei ist kommt man mit herkömmlichem Unit-Test
-en meistens nicht sehr weit\SpecialChar \@.
- Unit-Tests überprüfen die stichpunktartich die
- Funktionalität, daher kann es besonders im bereich der Parrallelen programmieru
-ng passieren, das genau die Situationen die zu problemen führen nie geprüft\SpecialChar \@.
-
- Daher sind automatisierte formale Beweise mit einem Model Checker hier
- die bessere Wahl, weil bei dieser Methode ein allgemeingültiger beweis
- geführt wird, der alle möglichen situationen in Betracht zieht\SpecialChar \@.
-
-\end_layout
-
-\begin_layout Standard
-Um diese Beweise mithilfe eines Model Checkers, wie TLC
+Um die Korrektheit einer ReActor-Spezifikationen mithilfe eines Modellprüfers,
+ wie TLC
 \begin_inset CommandInset citation
 LatexCommand cite
 key "lamport2002a"
 
 \end_inset
 
- für ReActor zu führen, muss ReActor in TLA+
+ beweisen zu können, muss eine ReActor Spezifikation nach TLA+
 \begin_inset CommandInset citation
 LatexCommand cite
 key "lamport2002a"
 
 \end_inset
 
- übertragen (engl.
+ übersetzt werden (engl.
  code
 \begin_inset space ~
 \end_inset
 
-transformation) werden\SpecialChar \@.
- Die Übertragung soll sich auf den Anteil von TLA+
- beschränken, der von TLC unterstützt wird.
+transformation)\SpecialChar \@.
+ Die Übertragung darf sich nur auf den Anteil von TLA+ beschränke
+n, der von TLC unterstützt wird\SpecialChar \@.
+
+\end_layout
+
+\begin_layout Standard
+Für die Aufgabe der Übertragung sollen Regeln entwickelt werden, wie exemplarisc
+h einige Teilaspekte der Sprache transformiert werden können\SpecialChar \@.
+ Die Effektivität
+ und das Zusammenspiel der Übertragungsregeln soll durch eine TLC-gestützte
+ Verifikation von einfachen Systemeigenschaften an Entwurfsmusterspezifikationen
+ gezeigt werden\SpecialChar \@.
+
 \end_layout
 
 \begin_layout Subsection*
@@ -298,87 +342,89 @@ Framework
 \end_layout
 
 \begin_layout Standard
-Für die Aufgabe der Übertragung soll ein Framework Entwickelt werden, das
- zunächst nur exemplarisch einige Teilaspekte der Sprache übersetzt und
- später erweitert werden kann\SpecialChar \@.
- Um die Funktion des Frameworks soll durch
- eine TLC-gestützte Verifikation von einfachen Systemeigenschaften (z.B.
- Zustandsinvarianten für Aktor-Objekte) an zwei Entwurfsmusterspezifikationen
- (u.a.
- am Observer Pattern) demonstriert werden.
+Ein Framework aus zwei unabhängigen Regelsätzen, einem Frontend und einem
+ Backend, soll definiert werden\SpecialChar \@.
+ Die Regeln des Frontends dienen dem Einlesen
+ der Eingabesprache und die Regeln des Backends dienen der Ausgabe in die
+ Zielsprache\SpecialChar \@.
+
 \end_layout
 
-\begin_layout Standard
-Das Framework soll im wesentlichen aus zwei Teilen bestehen, einem Fontend
- und einem Backend.
- Das Frontend dient dem einlesen der Eingabesprache und das Backend dient
- der Ausgabe in die Zielsprache.
-\end_layout
-
-\begin_layout Subsection*
+\begin_layout Subsubsection*
 Frontend
 \end_layout
 
 \begin_layout Standard
-Die Eingabesprache ReActor ist als eine in Scheme/LISP eingebettete domänenspezi
-fische Sprache (engl.
- internal or embedded DSL) zu verarbeiten.
- Die Grammatik der von der Infrastruktur unterstützten Sprachkonstrukte
- ist in Form einer EBNF-Grammatik zu definieren.
- Ein Frontend soll gemäß dieser Grammatik Eingaben in eine Zwischendarstellung
- (z.B.
- semantisch angereicherter abstrakter Syntaxbaum) überführen.
- Die Struktur der Zwischendarstellung und das Anreichern der selbigen sind
- zu erörtern.
- 
+Die Eingabesprache ReActor wird in Präfixnotation definiert\SpecialChar \@.
+ Die zugehörige
+ Grammatik, der von der Infrastruktur unterstützten Sprachkonstrukte, ist
+ der EBNF
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Erweiterte Backus-Naur-Form
 \end_layout
 
-\begin_layout Subsection*
+\end_inset
+
+ zu definieren\SpecialChar \@.
+ Das Frontend soll gemäß dieser Grammatik Eingaben in eine
+ Zwischendarstellung (z.B.
+ semantisch angereicherter abstrakter Syntaxbaum) überführen\SpecialChar \@.
+ Die Struktur
+ der Zwischendarstellung und das Anreichern der selbigen sind zu erörtern\SpecialChar \@.
+
+\end_layout
+
+\begin_layout Subsubsection*
 Backend
 \end_layout
 
 \begin_layout Standard
-Im Backend soll die Zwischendarstellung in ein TLA-Modell überführt werden.
+Im Backend soll die Zwischendarstellung in ein TLA-Modell überführt werden\SpecialChar \@.
+
  Eine für die Übersetzung notwendige Semantik, welche die Interaktion von
- Aktorobjekten in ReActor beschreibt, wird bereitgestellt.
- Die Semantik funktionaler und prädikatenlogischer Ausdrücke (Operationen,
+ Aktoren in ReActor beschreibt, wird bereitgestellt.
+ Die Semantik funktionaler und prädikatenlo\SpecialChar \-
+gischer Ausdrücke (Operationen,
  Aktivitäten, Initialisierungsschema etc.) entspricht im Wesentlichen der
- von TLA.
+ von TLA\SpecialChar \@.
+ Aktor-Spezifische Elemente werden ergänzt\SpecialChar \@.
+
 \end_layout
 
 \begin_layout Standard
-Die Spezifikation der in einem Schritt (Operation oder Aktivität) neu erzeugten
- Aktoren und gesendeten Nachrichten darf zum Zwecke der Vereinfachung als
+Die Spezifikation, der in einem Schritt (Operation oder Aktivität) neu erzeugten
+ Aktoren und gesendeten Nachrichten, darf zum Zwecke der Vereinfachung als
  explizit angenommen werden.
  Die Syntax von Operationen und Aktivitäten ist hierfür anzupassen.
- Das erzeugte Modell soll durch Parameter die Möglichkeit bieten den Zustandsrau
-m (Anzahl instanziierter Objekte, Länge der Nachrichtenqueues, endliche
- Datentypen) zu begrenzen.
+ Die erzeugte Spezifikation soll durch Parameter die Möglichkeit bieten
+ den Zustandsraum (Anzahl instantiierter Objekte, Länge der Nachrichtenqueues,
+ endliche Datentypen) zu begrenzen.
  Semantische Schritte im System sind grundsätzlich als fair anzunehmen (engl.
- fair scheduling).
+ fair scheduling)\SpecialChar \@.
+
 \end_layout
 
-\begin_layout Subsection*
+\begin_layout Subsubsection*
 Modularität
 \end_layout
 
 \begin_layout Standard
-Das Framework soll modular sein, also durch Austausch des Backends verschiedene
- Zielsprachen erzeugt werden können, wie z.B.
- eine auf LaTeX basierte graphische Representation von ReActor\SpecialChar \@.
+Durch die Unterteilung des Frameworks in Front- und Backends könnten lediglich
+ durch Austausch des Backends verschiedene Zielsprachen erzeugt werden\SpecialChar \@.
 
 \end_layout
 
 \begin_layout Standard
-Die Zwischendarstellung soll neben der Generierung von TLA-Modellen perspektivis
-ch auch andere Backends unterstützen, z.B.
- für LaTeX.
- Bei der Gestaltung der Zwischendarstellung ist daher auf Generizität zu
- achten.
- Die Leistungsfähigkeit der Infrastruktur soll am Beispiel von zwei Entwurfsmust
-ern nachgewiesen werden.
- Maßnahmen und Möglichkeiten zur Erweiterung sind zu skizzieren.
- Die Infrastruktur soll nach Möglichkeit in Scheme oder LISP umgesetzt werden.
+Bei der Gestaltung der Zwischendarstellung ist daher auf Generizität zu
+ achten\SpecialChar \@.
+ Die Leistungsfähigkeit der Infrastruktur soll am Beispiel von zwei
+ Entwurfsmustern nachgewiesen werden\SpecialChar \@.
+ Maßnahmen und Möglichkeiten zur Erweiterung
+ sind zu skizzieren\SpecialChar \@.
+
 \end_layout
 
 \begin_layout Section
@@ -386,30 +432,30 @@ Lösungsansatz/Arbeitsbeschreibung
 \end_layout
 
 \begin_layout Standard
-Um die Sprache ReActor in TLA+ zu übersetzen wird folgender Ansatz gewählt:
- Scheme wird durch Macros
-\begin_inset CommandInset citation
-LatexCommand cite
-key "defmacro/lisp"
-
-\end_inset
-
- zu ReActor erweitert\SpecialChar \@.
- In Scheme wird dann ein Parser implementiert, der
- aus dem Code TLA+ erzeugt\SpecialChar \@.
- Dafür ist folgendes notwendig:
+Um die Sprache ReActor in TLA+ zu übertragen werden Regeln für eine Übertragung
+ definiert, die aus dem ReActor Code einen in TLC lauffähigen TLA+ Code
+ erzeugen\SpecialChar \@.
+ Dafür sind folgende Schritte notwendig:
 \end_layout
 
-\begin_layout Enumerate
-Genaue Festsetzung der Syntax von ReActor.
+\begin_layout Itemize
+Zunächst muss die genaue Syntax für die gewünschte Untermenge von ReActor
+ in Präfixnotation festgelegt werden.
+ Hierfür wird eine entsprechende Grammatik in der EBNF erstellt und an einem
+ Beispiel erläutert\SpecialChar \@.
+
 \end_layout
 
-\begin_layout Enumerate
-Festlegung wie spezielle ReActor Konstrukte in TLA ausgedrückt werden sollen.
+\begin_layout Itemize
+Danach wird festgelegt, wie ein ReActor in TLA+ formalisiert wird und wie
+ die einzelnen Konstrukte von ReActor auf TLA+ abgebildet werden\SpecialChar \@.
+
 \end_layout
 
-\begin_layout Enumerate
-Implementierung des Parsers.
+\begin_layout Itemize
+Abschließend werden Regeln angegeben mit deren Hilfe aus einer ReActor Spezifika
+tion eine TLA+ Spezifikation generiert werden können\SpecialChar \@.
+
 \end_layout
 
 \begin_layout Section
@@ -417,13 +463,54 @@ Struktur der Arbeit
 \end_layout
 
 \begin_layout Standard
-Dieser Entwurf ist derzeit noch rein spekulativ.
- Jede Ähnlichkeit mit der tatsächlichen Struktur ist noch rein zufällig.
+Die Arbeit beginnt mit der Beschreibung der Motivation, in der erklärt wird,
+ welches Problem die Arbeit angehen soll.
+ Außerdem werden verwandte Arbeiten zu dem Thema erwähnt\SpecialChar \@.
+
+\end_layout
+
+\begin_layout Standard
+Im Grundlagenteil wird auf alle Themen eingegangen, die als Grundlage dieser
+ Arbeit dienen\SpecialChar \@.
+ Einerseits werden die Themen TLA+ und ReActor(Aktoren) erläutert
+ und andererseits wird das Thema Code Transformation genauer erklärt\SpecialChar \@.
+
+\end_layout
+
+\begin_layout Standard
+Nun wird die ReActor Syntax als einer Präfixnotation definiert und durch
+ einige Beispiele erläutert\SpecialChar \@.
+
+\end_layout
+
+\begin_layout Standard
+Auch die entsprechende TLA+-Repräsentation für ReActor-Spezifikation wird
+ definiert und durch einige Beispiele erläutert\SpecialChar \@.
+
+\end_layout
+
+\begin_layout Standard
+Für die Transformation wird festgelegt wie ReActor in TLA+ dargestellt werden
+ soll\SpecialChar \@.
+ Dafür wird eine Zwischenrepräsentation definiert, die das Frontend
+ beim Einlesen einer ReActor-Spezifikation erzeugen soll\SpecialChar \@.
+ Zuletzt werden
+ die Regeln des Backends beschrieben, um die Zwischenrepräsentation in eine
+ TLA+-Repräsentation zu überführen\SpecialChar \@.
+
+\end_layout
+
+\begin_layout Standard
+Am Ende wird im Ausblick darauf eingegangen, wie der Transformator implementiert
+ oder erweitert werden kann\SpecialChar \@.
+ Eventuell könnte ein Beispiel für ein alternatives
+ Backend gegeben werden, dass ein anderes Ausgabeformat hat\SpecialChar \@.
+
 \end_layout
 
 \begin_layout Standard
 \begin_inset Tabular
-<lyxtabular version="3" rows="14" columns="2">
+<lyxtabular version="3" rows="16" columns="2">
 <features tabularvalignment="middle">
 <column alignment="left" valignment="top" width="0">
 <column alignment="left" valignment="top" width="0">
@@ -492,26 +579,6 @@ Problemstellung
 \begin_inset Text
 
 \begin_layout Plain Layout
-1.2
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Verwandte Arbeiten
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
 2
 \end_layout
 
@@ -521,7 +588,7 @@ Verwandte Arbeiten
 \begin_inset Text
 
 \begin_layout Plain Layout
-Reflektion
+Grundlagen
 \end_layout
 
 \end_inset
@@ -541,7 +608,7 @@ Reflektion
 \begin_inset Text
 
 \begin_layout Plain Layout
-TLA
+TLA+
 \end_layout
 
 \end_inset
@@ -588,7 +655,7 @@ Code Transformation
 </cell>
 </row>
 <row>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -597,71 +664,11 @@ Code Transformation
 
 \end_inset
 </cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Der Transformator
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-3.1
-\end_layout
-
-\end_inset
-</cell>
 <cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-Zwischenrepresentation
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-3.2
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Frontend
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-3.3
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Backend
+ReAktor
 \end_layout
 
 \end_inset
@@ -681,7 +688,127 @@ Backend
 \begin_inset Text
 
 \begin_layout Plain Layout
-Beispiele
+Allgemeines Ausführungsmodell für Reaktor
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Die Transformation
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5.1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Zwischenrepresentation
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5.2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Frontend
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5.3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Backend
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+7
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Bewertung
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+7.1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Verwandte Arbeiten
 \end_layout
 
 \end_inset
@@ -692,7 +819,7 @@ Beispiele
 \begin_inset Text
 
 \begin_layout Plain Layout
-5
+8
 \end_layout
 
 \end_inset
@@ -701,7 +828,7 @@ Beispiele
 \begin_inset Text
 
 \begin_layout Plain Layout
-Erweiterbarkeit am Beispiel von LaTeX
+Ausblick
 \end_layout
 
 \end_inset
@@ -719,8 +846,16 @@ Zeitplan
 \end_layout
 
 \begin_layout Standard
+Der grobe Plan ist die nächsten 3 Monate in wochenweise Häppchen einzuteilen\SpecialChar \@.
+
+ Nicht alle hier beschriebenen Ziele sind gleich groß, aber zur groben Orientier
+ung sollte es ausreichen\SpecialChar \@.
+
+\end_layout
+
+\begin_layout Standard
 \begin_inset Tabular
-<lyxtabular version="3" rows="11" columns="2">
+<lyxtabular version="3" rows="18" columns="2">
 <features tabularvalignment="middle">
 <column alignment="left" valignment="top" width="0">
 <column alignment="left" valignment="top" width="0">
@@ -745,11 +880,11 @@ Termin
 </cell>
 </row>
 <row>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-Motivationsteil schreiben
+ReActor Syntax Definieren
 \end_layout
 
 \end_inset
@@ -758,7 +893,87 @@ Motivationsteil schreiben
 \begin_inset Text
 
 \begin_layout Plain Layout
-2013-03-01
+2013-06-21 (KW 25)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Allgemeines Ausführungsmodell in TLA+ für ReActor erstellen
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2013-06-28 (KW 26)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2013-07-05 (KW 27)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Zwischenrepräsentation entwickeln
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2013-07-12 (KW 28)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2013-07-19 (KW 29)
 \end_layout
 
 \end_inset
@@ -769,27 +984,7 @@ Motivationsteil schreiben
 \begin_inset Text
 
 \begin_layout Plain Layout
-Reflektionsteil schreiben
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-2013-03-29
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Zwischenrepresentation Entwickeln
+Frontend entwickeln
 \end_layout
 
 \end_inset
@@ -798,18 +993,18 @@ Zwischenrepresentation Entwickeln
 \begin_inset Text
 
 \begin_layout Plain Layout
-2013-04-12
+2013-07-26 (KW 30)
 \end_layout
 
 \end_inset
 </cell>
 </row>
 <row>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-Frontend Entwickeln
+Backend entwickeln
 \end_layout
 
 \end_inset
@@ -818,27 +1013,27 @@ Frontend Entwickeln
 \begin_inset Text
 
 \begin_layout Plain Layout
-2013-04-26
+2013-08-02 (KW 31)
 \end_layout
 
 \end_inset
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-Backend Entwickeln
+
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-2013-05-24
+2013-08-09 (KW 32)
 \end_layout
 
 \end_inset
@@ -854,11 +1049,11 @@ Transformatorteil schreiben
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-2013-06-07
+2013-08-16 (KW 33)
 \end_layout
 
 \end_inset
@@ -874,11 +1069,11 @@ Beispielteil schreiben
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-2013-06-21
+2013-08-23 (KW 34)
 \end_layout
 
 \end_inset
@@ -894,11 +1089,71 @@ Erweiterbarkeitsteil schreiben
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-2013-07-19
+2013-08-30 (KW 35)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Motivationsteil schreiben
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2013-09-06 (KW 36)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Reflektionsteil schreiben
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2013-09-13 (KW 37)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
 \end_layout
 
 \end_inset
@@ -914,11 +1169,31 @@ Erweiterbarkeitsteil schreiben
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-2013-09-13
+(KW 38 - KW 48)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
 \end_layout
 
 \end_inset
@@ -934,11 +1209,11 @@ Erweiterbarkeitsteil schreiben
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-2013-09-30
+2013-12-06 (KW 49)
 \end_layout
 
 \end_inset
