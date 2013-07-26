@@ -1,0 +1,56 @@
+(class factorial-step
+
+   (variables (bool initialized) (nat factor) (ref requester) (ref child) (bool done))
+
+   (invariant
+      (or initialized (not initialized)))
+
+   (init-predicate
+      (and (= initialized #f)
+           (> factor 0)
+           (= done #f)))
+
+   (acquaintances (if (not done) (enum->set child) (emptyset)))
+
+   (public-state (not (done)))
+
+(activities
+   ; base case of recursion
+   ; 1! = 1
+   (activity init1 (and (not initialized) (= factor 1))
+      (and (init)
+           (send (1 result requester ((value 1))))
+           (= (post initialized) #t)
+           (unchanged factor)
+           (unchanged child)
+           (unchanged requester)
+           (= (post done) #t)))
+
+   ; recursion step
+   ; n! = (* n (- n 1))
+   (activity init2 (and (not initialized) (> factor 1))
+      (and (init (factorial-step (@ 1) ((requester self)
+                                        (factor factor-1)
+                                        (initialized #f)
+                                        (child (any ref))
+                                        (done #f))))
+           (send)
+           (= (post initialized) #t)
+           (unchanged factor)
+           (= (post child) (@ 1))
+           (unchanged requester)
+           (unchanged done)))
+)
+
+(operations
+   ; receiving the result of the recursion step
+   ; the received result is multiplied by factor and send to the requester
+   (operation result ((nat value)) initialized
+      (and (init)
+           (send (1 result requester ((value (* (message value) factor)))))
+           (unchanged initialized)
+           (unchanged factor)
+           (unchanged requester)
+           (unchanged child)
+           (= (post done) #t))))
+)
