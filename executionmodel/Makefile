@@ -1,8 +1,9 @@
 run: ActorExecutionModel.tla
 	java tlc2.TLC -workers 1 -deadlock $<
 
-tlatex: output ActorEnvironment.inc ActorEvents.inc ActorLifecycle.inc ActorMessages.inc ActorExecutionModel.inc Actors.inc EnvironmentActor.inc FactorialStepActor.inc Utils.inc
+tlatex: output ActorEnvironment.inc ActorActions.inc ActorLifecycle.inc ActorMessages.inc ActorExecutionModel.inc Actors.inc EnvironmentActor.inc FactorialStepActor.inc Utils.inc
 
+example: output EnvironmentActor-head.inc
 clean:
 	rm *.dvi *.inc output/*
 

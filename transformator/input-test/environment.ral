@@ -1,0 +1,75 @@
+(class environment
+
+
+   ; initialized will be false through the init-predicate 
+   ; and set true during the activity init it ensures
+   ; that the activity init will only be evaluated once.
+   ; result will hold the final result after the calculation has finished.
+   (variables (bool initialized) (ref factorial) (nat first) (nat second) (nat third))
+
+   (invariant
+      (or initialized
+          (not initialized)))
+
+   (acquaintances (if initialized (enum->set factorial) (emptyset)))
+   
+   (public-state #f)
+
+   (init-predicate (and (= initialized #f) (= first 0) (= second 0) (= third 0)))
+
+   (events
+      ; initializes an actor of the type "factorial-step"
+      ; this activity can only be evaluated once due to the initialized variable
+      (event init (= initialized #f)
+         (and (init (factorial-step (@ 1) ((step 0) (requester self))))
+              (send)
+              (= (post initialized) #t)
+              (= (post factorial) (@ 1))
+              (unchanged first)
+              (unchanged second)
+              (unchanged third)))
+   )
+   
+   
+   (operations
+      ; operation to be called when result is calculated
+      ; this operation will print the result.
+      (operation result ((nat value)) #t
+         (or
+            (and (= first 0)
+                 (= second 0)
+                 (= third 0)
+                 (init)
+                 (send)
+                 (unchanged initialized)
+                 (unchanged factorial)
+                 (= (post first) (message value))
+                 (unchanged second)
+                 (unchanged third))
+            (and (!= first 0)
+                 (= second 0)
+                 (= third 0)
+                 (init)
+                 (send)
+                 (unchanged initialized)
+                 (unchanged factorial)
+                 (unchanged first)
+                 (= (post second) (message value))
+                 (unchanged third))
+            (and (!= first 0)
+                 (!= second 0)
+                 (= third 0)
+                 (init)
+                 (send)
+                 (unchanged initialized)
+                 (unchanged factorial)
+                 (unchanged first)
+                 (unchanged second)
+                 (= (post third) (message value)))
+                 )
+                 )
+
+   )
+
+)
+

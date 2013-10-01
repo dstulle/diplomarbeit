@@ -1,0 +1,6 @@
+   (variables (bool initialized) (nat result) (ref factorial) (bool done))
+
+   (invariant
+      (or initialized
+          (not done)))
+

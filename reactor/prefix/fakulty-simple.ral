@@ -1,0 +1,71 @@
+(class environment
+
+   ; n is the value whose factorial shall be calculated
+   (constant (nat n))
+
+   ; at-startup will be true through the init-predicate and set false
+   ; during the activity init and therefore ensures that the activity
+   ; init will only be evaluated one time.
+   ; result will hold the final result after the calculation has finished.
+   (variables (bool at-startup) (nat result))
+
+   (assume (and (element-of n Nat)
+                (> n 0)))
+
+   (invariant type-invariant
+      (or (at-startup)
+          (not (at-startup))))
+
+   (init-predicate
+      (= at-startup true))
+
+   ; initializes an actor of the type "factorial-step"
+   ; this activity can only be evaluated once due to the at-startup 
+   (activity init at-startup
+      (and (init factorial-step (@ 1) ((n n) (requester self)))
+           (send 1 calculate (@ 1) self)
+           (= (post at-startup) false)))
+
+   ; operation to be called when result is calculated
+   ; this operation will print the result.
+   (operation result ((nat result)) true
+      ( = (post result) value)))
+
+
+(behaviour factorial-step
+
+   (variables initialized requester n)
+
+   (acquaintances
+      (enum->set requester))
+
+   (invariant const-invariant
+      (initialized or (not initialized)))
+
+   (init-predicate
+      (and (= initialized false)
+           (> n 0)))
+
+   ; base case of recursion
+   ; 1! = 1
+   (activity init (or initialized (not (> n 1)))
+      (and (send 1 result requester 1)
+           (unchanged requester n)
+           (= (post initialized) true)))
+
+   ; recursion step
+   ; n! = (* n (- n 1))
+   (activity init (or initialized (not (= n 1)))
+      (and (init factorial-step (@ 1) ((requester self)
+                                    (n n-1)))
+           (= (post initialized) true)
+           (unchanged requester n)))
+
+   ; receiving the result of the recursion step
+   ; the received result is multiplied by n and send to the requester
+   (operation result ((nat value)) (not initialized)
+      (and (send requester result (* value factor))
+           (terminate)
+           (unchanged requester n))))
+
+

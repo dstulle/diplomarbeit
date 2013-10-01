@@ -5,25 +5,37 @@
 \* The MODULE ActorExecutionModel describes combines all other Modules and
 \* defines the actual Specification and Theorems
 
-EXTENDS ActorEvents
+EXTENDS ActorActions
+
+VARIABLE cycle
+
+CycleInvariant == cycle \in {"action", "cleanup"}
 
 Init == /\ ActorsInit
         /\ MessagesInit
+        /\ cycle = "action"
 
 Invariant == /\ ActorIDsInvariant
-             /\ MessageQueueLengthInvariant
+             /\ ActorsInvariant
+             /\ MessageQueueLenInvariant
+             /\ CycleInvariant
 
-Next == /\ PrintT("==== Next State ====")
-        /\ PrintT("---- messages:")
-        /\ PrintT(messages)
-        /\ PrintT("---- actors:")
-        /\ PrintT(actors)
-        /\ \/ DeliverNextMessage
-           \/ \E id \in ActiveActorIDs :
-              ActorEvent(id)
-        /\ CleanUnusedActors
+PrintSystemState == /\ PrintT("==== Next State ====")
+                    /\ PrintT("---- messages:")
+                    /\ PrintT(messages)
+                    /\ PrintT("---- actors:")
+                    /\ PrintT(actors)
 
-Spec == Init /\[][Next]_<<actors, messages>>
+Next == \/ /\ cycle = "action"
+           /\ PrintSystemState
+           /\ \E id \in ActiveActorIDs :
+               ActorAction(id)
+           /\ cycle' = "cleanup"
+        \/ /\ cycle = "cleanup"
+           /\ CleanUpActors
+           /\ cycle' = "action"
+
+Spec == Init /\[][Next]_<<actors, messages, cycle>> /\ <> (StateOf(EnvironmentActorID).result = "asdf")
 
 THEOREM Spec => /\ []Invariant
                 /\ []ActorsInvariant

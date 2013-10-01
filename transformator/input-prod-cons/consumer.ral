@@ -1,0 +1,44 @@
+(class consumer
+
+(variables (ref b) ((seq nat) data) (bool waiting))
+
+(invariant #t)
+
+(public-state data)
+
+(acquaintances (enum->set b))
+
+(init-predicate
+   (and (= data empty-sequence)
+        (not waiting)))
+
+(events
+
+(event consume (not waiting)
+       (and (send (1 read ((cons self)) b))
+            (post waiting)
+            (unchanged b)
+            (unchanged data)
+            (new)))
+
+)
+
+(operations
+
+(operation buffer-value ((ref buf) (nat val)) (and waiting (= (message buf) b))
+           (and (= (post data) (append data (message val)))
+                (not (post waiting))
+                (unchanged b)
+                (send)
+                (new)))
+
+)
+
+(operation buffer-is-empty (ref buf) (and waiting (= (message buf) b))
+           (and (not (post waiting))
+                (unchanged b)
+                (unchanged data)
+                (send)
+                (new)))
+
+)

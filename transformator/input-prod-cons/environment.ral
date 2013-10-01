@@ -1,0 +1,30 @@
+(class environment
+
+   (variables (ref b) (ref p) (ref c) (bool setup))
+
+   (invariant #t)
+
+   (acquaintances (if setup (enum->set b p c) (emptyset)))
+   
+   (public-state (if (done) result #f))
+
+   (init-predicate (not setup) )
+
+   (events
+
+      (event setup (not setup)
+         (and (new (buffer (@ 1) ((data empty-sequence)))
+                   (producer (@ 2) ((b (@ 1)) (in (enum->seq 23 42)) (out empty-sequence)))
+                   (consumer (@ 3) ((b (@ 1)) (data empty-sequence) (waiting #f))))
+              (= (post b) (@ 1))
+              (= (post p) (@ 2))
+              (= (post c) (@ 3))
+              (post setup)
+              (send)))
+              
+   )
+
+   (operations (operation none () #f #f))
+
+)
+

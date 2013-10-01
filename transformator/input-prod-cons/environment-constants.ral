@@ -1,0 +1,5 @@
+   (constants (nat n))
+
+   (assume (and (element-of n (type nat))
+                (> n 0)))
+

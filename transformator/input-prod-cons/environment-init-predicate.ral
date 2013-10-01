@@ -1,0 +1,2 @@
+   (init-predicate (and (= initialized #f) (= done #f)))
+

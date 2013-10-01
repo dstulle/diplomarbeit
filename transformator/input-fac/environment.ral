@@ -1,0 +1,49 @@
+(class environment
+
+   ; n is the value whose factorial shall be calculated
+   (constants (nat n))
+
+   (assume (and (element-of n (type nat))
+                (> n 0)))
+
+   ; initialized will be false through the init-predicate 
+   ; and set true during the activity init it ensures
+   ; that the activity init will only be evaluated once.
+   ; result will hold the final result after the calculation has finished.
+   (variables (bool initialized) (nat result) (ref factorial) (bool done))
+
+   (invariant
+      (or initialized
+          (not done)))
+
+   (acquaintances (if (not done) (enum->set factorial) (emptyset)))
+
+   (init-predicate (and (= initialized #f) (= done #f)))
+
+   (events
+      ; initializes an actor of the type "factorial-step"
+      ; this activity can only be evaluated once due to the initialized variable
+      (event init (= initialized #f)
+         (and (new (factorial-step (@ 1) ((factor (const n)) (requester self) (initialized #f) (child (any ref)) (done #f))))
+              (send)
+              (= (post initialized) #t)
+              (= (post factorial) (@ 1))
+              (unchanged result)
+              (unchanged done)))
+   )
+
+   (operations
+      ; operation to be called when result is calculated
+      ; this operation will print the result.
+      (operation result ((nat value)) #t
+         (and (new)
+              (send)
+              (unchanged initialized)
+              (= (post result) (message value))
+              (unchanged factorial)
+              (= (post done) #t)))
+
+   )
+
+)
+

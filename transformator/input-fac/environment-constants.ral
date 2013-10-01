@@ -1,0 +1,4 @@
+   (constants (nat n))
+
+   (assume (> n 0))
+

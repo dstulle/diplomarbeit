@@ -1,0 +1,3 @@
+(constants (type1 var1) ... (typeN varN))
+(variables (type1 var1) ... (typeN varN))
+

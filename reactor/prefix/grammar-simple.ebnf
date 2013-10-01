@@ -1,0 +1,175 @@
+letter = "a" | "b" | "c" | "d" | "e" | "f" | "g"
+       | "h" | "i" | "j" | "k" | "l" | "m" | "n"
+       | "o" | "p" | "q" | "r" | "s" | "t" | "u"
+       | "v" | "w" | "x" | "y" | "z"
+       | "A" | "B" | "C" | "D" | "E" | "F" | "G"
+       | "H" | "I" | "J" | "K" | "L" | "M" | "N"
+       | "O" | "P" | "Q" | "R" | "S" | "T" | "U"
+       | "V" | "W" | "X" | "Y" | "Z";
+
+digit = "0" | "1" | "2" | "3" | "4" 
+      | "5" | "6" | "7" | "8" | "9";
+
+identifier = letter, { letter | digit | "_" }
+
+literal = "'", identifier;
+
+
+local_variable = "(", "@", ({digit}+ | identifier), ")";
+
+pre_statement = "(", "pre", identifier, ")";
+
+post_statement = "(", "posts", identifier, ")";
+
+(* denotes the type of a constant, variable or argument *)
+(* nat - value is a natural number *)
+(* text - value is any kind of text *)
+(* set - value is a set. Possibly containing any kind of values (nat, text, set) *)
+(* ref - value is a reference to an actor. *)
+variable_type = "nat", "text", "set", "ref"
+
+(* identifier for a variable *)
+(* remarks: pre- and post-statement, aswell as local variable *)
+(*          identifierts must only appear in an event_body *)
+variable_identifier = identifier | local_variable,
+                 | pre_statement | post_statement;
+
+variable_list = {"(", variable_type, variable_identifier, ")"}
+
+arguments = "(", variable_list}, ")";
+
+nat = {digit}+;
+
+(* integer operations *)
+
+operator_int_bin = "+" | "-" | "*" | "div" | "mod" ;
+
+operator_int_un = "-" ;
+
+int = ([ "+" | "-"], {digit}+) 
+    | variable_identifier 
+    | operation_int;
+
+operation_int = "(",
+                ( operator_int_bin, int, int,
+                | operator_int_un, int )
+                ")";
+
+
+(* set operations *)
+operator_set = "set-union" | "set-intersection" | "set-difference";
+
+set = "emptyset" | variable_identifier | operation_set | enum_2_set;
+
+operation_set = "(", operator_set, set, set, ")";
+
+enum_2_set = "(", "enum->set", {int | bool | set}, ")"
+
+(* boolean operations *)
+
+operator_bool_mul = "and" | "or";
+
+operator_bool_un = "not";
+
+bool = "#t" | "#f"
+     | variable_identifier
+     | operation_bool
+     | operation_comparison_int,
+     | operation_element_set,
+     | operation_comparison_set;
+
+operation_bool = "(",
+                 (operator_bool_mul, bool, bool, {bool}
+                 | operator_bool_un, bool),
+                 ")";
+
+operator_comparison_int = "=" | ">" | "<" | "!="
+
+operation_comparison_int = "(", operator_comparison, nat, nat, ")";
+
+if_then_else = "(", "if"
+               bool, any_value, any_value, ")"
+
+any_value = (int | bool | set | if_then_else);
+
+operator_element_set = "element-of" | "no-element-of"
+
+operation_element_set = "(", operator_element_set, any_value, set ")";
+
+
+operator_comparison_set = "subset" | "proper_subset"
+                          "supset" | "proper_supset"
+
+operation_comparison_set = "(", operator_comparison_set, set, set ")";
+
+
+assignment = "(" identifier, any_value, ");"
+
+assignment_list = "(", {assignment}, ")";
+
+(* initializing new actors *)
+initializing = "(", "init", identifier,
+               (identifier | local_variable),
+               assignment_list, ")";
+
+(* termination of actors *)
+termination = "(", "terminate", ")";
+
+(* communicating: sending a message to another actor *)
+messaging = "(", "send", nat, identifier, arguments, operand, ")";
+
+print = "(", "print", (nat, bool), ")";
+
+unchanged = "(", "unchanged", {identifier} ")";
+
+action = initializing | termination | messaging | print | unchanged;
+
+bool_with_action = "#t" | "#f"
+                 | variable_identifier
+                 | operation_bool_with_action
+                 | operation_comparison_int,
+                 | operation_element_set,
+                 | operation_comparison_set
+                 | action;
+
+(* declaration of constants *)
+constants = "(", ("constant" | "constants"), {identifier}, ")";
+
+(* assumptions for constants *)
+assumptions = "(", "assume", bool, ")";
+
+(* declaration of variables *)
+variables = "(", ("variable" | "variables"), {identifier}, ")";
+
+(* invariant for variables *)
+invariant = "(", "invatiant", identifier, bool, ")";
+
+
+(* declaration of acquaintances *)
+acquaintances = "(", ("acquaintance" | "acquaintances") set, ")";
+
+(* declaration of the public state *)
+public_state = "(", "public-state" (int|bool|set) ")";
+
+(* declaration of public init predicate *)
+init_predicate = "(" "init-predicate", bool ")";
+
+declaration = constants | assumptions
+            | variables | invariant
+            | acquaintances
+            | public_state | init_predicate
+
+event_body = bool
+
+activity = "(", "activity", identifier, bool,
+           event_body, ")";
+
+operation = "(", "operation", identifier, arguments, bool
+            event_body, ")";
+
+
+
+event = activity | operation;
+
+(* The description of an actor class *)
+actor = "(", "class", identifier, {declaration}, {event}, ")";

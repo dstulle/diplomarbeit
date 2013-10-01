@@ -1,0 +1,73 @@
+(actor-modell
+
+(class environment
+
+   ; n is the value whose factorial shall be calculated
+   (constant (nat n))
+
+   (assume (and (element-of n Nat)
+                (> n 0)))
+
+   ; initialized will be false through the init-predicate 
+   ; and set true during the activity init it ensures
+   ; that the activity init will only be evaluated once.
+   ; result will hold the final result after the calculation has finished.
+   (variables (bool initialized) (nat result) (ref factorial) (bool done))
+
+   (invariant type-invariant
+      (or (initialized)
+          (not (initialized))))
+
+   (acquaintances (if (not done) (enum->set factorial) (emptyset)))
+
+   (init-predicate (and (= initialized #f) (= done #f)))
+
+   ; initializes an actor of the type "factorial-step"
+   ; this activity can only be evaluated once due to the initialized variable
+   (activity init initialized
+      (and (init factorial-step (@ 1) ((factor n) (requester self)))
+           (= (post initialized) true)
+           (= (post factorial) (@ 1))))
+
+   ; operation to be called when result is calculated
+   ; this operation will print the result.
+   (operation result ((nat value)) true
+      (and (= (post result) value)
+           (= (post done) #t))))
+
+
+(class factorial-step
+
+   (variables (bool initialized) (ref requester) (nat factor) (ref child) (bool done))
+
+   (invariant const-invariant
+      (initialized or (not initialized)))
+
+   (acquaintances (if (not done) (enum->set child) (emptyset)))
+
+   (init-predicate
+      (and (= initialized #f)
+           (> factor 0)
+           (= done #f)))
+
+   ; base case of recursion
+   ; 1! = 1
+   (activity init1 (and (not initialized) (= factor 1))
+      (and (send 1 result requester (value 1))
+           (= (post initialized) true)))
+
+   ; recursion step
+   ; n! = (* n (- n 1))
+   (activity init2 (and (not initialized) (> factor 1))
+      (and (init factorial-step (@ 1) ((requester self)
+                                    (factor factor-1)))
+           (= (post child) (@ 1))
+           (= (post initialized) true)))
+
+   ; receiving the result of the recursion step
+   ; the received result is multiplied by factor and send to the requester
+   (operation result ((nat value)) initialized
+      (and (send requester result (value (* value factor)))
+           ((post done) #t))))
+
+)

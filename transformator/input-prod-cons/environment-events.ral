@@ -1,0 +1,12 @@
+   (events
+      ; initializes an actor of the type "factorial-step"
+      ; this activity can only be evaluated once due to the initialized variable
+      (event init (= initialized #f)
+         (and (new (factorial-step (@ 1) ((factor (const n)) (requester self) (initialized #f) (child (any ref)) (done #f))))
+              (send)
+              (= (post initialized) #t)
+              (= (post factorial) (@ 1))
+              (unchanged result)
+              (unchanged done))Z)
+   )
+

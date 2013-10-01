@@ -1,0 +1,35 @@
+(class producer
+
+   (constants (nat limit))
+
+   (assume (> limit 0))
+
+   (variables (ref b)
+              ((seq nat) in)
+              ((seq nat) out))
+
+   (invariant #t)
+
+   (acquaintances (enum->set b))
+
+   (public-state (concat out in))
+
+   (init-predicate (and (= (length in) (const limit))
+                        (= out empty-sequence)))
+
+   (events
+ 
+      (event produce (> (length in) 0)
+        (and (send (1 write ((val (head in)) (prod self)) b))
+             (= (post in) (tail in))
+             (= (post out) (append out (head in)))
+             (unchanged b)
+             (new)
+             ))
+      
+   )
+   
+   (operations (operation none () #f #f))
+   
+)
+

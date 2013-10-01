@@ -1,0 +1,3 @@
+(assume boolean-expression)
+(invariant boolean-expression)
+

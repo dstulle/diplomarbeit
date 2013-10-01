@@ -1,0 +1,13 @@
+   (operations
+      ; operation to be called when result is calculated
+      ; this operation will print the result.
+      (operation result ((nat value)) #t
+         (and (new)
+              (send)
+              (unchanged initialized)
+              (= (post result) (message value))
+              (unchanged factorial)
+              (= (post done) #t)))
+
+   )
+

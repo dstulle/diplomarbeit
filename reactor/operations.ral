@@ -1,0 +1,7 @@
+(operations
+  (operation name
+             ((type1 var1) ... (typeN varN))
+             guard-expression
+             evaluation-expression)
+  ...
+)

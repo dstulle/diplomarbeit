@@ -1,0 +1,4 @@
+<if><condition><equals><variable name="x"> <value amount="0"></equals></condition>
+    <then>foo</then>
+    <else>bar</else>
+</if>

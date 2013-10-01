@@ -1,0 +1,41 @@
+(class factorial-step
+
+   (variables (nat step) (ref requester))
+
+   (invariant #t)
+
+   (init-predicate
+      (and (= step 0)))
+
+   (acquaintances (emptyset))
+
+   (public-state step)
+
+(events
+
+   (event send1 (and (= step 0))
+      (and (init)
+           (send (1 result requester ((value 1))))
+           (= (post step) 1)
+           (unchanged requester)))
+
+   (event send2 (and (= step 1))
+      (and (init)
+           (send (1 result requester ((value 2))) (1 result requester ((value 3))))
+           (= (post step) 2)
+           (unchanged requester)))
+
+)
+
+(operations
+
+(operation noop ((nat nix)) #t
+   (and (init)
+        (send)
+        (unchanged step)
+        (unchanged requester)))
+
+
+)
+
+)

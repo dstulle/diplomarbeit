@@ -6,41 +6,54 @@
 
 EXTENDS ActorEnvironment
 
-NoMessage == EmptyBag
+----
 
-MessagesInit == messages = NoMessage
+\* CreateMessage(messageInit : [name |-> string,
+\*                                              body |-> [string -> AnyType],
+\*                                              destination -> ActorIDs,
+\*                                              amount -> Nat]) :
+\* ([name |-> string, body |-> [string -> AnyType], destination -> ActorIDs] :> Nat)
+LOCAL CreateMessage(messageInit) ==
+   (messageInit.destination :> ([name |-> messageInit.name,
+                     body |-> messageInit.body]
+                    :> messageInit.amount ))
+
+\* CreateMessages(messagesInitSet : {[name |-> string,
+\*                                                      body |-> [string -> AnyType],
+\*                                                      destination -> ActorIDs,
+\*                                                      amount -> Nat])} :
+\* (destination :> ([name |-> string, body |-> [string -> AnyType]] :> Nat))
+CreateMessages(messagesInitSet) ==
+   LET CM[set \in SUBSET messagesInitSet] ==
+       IF Cardinality(set) = 0
+       THEN EmptyFunction \* No Message is send
+       ELSE LET mi == CHOOSE mi \in set : TRUE
+            IN  MergeFunctionsWithBags(CreateMessage(mi),
+                                       CM[set \ {mi}])
+   IN CM[messagesInitSet]
 
 ----
 
-RemainingMessageCapacity == MaximumLengthOfMessageQueue - BagCardinality(messages)
+\* MaxLenOfMessageQueue(msgsBuffer : [ActorIDs \X ActorIDs -> Seq(Bag(Message))]) :
+\* Nat
+MaxLenOfMessageQueue(msgsBuffer) ==               \****
+   LET MLOMS[traces \in SUBSET DOMAIN msgsBuffer, \*  The Length of the longest Sequence of any message Queue
+             length \in Nat] == 
+      IF traces = {}
+      THEN length
+      ELSE LET trace == CHOOSE trace \in traces : TRUE
+           IN IF Len(msgsBuffer[trace]) > length
+              THEN MLOMS[traces \ {trace}, Len(msgsBuffer[trace])]
+              ELSE MLOMS[traces \ {trace}, length]
+   IN MLOMS[DOMAIN msgsBuffer, 0]
 
-LOCAL MessageTemplate(messageInit) == ([name |-> messageInit.name,
-                                  body |-> messageInit.body,
-                                  destination |-> messageInit.destination]
-                                 :> messageInit.amount )
+----
 
-LOCAL CreateMessage(messageInit) == IF BagCardinality(messages) < MaximumLengthOfMessageQueue
-                                THEN MessageTemplate(messageInit)
-                                ELSE NoMessage
+\* MessagesInit : boolean
+MessagesInit == messages = EmptyFunction
 
-CreateMessages(messageInitSet) ==
-   LET CM[set \in SUBSET messageInitSet] ==
-       IF Cardinality(set) = 0
-       THEN NoMessage
-       ELSE LET mi == CHOOSE mi \in messageInitSet : TRUE
-            IN CreateMessage(mi) (+)
-               CM[set \ {mi}]
-   IN CM[messageInitSet]
-
-DeliverNextMessage ==
-   /\ BagCardinality(messages) > 0
-   /\ LET message == CHOOSE mi \in BagToSet(messages) : TRUE
-      IN /\ messages' = TakeFromBag(message,messages)
-         /\ actors' = [actors
-                       EXCEPT ![message.destination].inbox
-                              = Append(actors[message.destination].inbox,
-                                       ReduceFunction(message,"destination"))]
-
-MessageQueueLengthInvariant == BagCardinality(messages) <= MaximumLengthOfMessageQueue
+\* MessageQueueLenInvariant : boolean
+MessageQueueLenInvariant ==
+   MaxLenOfMessageQueue(messages) <= MaximumSizeOfMessageQueues
 
 ====

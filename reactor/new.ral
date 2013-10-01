@@ -1,0 +1,4 @@
+(new (actor-type
+      actor-id
+      ((var1 val1) ... (varN valN))
+     ...)

@@ -1,0 +1,5 @@
+(send (amount
+       name
+       ((var1 val1) ... (varN valN))
+       target-actor)
+       ...)

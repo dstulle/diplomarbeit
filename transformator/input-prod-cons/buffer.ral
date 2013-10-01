@@ -1,0 +1,38 @@
+(class buffer
+
+   (constants (nat limit))
+
+   (assume (> limit 0))
+
+   (variables ((seq nat) data))
+
+   (invariant
+      (<= (length data) (const limit)))
+
+   (public-state data)
+   
+   (acquaintances (emptyset))
+
+   (init-predicate (= data empty-sequence) )
+
+   (operations
+ 
+      (operation write ((nat val) (ref prod)) (< (length data) (const limit))
+        (and (= (post data) (append data (message val)))
+             (new)
+             (send)))
+      
+      (operation read (ref cons) (>= (length data) 0)
+         (or (and (> (length data) 0)
+                  (new)
+                  (send (1 buffer-value ((buf self) (val head)) (message cons)))
+                  (= (post data) (tail data)))
+             (and (= (length data) 0)
+                  (new)
+                  (send (1 buffer-is-empty ((buf self)) (message cons)))
+                  (unchanged data))))
+   )
+   
+   (events (event none #f #f))
+)
+

@@ -1,0 +1,43 @@
+
+(behaviour
+   (name environment)
+
+   ; initializes an actor of the type "faculty"
+   ; with 5 as argument
+   (init
+      (create faculty-step 5)
+   )
+
+   ; action to be called when result is ready
+   (result
+      (print value)
+   )
+)
+
+(behaviour
+   (name faculty-step)
+
+   (variables factor)
+
+   (init 
+
+      ; the argument is stored in a member variable
+      (define value factor)
+
+      ; if the argument is less than 1...
+      (if (< value 2)
+          ; 1 is returned to the server
+          (send parent result 1)
+            
+          ; otherwise another faculty actor is created
+          (create faculty-step (- value 1))
+      )
+   )
+
+   ; the received result is multiplied by the
+   ; stored value and send to the parent
+   (result
+      (send parent result (* value factor))
+      (terminate)
+   )
+)
