@@ -42,7 +42,6 @@
               (= (post result) (message value))
               (unchanged factorial)
               (= (post done) #t)))
-
    )
 
 )

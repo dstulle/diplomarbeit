@@ -25,7 +25,7 @@
       (operation read (ref cons) (>= (length data) 0)
          (or (and (> (length data) 0)
                   (new)
-                  (send (1 buffer-value ((buf self) (val head)) (message cons)))
+                  (send (1 buffer-value ((buf self) (val (head data))) (message cons)))
                   (= (post data) (tail data)))
              (and (= (length data) 0)
                   (new)

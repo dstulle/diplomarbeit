@@ -4,7 +4,7 @@
 \*
 \* The MODULE ActorMessages describes the creation and deliveriy of messages.
 
-EXTENDS ActorEnvironment
+EXTENDS ActorBase
 
 ----
 

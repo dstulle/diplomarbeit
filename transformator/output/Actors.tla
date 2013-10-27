@@ -44,10 +44,6 @@ Acquaintances(id) ==
    CASE TypeOf(id) = "Environment" -> Environment_Acquaintances(StateOf(id))
      [] TypeOf(id) = "FactorialStep" -> FactorialStep_Acquaintances(StateOf(id))
 
-PublicState(id) ==
-   CASE TypeOf(id) = "Environment" -> Environment_PublicState(StateOf(id))
-     [] TypeOf(id) = "FactorialStep" -> FactorialStep_PublicState(StateOf(id))
-
 ----
 
 Action_Condition(kind, type, name, state, message) ==
