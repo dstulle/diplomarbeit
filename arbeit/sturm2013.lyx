@@ -1240,7 +1240,7 @@ ten Anweisungen nicht immer vorhersehbar\SpecialChar \@.
  wie beispielsweise Bereiche im Arbeitsspeicher koordiniert werden, damit
  sich Prozesse nicht gegenseitig blockieren (Deadlock
 \begin_inset Foot
-status open
+status collapsed
 
 \begin_layout Plain Layout
 Ein Deadlock  tritt dann auf, wenn sich das System in einem Zustand befindet,
@@ -1263,7 +1263,7 @@ h durch genau diese Ereignisse hervorgerufen werden\SpecialChar \@.
 ) oder durch ungeschicktes Timing Speicherinhalte verfälscht werden (Race
  Condition
 \begin_inset Foot
-status open
+status collapsed
 
 \begin_layout Plain Layout
 Eine Race Condition  entsteht, wenn in einem System durch eine bestimmte
@@ -1508,7 +1508,7 @@ name "fig:Aktor-Modell-Checking-ohne-Unterstützung"
 
 
 \begin_inset ERT
-status open
+status collapsed
 
 \begin_layout Plain Layout
 
@@ -2159,7 +2159,7 @@ name "fig:Beispiel-Aktorsystem"
 
 
 \begin_inset ERT
-status open
+status collapsed
 
 \begin_layout Plain Layout
 
@@ -2910,10 +2910,33 @@ Spec\Rightarrow Property\label{eq:Prove}
 TLC ist nicht in der Lage alle Ausdrücke von TLA+ zu verarbeiten, daher
  darf sich das Ausführungsmodell und auch das Resultat der Übertragung nur
  auf den Anteil von TLA+ beschränken, der von TLC unterstützt wird\SpecialChar \@.
- TLC unterstüt
-zt beispielsweise nicht die Auswertung von Existenzquantoren in temporallogische
-n Formeln\SpecialChar \@.
- Weitere Einschränkungen sind dem Buch 
+
+\end_layout
+
+\begin_layout Standard
+TLC unterstützt beispielsweise nicht die Auswertung von Existenzquantoren
+ in temporallogischen Formeln (
+\begin_inset CommandInset citation
+LatexCommand cite
+key "lamport2002a"
+
+\end_inset
+
+ Abschnitt 14.6 Seite 262)\SpecialChar \@.
+ Oder Aktions-Kompositions-Operator, der die kombiniert
+e Ausführung von Aktionen in einem Atomaren Schritt ermöglicht (
+\begin_inset CommandInset citation
+LatexCommand cite
+key "lamport2002a"
+
+\end_inset
+
+ Abschnitt 7.3 Seite 77)\SpecialChar \@.
+
+\end_layout
+
+\begin_layout Standard
+Weitere Einschränkungen sind dem Buch 
 \begin_inset Quotes pld
 \end_inset
 
@@ -2941,16 +2964,9 @@ Beispiel einer Modelbeschreibung in TLA+
 \end_layout
 
 \begin_layout Standard
-In folgendem Beispiel (
-\begin_inset CommandInset ref
-LatexCommand formatted
-reference "fig:Beispiel-TLA"
-
-\end_inset
-
-) wird ein Modell in TLA+ beschrieben\SpecialChar \@.
- Der Zustand wird durch die Variablen
- 
+In folgendem Beispiel wird ein Modell in TLA+ beschrieben\SpecialChar \@.
+ Der Zustand wird
+ durch die Variablen 
 \begin_inset Formula $a$
 \end_inset
 
@@ -2961,235 +2977,6 @@ reference "fig:Beispiel-TLA"
  repräsentiert\SpecialChar \@.
  Beide Variablen können mit Wahrheitswerten wahr oder falsch
  belegt sein, dadurch ergeben sich 4 mögliche Zustände\SpecialChar \@.
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Wrap figure
-lines 19
-placement l
-overhang 0in
-width "50col%"
-status open
-
-\begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-vspace{-2em}
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-TLA+ des Beispiels 
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:Beispiel-TLA"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset CommandInset include
-LatexCommand input
-filename "/home/dstulle/usr/uni/diplom/executionmodel/Example.inc"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-Im Initialzustand (
-\begin_inset Formula $Init$
-\end_inset
-
-) soll 
-\begin_inset Formula $a$
-\end_inset
-
- falsch und 
-\begin_inset Formula $b$
-\end_inset
-
- wahr sein, dadurch erfüllt nur ein Zustand die Formel des Initialzustandes\SpecialChar \@.
-
-\end_layout
-
-\begin_layout Standard
-Die Formel für die Folgezustände (
-\begin_inset Formula $Next$
-\end_inset
-
-) ist kann durch die Disjunktion durch zwei Möglichkeiten erfüllt werden\SpecialChar \@.
-
- Entweder ist 
-\begin_inset Formula $a$
-\end_inset
-
- falsch, der Wert von 
-\begin_inset Formula $a$
-\end_inset
-
- soll im nächsten Zustand invertiert sein und 
-\begin_inset Formula $b$
-\end_inset
-
- bleibt unverändert\SpecialChar \@.
- Oder 
-\begin_inset Formula $a$
-\end_inset
-
- ist wahr, der Wert von 
-\begin_inset Formula $b$
-\end_inset
-
- soll im nächsten Zustand invertiert sein und 
-\begin_inset Formula $a$
-\end_inset
-
- bleibt unverändert\SpecialChar \@.
-
-\end_layout
-
-\begin_layout Standard
-Ausgehend vom Startzustand in dem 
-\begin_inset Formula $a$
-\end_inset
-
- falsch ist wird für den ersten Schritt der obere Teil von 
-\begin_inset Formula $Next$
-\end_inset
-
- ausgewertet\SpecialChar \@.
- Der Wert der Variable 
-\begin_inset Formula $a$
-\end_inset
-
- wird somit wahr\SpecialChar \@.
- Für alle folgenden Schritte kann immer nur noch der untere
- Teil der Disjunktion 
-\begin_inset Formula $Next$
-\end_inset
-
- ausgewertet werden, da 
-\begin_inset Formula $a$
-\end_inset
-
- wahr ist und seinen Wert auch nicht mehr ändert\SpecialChar \@.
- In diesen folgenden Schritten,
- wechselt 
-\begin_inset Formula $b$
-\end_inset
-
- immer zwischen Wahr und Falsch\SpecialChar \@.
-
-\end_layout
-
-\begin_layout Standard
-Die Spezifikation des Modells (
-\begin_inset Formula $Spec$
-\end_inset
-
-) wird gemäß des oben erwähnten Formates aufgestellt\SpecialChar \@.
- 
-\end_layout
-
-\begin_layout Standard
-Die zu prüfenden Eigenschaften bzw.
- Anforderungen sind in Form der Invariante (
-\begin_inset Formula $Invariant$
-\end_inset
-
-) spezifiziert, die aussagt, das entweder 
-\begin_inset Formula $a$
-\end_inset
-
- oder 
-\begin_inset Formula $b$
-\end_inset
-
- wahr sein müssen\SpecialChar \@.
- Das Theorems sagt aus, dass aus der Spezifikation des
- Modells (
-\begin_inset Formula $Spec$
-\end_inset
-
-) folgt, dass notwendig (
-\begin_inset Formula $\Box$
-\end_inset
-
-) die Invariante gillt, die Invariante also für Jeden Zustand gelten soll\SpecialChar \@.
-
-\end_layout
-
-\begin_layout Standard
-Es soll notwendig 
-\begin_inset Formula $a$
-\end_inset
-
- oder 
-\begin_inset Formula $b$
-\end_inset
-
- gelten oder anders formuliert
-\begin_inset Foot
-status open
-
-\begin_layout Plain Layout
-\begin_inset Formula $\Box(a\lor b)=\neg\lozenge(\neg a\land\neg b)$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
- soll nie der Fall eintreten, in dem sowohl 
-\begin_inset Formula $a$
-\end_inset
-
- als auch 
-\begin_inset Formula $b$
-\end_inset
-
- falsch sind\SpecialChar \@.
-
-\end_layout
-
-\begin_layout Standard
-Da das beschriebene Modell aus der 
-\begin_inset CommandInset ref
-LatexCommand formatted
-reference "fig:Beispiel-TLA"
-
-\end_inset
-
- den Zustand in dem weder 
-\begin_inset Formula $a$
-\end_inset
-
- noch 
-\begin_inset Formula $b$
-\end_inset
-
- gelten nie erreicht, Entspricht das beschriebene Modell den Anforderungen\SpecialChar \@.
 
 \end_layout
 
@@ -3415,8 +3202,7 @@ end{tikzpicture}
 
 \end_inset
 
-Das Modell lässt sich zur besseren Anschaulichkeit als gerichteter Graph
- wie in 
+Das Modell lässt sich als gerichteter Graph wie in 
 \begin_inset CommandInset ref
 LatexCommand formatted
 reference "fig:Beispiel-Modell"
@@ -3427,11 +3213,239 @@ reference "fig:Beispiel-Modell"
  Ein Knoten entspricht hierbei einem Möglichen Systemzustand
  und eine Kante entspricht einem Schritt bzw.
  Zustandsübergang\SpecialChar \@.
- Wie leicht zu erkennen ist, wird der Zustand in dem 
+ Der Zustand in dem 
 \begin_inset Formula $\neg a\land\neg b$
 \end_inset
 
- gillt nie erreicht\SpecialChar \@.
+ gillt wird nie erreicht\SpecialChar \@.
+
+\end_layout
+
+\begin_layout Standard
+Dieses Modell kann in TLA+ beschrieben werden, wie in 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "fig:Beispiel-Modell"
+
+\end_inset
+
+ gezeigt wird\SpecialChar \@.
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Wrap figure
+lines 20
+placement L
+overhang 0in
+width "50col%"
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+TLA+ des Beispiels 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Beispiel-TLA"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset include
+LatexCommand input
+filename "/home/dstulle/usr/uni/diplom/executionmodel/Example.inc"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+Im Initialzustand soll 
+\begin_inset Formula $a$
+\end_inset
+
+ falsch und 
+\begin_inset Formula $b$
+\end_inset
+
+ wahr sein, dadurch erfüllt nur ein Zustand die Formel (
+\begin_inset Formula $Init$
+\end_inset
+
+) des Initialzustandes\SpecialChar \@.
+
+\end_layout
+
+\begin_layout Standard
+Die Formel für die Folgezustände (
+\begin_inset Formula $Next$
+\end_inset
+
+) ist kann durch die Disjunktion durch zwei Möglichkeiten erfüllt werden\SpecialChar \@.
+
+ Entweder ist 
+\begin_inset Formula $a$
+\end_inset
+
+ falsch, der Wert von 
+\begin_inset Formula $a$
+\end_inset
+
+ soll im nächsten Zustand invertiert sein und 
+\begin_inset Formula $b$
+\end_inset
+
+ bleibt unverändert\SpecialChar \@.
+ Oder 
+\begin_inset Formula $a$
+\end_inset
+
+ ist wahr, der Wert von 
+\begin_inset Formula $b$
+\end_inset
+
+ soll im nächsten Zustand invertiert sein und 
+\begin_inset Formula $a$
+\end_inset
+
+ bleibt unverändert\SpecialChar \@.
+
+\end_layout
+
+\begin_layout Standard
+Ausgehend vom Startzustand in dem 
+\begin_inset Formula $a$
+\end_inset
+
+ falsch ist wird für den ersten Schritt der obere Teil von 
+\begin_inset Formula $Next$
+\end_inset
+
+ aus\SpecialChar \-
+ge\SpecialChar \-
+wer\SpecialChar \-
+tet\SpecialChar \@.
+ Der Wert der Variable 
+\begin_inset Formula $a$
+\end_inset
+
+ wird somit wahr\SpecialChar \@.
+ Für alle folgenden Schritte kann immer nur noch der untere
+ Teil der Disjunktion 
+\begin_inset Formula $Next$
+\end_inset
+
+ ausgewertet werden, da 
+\begin_inset Formula $a$
+\end_inset
+
+ wahr ist und seinen Wert auch nicht mehr ändert\SpecialChar \@.
+ In diesen folgenden Schritten,
+ wechselt 
+\begin_inset Formula $b$
+\end_inset
+
+ immer zwischen Wahr und Falsch\SpecialChar \@.
+
+\end_layout
+
+\begin_layout Standard
+Die Spezifikation des Modells (
+\begin_inset Formula $Spec$
+\end_inset
+
+) wird gemäß des oben erwähnten Formates aufgestellt\SpecialChar \@.
+ 
+\end_layout
+
+\begin_layout Standard
+Die zu prüfenden Eigenschaften bzw.
+ Anforderungen sind in Form der Invariante (
+\begin_inset Formula $Invariant$
+\end_inset
+
+) spezifiziert, die aussagt, das entweder 
+\begin_inset Formula $a$
+\end_inset
+
+ oder 
+\begin_inset Formula $b$
+\end_inset
+
+ wahr sein müssen\SpecialChar \@.
+ Das Theorems sagt aus, dass aus der Spezifikation des
+ Modells (
+\begin_inset Formula $Spec$
+\end_inset
+
+) folgt, dass notwendig (
+\begin_inset Formula $\Box$
+\end_inset
+
+) die Invariante gillt, die Invariante also für Jeden Zustand gelten soll\SpecialChar \@.
+
+\end_layout
+
+\begin_layout Standard
+Es soll notwendig 
+\begin_inset Formula $a$
+\end_inset
+
+ oder 
+\begin_inset Formula $b$
+\end_inset
+
+ gelten oder anders formuliert
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+\begin_inset Formula $\Box(a\lor b)=\neg\lozenge(\neg a\land\neg b)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ soll nie der Fall eintreten, in dem sowohl 
+\begin_inset Formula $a$
+\end_inset
+
+ als auch 
+\begin_inset Formula $b$
+\end_inset
+
+ falsch sind\SpecialChar \@.
+
+\end_layout
+
+\begin_layout Standard
+Da das beschriebene Modell aus der 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "fig:Beispiel-TLA"
+
+\end_inset
+
+ den Zustand in dem weder 
+\begin_inset Formula $a$
+\end_inset
+
+ noch 
+\begin_inset Formula $b$
+\end_inset
+
+ gelten nie erreicht, Entspricht das beschriebene Modell den Anforderungen\SpecialChar \@.
 
 \end_layout
 
@@ -3448,10 +3462,10 @@ name "sec:Grundlagen_Code-Transformation"
 
 \begin_layout Standard
 Unter Code Transformation versteht man im Allgemeinen die Übertragung von
- Code einer formalen Sprache in Code einer anderen formalen Sprache unter
- Beibehaltung der Semantik\SpecialChar \@.
- Ein Code-Transformator muss genau wie ein Compiler
- die Eingabesprache parsen und in der gewünschten Form wieder ausgeben\SpecialChar \@.
+ Code einer formalen Sprache in den Code einer anderen formalen Sprache
+ unter Beibehaltung der Semantik\SpecialChar \@.
+ Ein Code-Transformator parst wie ein Compiler
+ die Eingabesprache und erzeugt eine Ausgabe in der gewünschten Form\SpecialChar \@.
 
 \end_layout
 
@@ -3459,7 +3473,7 @@ Unter Code Transformation versteht man im Allgemeinen die Übertragung von
 Für die Implementierung eines Code-Transformators bietet sich eine homoikonizitä
 re
 \begin_inset Foot
-status open
+status collapsed
 
 \begin_layout Plain Layout
 Homoikonizität bezeichnet die Eigenschaft einer Sprache, die Datenstrukturen
@@ -3471,13 +3485,13 @@ Homoikonizität bezeichnet die Eigenschaft einer Sprache, die Datenstrukturen
 
 \end_inset
 
- und erweiterbare Sprache wie Scheme an, da dann lediglich mit einfachen
- Erweiterungen der Sprache gearbeitet werden kann\SpecialChar \@.
- Das trifft im Besonderen
- zu, wenn die Eingabesprache dasselbe Format hat\SpecialChar \@.
- Ein in Scheme implementierter
- Transformator würde ReActor in Form einer an Scheme angelehnten Präfixnotation
- einlesen und daraus eine TLA+ Spezifikation erzeugen (
+ und erweiterbare Sprache wie Scheme an, da lediglich mit einfachen Erweiterunge
+n der Sprache gearbeitet werden kann\SpecialChar \@.
+ Das trifft im Besonderen zu, wenn die
+ Eingabesprache dasselbe Format hat\SpecialChar \@.
+ Ein in Scheme implementierter Transformator
+ würde ReActor in Form einer an Scheme angelehnten Präfixnotation einlesen
+ und daraus eine TLA+ Spezifikation erzeugen (
 \begin_inset CommandInset ref
 LatexCommand formatted
 reference "fig:Code-Transformation-Scheme"
@@ -3514,7 +3528,7 @@ name "fig:Code-Transformation-Scheme"
 
 
 \begin_inset ERT
-status open
+status collapsed
 
 \begin_layout Plain Layout
 
@@ -3631,7 +3645,7 @@ end{tikzpicture}
 Eine weitere Möglichkeit der Code Transformation besteht in der Verwendung
  von XSLT
 \begin_inset Foot
-status open
+status collapsed
 
 \begin_layout Plain Layout
 XSLT ist zwar ebenfalls homoikonizitär, aber es bestehen dadurch in diesem
@@ -3687,7 +3701,7 @@ name "fig:Code-Transformation-XSLT"
 
 
 \begin_inset ERT
-status open
+status collapsed
 
 \begin_layout Plain Layout
 
@@ -3861,9 +3875,31 @@ reference "fig:Code-Transformation-XSLT"
 \end_inset
 
 )\SpecialChar \@.
- Je nachdem welcher Ansatz gewählt wird unterscheidet sich die Codierung
+
+\end_layout
+
+\begin_layout Standard
+Die Verwendung von Scheme hat den Vorteil, dass der Code übersichtlicher
+ wird, allerdings würde hierbei die Transformation vollständig in Scheme
+ implementiert werden\SpecialChar \@.
+ XML hat den Vorteil, dass lediglich die Transformationsreg
+eln geschrieben werden müssen, dafür ist XML bei gleichem Informationsgehalt
+ umfangreicher\SpecialChar \@.
+
+\end_layout
+
+\begin_layout Standard
+Je nachdem welcher Ansatz gewählt wird unterscheidet sich die Codierung
  von ReActor\SpecialChar \@.
 
+\end_layout
+
+\begin_layout Chapter
+Lösungsansatz
+\end_layout
+
+\begin_layout Standard
+TODO
 \end_layout
 
 \begin_layout Chapter
@@ -3968,9 +4004,16 @@ name "sec:ReActor-Einschränkungen"
 \end_layout
 
 \begin_layout Standard
-Bei der Spezifikation des allgemeinen Ausführungsmodells stellte sich heraus,
- dass gewisse Formulierungen verwendet werden müssten, die zwar in TLA+
- beschrieben, aber nicht durch TLC berechnet werden können (
+Bei der Spezifikation des allgemeinen Ausführungsmodells ist folgende Formulieru
+ng 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:unbound_predicate"
+
+\end_inset
+
+ verwendet, die zwar in TLA+ beschrieben, aber nicht durch TLC berechnet
+ werden kann (
 \begin_inset CommandInset citation
 LatexCommand cite
 key "lamport2002a"
@@ -3982,7 +4025,7 @@ key "lamport2002a"
 \end_layout
 
 \begin_layout Standard
-Der Nachfolgezustand wird in ReActor durch ein Prädikat 
+Der Nachfolgezustand eines Aktors wird in ReActor durch ein Prädikat 
 \begin_inset Formula $P$
 \end_inset
 
@@ -4017,7 +4060,8 @@ Diese Formel ist zwar korrekt, aber eine Berechnung aller möglichen Belegungen
 \begin_inset Formula $x,y$
 \end_inset
 
- unendlich sind\SpecialChar \@.
+ beliebig und nicht durch einen Typen beschränkt sind, und die möglichen
+ Zustände somit unendlich sind\SpecialChar \@.
 
 \end_layout
 
@@ -4047,10 +4091,17 @@ P(x,y)\defeq & \land & \lor & x & = & B_{x,1}\\
 \end_layout
 
 \begin_layout Standard
-Eine DNF hätte dieselbe Aussagemöglichkeit wie jede andere Formel ohne Quantoren\SpecialChar \@.
+Eine DNF hätte dieselbe Aussagemöglichkeit wie jede andere Formel allerdings
+ ohne Quantoren\SpecialChar \@.
+ Allerdings wäre in diesem Fall durch die Begrenztheit der
+ gegebenen Formel eine Entscheidbarkeit von 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:unbound_predicate"
 
- Allerdings wäre in diesem Fall durch die Begrenztheit der gegebenen Formel
- eine Entscheidbarkeit gegeben\SpecialChar \@.
+\end_inset
+
+ gegeben\SpecialChar \@.
 
 \end_layout
 
@@ -4132,13 +4183,23 @@ king eine Begrenzung von unbegrenzten Mengen wie
 \end_inset
 
  und anderen stattfinden\SpecialChar \@.
- Nur die Typisierung in Kombination mit der Begrenzung
+ Die Typisierung in Kombination mit der Begrenzung
  der Menge gibt dem Modellprüfer endliche Grenzen zur Exploration\SpecialChar \@.
+
+\end_layout
+
+\begin_layout Standard
+In gleicher Weise werden werden Sequenzen in ihrer Länge beschränkt, da
+ sie theoretisch unendlich lang werden können\SpecialChar \@.
 
 \end_layout
 
 \begin_layout Section
 Notation
+\end_layout
+
+\begin_layout Standard
+[Einleitender Absatz]
 \end_layout
 
 \begin_layout Standard
@@ -7834,10 +7895,10 @@ Beispielcode
 \end_layout
 
 \begin_layout Standard
-Dies ist eine beispielhafte Beschreibung einer minimalistischen Teilmenge
- von ReActor\SpecialChar \@.
- Die Teilmenge ist so gewählt, dass sie ausreicht ein einfaches
- Beispiel zu beschreiben\SpecialChar \@.
+Dies ist eine beispielhafte Beschreibung einer Teilmenge von ReActor\SpecialChar \@.
+ Die
+ Teilmenge ist so gewählt, dass sie ausreicht ein einfaches Beispiel zu
+ beschreiben\SpecialChar \@.
  In dem gewählten Beispiel geht es um die 
 \begin_inset Quotes eld
 \end_inset
@@ -8256,8 +8317,8 @@ name "chap:Allgemeines-Ausführungsmodell"
 \end_layout
 
 \begin_layout Standard
-Das allgemeine Ausführungsmodell ist eine Modellierung eines Aktor-Systems,
- das mit dem TLC-Modellprüfer überprüft werden soll\SpecialChar \@.
+Das allgemeine Ausführungsmodell ist ein Modell eines Aktor-Systems, das
+ mit dem TLC-Modellprüfer überprüft werden soll\SpecialChar \@.
  Wie be\SpecialChar \-
 reits in 
 \begin_inset CommandInset ref
@@ -8271,7 +8332,7 @@ reference "chap:Grundlagen"
  allgemeine Verhalten des Ausführungsmodells, das für alle Aktorsysteme
  gleich bleibt.
  Der andere Teil beschreibt die Aktoren, die für jedes Aktorsystem variieren
- und aus der die ReActor-Spezifikation generiert wird\SpecialChar \@.
+ und der aus der ReActor-Spezifikation generiert wird\SpecialChar \@.
 
 \end_layout
 
@@ -8291,12 +8352,19 @@ Der Zustand des Aktorsystems wird durch zwei Variablen repräsentiert\SpecialCha
 \begin_inset Formula $messages$
 \end_inset
 
- beinhaltet alle gesendeten und noch nicht verarbeiteten Nachrichten\SpecialChar \@.
+ beinhaltet alle gesendeten, noch nicht verarbeiteten Nachrichten\SpecialChar \@.
 
 \end_layout
 
 \begin_layout Subsection
 Aktoren
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Aktoren"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -8304,10 +8372,21 @@ Die Variable
 \begin_inset Formula $actors$
 \end_inset
 
- enthält eine Funktion, die zu Beginn der Simulation noch leer ist\SpecialChar \@.
- Diese
- Funktion bildet von den Aktor IDs auf Zustand und Typ des jeweiligen Aktors
- ab\SpecialChar \@.
+ hat eine Funktion, dessen Definitionsmenge zu Beginn der Simulation noch
+ leer ist\SpecialChar \@.
+ Diese Funktion bildet von den Aktor-IDs (
+\begin_inset Formula $ActorIDs$
+\end_inset
+
+) auf Zustand (
+\begin_inset Formula $state$
+\end_inset
+
+) und Typ (
+\begin_inset Formula $type$
+\end_inset
+
+) des jeweiligen Aktors ab\SpecialChar \@.
 
 \begin_inset Formula 
 \[
@@ -8320,16 +8399,16 @@ actors\in[ActorIDs\rightarrow[state\mapsto PossibleStates,type\mapsto PossibleTy
 \end_layout
 
 \begin_layout Standard
-Wenn im Laufe der Simulation ein neuer Aktor erzeugt wird, so wird die Funktion
+Wird im Laufe der Simulation ein neuer Aktor erzeugt, dann wird die Funktion
  entsprechend erweitert\SpecialChar \@.
- In ReActor ist die Anzahl der Aktoren unbegrenzt\SpecialChar \@.
-
- Um diesem Sprachmerkmal in der Simulation entgegen zu kommen werden Aktoren,
- die nicht mehr für das System benötigt werden aus der 
+ In ReActor ist die Anzahl der Aktorobjekte zur Laufzeit
+ unbegrenzt\SpecialChar \@.
+ Um diesem Sprachmerkmal in der Simulation entgegen zu kommen
+ werden Aktoren, die nicht mehr für das System benötigt werden aus der 
 \begin_inset Formula $actors$
 \end_inset
 
--Funktion entfernt, um wieder Platz für neue Aktoren zu machen\SpecialChar \@.
+-Funktion entfernt, um wieder Platz für neue Aktoren zu haben\SpecialChar \@.
 
 \end_layout
 
@@ -8345,18 +8424,38 @@ name "sub:Nachrichten"
 \end_layout
 
 \begin_layout Standard
-Nachrichten, die durch eine einzige Aktivität versendet werden, sollen in
- keiner vorgeschriebenen Reihenfolge ausgewertet werden\SpecialChar \@.
- Deswegen werden
- die Nachrichten, die in einem Aktivitätsschritt generiert werden in einer
- Bag (Multimenge) zusammengefasst\SpecialChar \@.
- Bei der Auswertung der Nachrichten wird
- immer eine zufällige Nachricht aus dieser Bag ausgewählt\SpecialChar \@.
+Nachrichten, die eine Aktivität sendet, werden in keiner vorgeschriebenen
+ Reihenfolge ausgewertet\SpecialChar \@.
+ Deswegen werden Nachrichten, eines Aktivitätsschrittes
+ in einer Bag (Multimenge) zusammengefasst\SpecialChar \@.
+ Bei der Auswertung der Nachrichten
+ wird immer eine beliebige Nachricht dieser Bag ausgewählt\SpecialChar \@.
 
+\end_layout
+
+\begin_layout Standard
+Daraus ergibt sich die Nachrichten in einer Funktion zu speichern, die von
+ den Ziel-IDs (
+\begin_inset Formula $TargetActorIDs$
+\end_inset
+
+) auf Bags von Nachrichten (
+\begin_inset Formula $Bag(PossibleMessages)$
+\end_inset
+
+) abbildet, wie in Formel 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:id->bag(msg)"
+
+\end_inset
+
+ gezeigt\SpecialChar \@.
+ 
 \begin_inset Formula 
-\[
-[TargetActorIDs\rightarrow Bag(PossibleMessages)]
-\]
+\begin{equation}
+[TargetActorIDs\rightarrow Bag(PossibleMessages)]\label{eq:id->bag(msg)}
+\end{equation}
 
 \end_inset
 
@@ -8364,10 +8463,10 @@ Nachrichten, die durch eine einzige Aktivität versendet werden, sollen in
 \end_layout
 
 \begin_layout Standard
-Um die Spezifizierung des Systems etwas zu vereinfachen, sollen Nach\SpecialChar \-
+Um die Spezifikation des Systems zu vereinfachen, werden Nach\SpecialChar \-
 rich\SpecialChar \-
-ten,
- die zwischen zwei bestimmten Aktoren aus verschiedenen Aktivitäten gesendet
+ten, die
+ zwischen zwei bestimmten Aktoren aus verschiedenen Aktivitäten gesendet
  werden, genau in der Reihenfolge verarbeitet werden, wie sie gesendet wurden\SpecialChar \@.
 
  Deswegen werden die Nachrichten aus unterschiedlichen Aktivitäten in einer
@@ -8376,10 +8475,30 @@ ten,
  der ersten Bag ausgewählt, erst wenn alle Nachrichten einer Bag ausgewertet
  wurden, werden Nachrichten aus der nachfolgenden Bag der Sequenz ausgewählt\SpecialChar \@.
 
+\end_layout
+
+\begin_layout Standard
+Somit wird die Formel 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:id->bag(msg)"
+
+\end_inset
+
+ um eine Sequenz ergänzt, in der die Nachrichten-Bags enthalten sind, wie
+ in Formel 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:id->seq(bag(msg))"
+
+\end_inset
+
+ gezeigt\SpecialChar \@.
+ 
 \begin_inset Formula 
-\[
-[TargetActorIDs\rightarrow Seq(Bag(PossibleMessages))]
-\]
+\begin{equation}
+[TargetActorIDs\rightarrow Seq(Bag(PossibleMessages))]\label{eq:id->seq(bag(msg))}
+\end{equation}
 
 \end_inset
 
@@ -8388,25 +8507,41 @@ ten,
 
 \begin_layout Standard
 Damit bei Nachrichten von anderen Aktoren die Zufälligkeit der Auswertungsreihen
-folge immer noch gewährgeleistet ist, werden diese Sequenzen nach ihrem
- Sender und Empfänger sortiert\SpecialChar \@.
- Dadurch können Nachrichten, die von unterschiedli
-chen Aktoren gesendet wurden trotz der Sortierung der Sequenz, in zufälliger
+folge immer noch gewährgeleistet ist, werden diese Sequenzen nach Sender
+ und Empfänger getrennt\SpecialChar \@.
+ Dadurch können Nachrichten, die von unterschiedlichen
+ Aktoren gesendet wurden trotz der Sortierung der Sequenz, in zufälliger
  Reihenfolge durch den Zielaktor ausgewertet werden\SpecialChar \@.
- Es gibt also für jedes
- Sender-Empfänger-Paar eine eigene Sequenz\SpecialChar \@.
- 
+ Es gibt für jedes Sender-Emp
+fänger-Paar eine eigene Sequenz\SpecialChar \@.
+
 \end_layout
 
 \begin_layout Standard
-Daraus ergibt sich für den Nachrichtenpuffer folgende Datenstruktur:
+Aus der Erweiterung der Formel 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:id->seq(bag(msg))"
+
+\end_inset
+
+ ergibt sich für den Nachrichtenpuffer eine Datenstruktur, wie in Formel
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:idxid->seq(bag(msg))"
+
+\end_inset
+
+ dargestellt\SpecialChar \@.
+
 \begin_inset Formula 
-\[
+\begin{equation}
 messages\in\left[\begin{array}{c}
 SourceActorIDs\times TargetActorIDs\\
 \rightarrow Seq(Bag(PossibleMessages))
-\end{array}\right]
-\]
+\end{array}\right]\label{eq:idxid->seq(bag(msg))}
+\end{equation}
 
 \end_inset
 
@@ -8414,9 +8549,9 @@ SourceActorIDs\times TargetActorIDs\\
 \end_layout
 
 \begin_layout Standard
-Für einen Aktor stehen alle Nachrichten zur Auswertung bereit, die sich
- in der jeweils ersten Bag einer Sequenz der Nachrichten befinden, welche
- an diesen Aktor gesendet wurden\SpecialChar \@.
+Ein Aktor kann alle Nachrichten auswerten, die sich in der jeweils ersten
+ Bag aller Sequenzen der Nachrichten befinden, welche an diesen Aktor gesendet
+ wurden\SpecialChar \@.
 
 \end_layout
 
@@ -8425,9 +8560,9 @@ Module
 \end_layout
 
 \begin_layout Standard
-Zur besseren Übersichtlichkeit ist das Ausführungsmodell in einzelne Mo\SpecialChar \-
-dule
- unterteilt (siehe 
+Zur besseren Übersichtlichkeit ist das TLA-Ausführungsmodell in einzelne
+ Mo\SpecialChar \-
+dule unterteilt (siehe 
 \begin_inset CommandInset ref
 LatexCommand formatted
 reference "fig:Allgemeines-Ausführungsmodell"
@@ -8435,11 +8570,29 @@ reference "fig:Allgemeines-Ausführungsmodell"
 \end_inset
 
 )\SpecialChar \@.
- Die Pfeile bedeuten hierbei, welche Module von welchen benutzt werden\SpecialChar \@.
+ Die Pfeile bedeuten hierbei welche Module aufeinander aufbauen\SpecialChar \@.
+ Beispielsweise
+ fliest das Modul 
+\emph on
 
- Die auswechselbaren Elemente des Ausführungsmodells sind grau dargestellt\SpecialChar \@.
+\begin_inset Formula $Utils$
+\end_inset
 
- Die direkten Repräsentationen der Aktoren haben abgerundete Ecken\SpecialChar \@.
+
+\emph default
+ in das Modul 
+\emph on
+
+\begin_inset Formula $ActorBase$
+\end_inset
+
+
+\emph default
+ und ist damit auch in allen anderen Modulen einbezogen\SpecialChar \@.
+ Die auswechselbaren
+ Elemente des Ausführungsmodells sind grau dargestellt\SpecialChar \@.
+ Die direkten Repräsentati
+onen der Aktoren haben abgerundete Ecken\SpecialChar \@.
 
 \end_layout
 
@@ -8469,7 +8622,7 @@ name "fig:Allgemeines-Ausführungsmodell"
 
 
 \begin_inset ERT
-status open
+status collapsed
 
 \begin_layout Plain Layout
 
@@ -8889,12 +9042,8 @@ Die Module sind in folgenden Gruppen zusammengefasst:
 \end_layout
 
 \begin_layout Description
-Aktor
-\begin_inset space ~
-\end_inset
-
-Umgebung Deklaration von Konstanten, Variablen und Operationen, die in anderen
- Modulen des Ausführungsmodells benutzt werden\SpecialChar \@.
+Aktorumgebung Deklaration von Konstanten, Variablen und Operationen, die
+ in anderen Modulen des Ausführungsmodells benutzt werden\SpecialChar \@.
 
 \end_layout
 
@@ -8913,11 +9062,11 @@ te Aktoren (
 \begin_inset Formula $PublicState$
 \end_inset
 
-), sowie die Deklaration der Operationen(
+), sowie die Deklaration der Operationen (
 \begin_inset Formula $Operations$
 \end_inset
 
-) und Ereignisse(
+) und Ereignisse (
 \begin_inset Formula $Events$
 \end_inset
 
@@ -8938,22 +9087,12 @@ reference "fig:Unterstütztes-Aktor-Modell-Checking"
 \end_inset
 
 )\SpecialChar \@.
- Das Modul 
-\emph on
-
-\begin_inset Formula $Actors$
-\end_inset
-
-
-\emph default
- fasst alle Aktoren zusammen, um die Verfügbarkeit für die Operationen des
- allgemeinen Verhaltens zu vereinheitlichen\SpecialChar \@.
 
 \end_layout
 
 \begin_layout Description
 Ausführungsumgebung Enthält Module, die allgemeine Mechanismen, wie die
- Erstellung und Verwerfung von Aktoren (
+ Erstellung und Freigabe von Aktoren (
 \begin_inset Formula $ActorLifecycle$
 \end_inset
 
@@ -8971,14 +9110,18 @@ Ausführungsumgebung Enthält Module, die allgemeine Mechanismen, wie die
 
 \begin_layout Description
 Ausführungsmodell Fasst die allgemeine Ausführungsumgebung und die Beschreibung
- der Aktoren zusammen und enthält die Spezifikation\SpecialChar \@.
+ der Aktoren zusammen und enthält die Spezifikation (
+\begin_inset Formula $Spec$
+\end_inset
+
+) des Ausführungsmodells\SpecialChar \@.
 
 \end_layout
 
 \begin_layout Standard
 \noindent
 Die Module 
-\begin_inset Formula $ActorEnvironment$
+\begin_inset Formula $ActorBase$
 \end_inset
 
 , 
@@ -9018,19 +9161,29 @@ Aktoren
 
 \end_layout
 
+\begin_layout Standard
+Der vollständige Code aller Module und der Konfiguration befindet sich im
+ Anhang 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chap:Ausführungsmodell"
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Section
 Die Aktorumgebung
 \end_layout
 
 \begin_layout Standard
-Die Aktorumgebung bildet die Grundlage des Ausführungsmodells und beinhaltet
- alles, was im weiteren Modell benötigt wird\SpecialChar \@.
- Im Modul 
+Im Modul 
 \begin_inset Formula $Utils$
 \end_inset
 
  befinden sich allgemeine Hilfsfunktionen und im Modul 
-\begin_inset Formula $ActorEnvironment$
+\begin_inset Formula $ActorBase$
 \end_inset
 
  werden die Grundlagen des Ausführungsmodells gelegt\SpecialChar \@.
@@ -9048,20 +9201,21 @@ Im Modul
 \begin_inset Formula $Utils$
 \end_inset
 
- sind alle Dinge definiert, die für das Ausführungsmodell zwar benötigt
- werden, aber so allgemein formuliert sind, dass sie im Prinzip auch in
- anderen Modellen genutzt werden könnten\SpecialChar \@.
+ sind Formel definiert, die für das Ausführungsmodell benötigt werden\SpecialChar \@.
+ Sie
+ sind so allgemein formuliert, dass sie auch in anderen Modellen genutzt
+ werden könnten\SpecialChar \@.
 
 \end_layout
 
 \begin_layout Standard
-Im Ausführungsmodell werden Funktionen (Records) definiert, um aktive Aktoren
- zu verwalten\SpecialChar \@.
+Im Ausführungsmodell werden Records definiert, um aktive Aktoren zu verwalten\SpecialChar \@.
+
  Um den Umgang mit diesen Funktionen zu ver\SpecialChar \-
 ein\SpecialChar \-
 fach\SpecialChar \-
-en wurden
- zusätzlich zu den Operationen von TLA+ noch folgende hinzugefügt: 
+en wurden zusätzlich zu
+ den Operationen von TLA+ noch folgende hinzugefügt: 
 \end_layout
 
 \begin_layout Description
@@ -9302,17 +9456,6 @@ MergeFunctionsWithBags(f,g)(x)=f(x)\oplus g(x)
 
 \end_layout
 
-\begin_layout Standard
-Der vollständige Code des Moduls befindet sich im Anhang 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "sec:Das-Utils-Modul"
-
-\end_inset
-
-
-\end_layout
-
 \begin_layout Subsection
 Das Modul 
 \emph on
@@ -9321,13 +9464,11 @@ ActorBase
 
 \begin_layout Standard
 Das Modul 
-\begin_inset Formula $ActorEnvironment$
+\begin_inset Formula $ActorBase$
 \end_inset
 
- definiert alles was im gesamten Ausführungsmodell benötigt wird\SpecialChar \@.
- Neben der
- Deklaration von Konstanten und Variablen werden die Typen (siehe Abschnitt
- 
+ definiert Konstanten die den Rahmen der Simulation eingrenzen, Variablen
+ für Aktoren und Nachrichten, Typen (siehe Abschnitt 
 \begin_inset CommandInset ref
 LatexCommand vref
 reference "sub:ReActor-Datentypen"
@@ -9341,18 +9482,18 @@ reference "sub:ReActor-Datentypen"
 \end_layout
 
 \begin_layout Standard
-Der vollständige Code des Moduls befindet sich im Anhang 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "sec:Das-ActorBase-Modul"
-
-\end_inset
-
 
 \end_layout
 
 \begin_layout Subsubsection
 Konstanten
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Konstanten"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Description
@@ -9361,9 +9502,12 @@ Konstanten
 ActorIDs
 \emph default
  Die Menge aller AktorIDs\SpecialChar \@.
- Der Einfachheitshalber sind AktorIDs Zahlen\SpecialChar \@.
+ Der Einfachheit halber sind AktorIDs Zahlen\SpecialChar \@.
  Die
- Menge sollte nur so viele IDs enthalten wie tatsächlich benötigt werden\SpecialChar \@.
+ Menge sollte nur so viele IDs enthalten wie in der Simulation tatsächlich
+ benötigt werden\SpecialChar \@.
+ Die Anzahl der AktorIDs entspricht der Anzahl der Aktoren
+ die zu einem Zeitpunkt der Simulation maximal existieren können\SpecialChar \@.
 
 \end_layout
 
@@ -9381,11 +9525,9 @@ name "Konstante-MaximumSizeOfMessageBag"
 \emph default
  Die maximal zulässige Länge der Einzelnen Queues in dem globalen Nachrichtenpuf
 fer\SpecialChar \@.
- Die Größe wird beschränkt, um den Zustandsraum des Aktormodells einzugrenzen\SpecialChar \@.
-
- Ist die maximale Größe erreicht, müssen erst Nachrichten zugestellt werden,
- bevor ein Ereignis ausgewertet werden kann, das eine Nachricht für die
- entsprechenden Queues sendet\SpecialChar \@.
+ Ist die maximale Größe erreicht, müssen erst Nachrichten zugestellt
+ werden, bevor ein Ereignis ausgewertet werden kann, das eine Nachricht
+ für die entsprechenden Queues sendet\SpecialChar \@.
 
 \end_layout
 
@@ -9404,17 +9546,9 @@ nat
 \begin_inset Quotes prd
 \end_inset
 
- der Aktorzustände verwendet, um die Zahl möglicher Zustände zu reduzieren
- (siehe Abschnitt 
-\begin_inset CommandInset ref
-LatexCommand vref
-reference "sec:ReActor-Einschränkungen"
-
-\end_inset
-
-)\SpecialChar \@.
- Es sollten nur die unbedingt notwendigen Zahlen in dieser Menge enthalten
- sein\SpecialChar \@.
+ der Aktorzustände verwendet\SpecialChar \@.
+ Es sollten nur die unbedingt notwendigen Zahlen
+ in dieser Menge enthalten sein\SpecialChar \@.
  Für die Berechnung der Fakultät von 
 \begin_inset Formula $4$
 \end_inset
@@ -9424,6 +9558,39 @@ reference "sec:ReActor-Einschränkungen"
 \end_inset
 
  aus\SpecialChar \@.
+
+\end_layout
+
+\begin_layout Description
+
+\emph on
+PossibleLengthOfSequences
+\emph default
+ Die maximal zulässige Länge von Sequenzen\SpecialChar \@.
+ Bei der Auswertung des Modells
+ werden nur Sequenzen berücksichtigt, die nicht länger als die zulässige
+ Länge sind\SpecialChar \@.
+
+\end_layout
+
+\begin_layout Standard
+Die Länge der Nachrichten Queues und der Sequenzen sowie der Datentyp 
+\begin_inset Quotes pld
+\end_inset
+
+nat
+\begin_inset Quotes prd
+\end_inset
+
+ werden beschränkt, um den Zustandsraum des Aktormodells wie in Abschnitt
+ 
+\begin_inset CommandInset ref
+LatexCommand vref
+reference "sec:ReActor-Einschränkungen"
+
+\end_inset
+
+ beschrieben einzugrenzen\SpecialChar \@.
 
 \end_layout
 
@@ -9450,8 +9617,15 @@ Variablen
 \emph on
 actors
 \emph default
- Eine Funktion, die von ActorIDs auf Funktionen abbildet, die Aktoren repräsenti
-eren, wie beispielhaft in 
+ Eine Funktion, die wie in Abschnitt 
+\begin_inset CommandInset ref
+LatexCommand vref
+reference "sub:Aktoren"
+
+\end_inset
+
+ beschrieben, von ActorIDs auf Funktionen abbildet, die Aktoren repräsentieren,
+ wie beispielhaft in 
 \begin_inset CommandInset ref
 LatexCommand formatted
 reference "fig:Beispiel-actors"
@@ -9508,9 +9682,16 @@ filename "/home/dstulle/usr/uni/diplom/executionmodel/ExampleActors.inc"
 \emph on
 messages
 \emph default
- Eine Funktion, die auf eine Sequenz von Bags von Nachrichten abbildet und
- somit alle gesendeten Nachrichten enthält, bevor diese durch den jeweiligen
- Aktor ausgewertet werden, wie beispielhaft in 
+ Eine Funktion, die wie in Abschnitt 
+\begin_inset CommandInset ref
+LatexCommand vref
+reference "sub:Nachrichten"
+
+\end_inset
+
+ beschrieben, auf eine Sequenz von Bags von Nachrichten abbildet und somit
+ alle gesendeten Nachrichten enthält, bevor diese durch den jeweiligen Aktor
+ ausgewertet werden, wie beispielhaft in 
 \begin_inset CommandInset ref
 LatexCommand formatted
 reference "fig:Beispiel-messages"
@@ -9561,13 +9742,6 @@ filename "/home/dstulle/usr/uni/diplom/executionmodel/ExampleMessages.inc"
 
 \end_layout
 
-\begin_layout Standard
-\begin_inset Newpage pagebreak
-\end_inset
-
-
-\end_layout
-
 \begin_layout Subsubsection
 Datentypen
 \end_layout
@@ -9582,7 +9756,11 @@ Für die Beschreibung des Zustandes der Aktoren werden folgende Datentypen
 \emph on
 NatType
 \emph default
- Endliche Menge natürlicher Zahlen, die aus der Menge FNat (s.o.) besteht\SpecialChar \@.
+ Endliche Menge natürlicher Zahlen, die aus der Menge 
+\emph on
+FNat
+\emph default
+ (s.o.) besteht\SpecialChar \@.
 
 \end_layout
 
@@ -9604,13 +9782,35 @@ RefType
  Endliche Menge natürlicher Zahlen, die zur Identifizierung und somit auch
  zur Referenzierung von Aktoren dienen\SpecialChar \@.
  Mögliche Werte werden durch die Konstante
- ActorIDs (s.o.) definiert\SpecialChar \@.
+ 
+\emph on
+ActorIDs
+\emph default
+ (s.o.) definiert\SpecialChar \@.
+
+\end_layout
+
+\begin_layout Description
+
+\emph on
+SeqType
+\emph default
+(
+\emph on
+x
+\emph default
+) Endliche Menge aller sequenzen, die aus Elementen der Menge 
+\emph on
+x
+\emph default
+ gebildet werden können\SpecialChar \@.
 
 \end_layout
 
 \begin_layout Standard
-Für jeden Typ wird ein Platzhalter für einen beliebigen Wert definiert,
- 
+Für jeden Typ wird ein Wert festgelegt, der als beliebiger Wert verwendet
+ werden kann\SpecialChar \@.
+ Diese Werte sind mit 
 \begin_inset Formula $AnyNat$
 \end_inset
 
@@ -9618,92 +9818,127 @@ Für jeden Typ wird ein Platzhalter für einen beliebigen Wert definiert,
 \begin_inset Formula $AnyBool$
 \end_inset
 
- und 
+, 
 \begin_inset Formula $AnyRef$
 \end_inset
 
-\SpecialChar \@.
+ und 
+\begin_inset Formula $AnySeq(x)$
+\end_inset
+
+ benannt\SpecialChar \@.
  
 \end_layout
 
 \begin_layout Standard
-Durch die 
+Durch die Invariante 
 \begin_inset Formula $ActorIDsInvariant$
 \end_inset
 
- soll sichergestellt werden, dass der Environment Aktor zu jeder Zeit existiert
- und die aktiven sowie freien Aktor IDs sich nicht überschneiden, aber dennoch
+ soll sichergestellt werden, dass der Environmentaktor zu jeder Zeit existiert
+ und die aktiven sowie freien AktorIDs sich nicht überschneiden, aber dennoch
  in ihrer Gesamtheit alle möglichen Aktor IDs beinhalten\SpecialChar \@.
 
 \end_layout
 
 \begin_layout Section
-Die Aktoren
+Das Ausführungsmodell
 \end_layout
 
-\begin_layout Standard
-Die Module 
-\begin_inset Formula $EnvironmentActor$
-\end_inset
-
-, 
-\begin_inset Formula $FactorialStepActor$
-\end_inset
-
- und 
-\begin_inset Formula $Actors$
-\end_inset
-
- sind automatisch aus dem ReActor Beispiel generiert.
- Die Module der Aktoren definieren das eigentliche Verhalten des Systems\SpecialChar \@.
-
- Zur besseren Anschaulichkeit stellen die Aktoren eine beispielhafte Implementie
-rung eines Systems zur Berechnung der Fakultät dar\SpecialChar \@.
-
-\end_layout
-
-\begin_layout Standard
-Die einzelnen Aktormodule beschreiben Konstanten, mögliche Zustände, Acquaintanc
-es, Public State, Operationen, Events und sonstige Prädikate der jeweiligen
- Aktoren, die in den ReActor Quelldateien spezifiziert wurden\SpecialChar \@.
-
-\end_layout
-
-\begin_layout Standard
+\begin_layout Subsection
 Das Modul 
-\begin_inset Formula $Actors$
+\emph on
+ActorExecutionModel
+\end_layout
+
+\begin_layout Standard
+Im Modul 
+\begin_inset Formula $ActorExecutionModel$
 \end_inset
 
- fasst die Deklarationen aus den einzelnen Aktormodulen zusammen, so dass
- eine einheitliche Verwendung einzelner Aktoren durch die Ausführungsumgebung
- möglich ist\SpecialChar \@.
+ wird das Ausführungsmodell zusammengefasst und die eigentliche Spezifikation
+ und ein Theorem definiert.
+\end_layout
+
+\begin_layout Standard
+Im Schritt 
+\begin_inset Formula $Next$
+\end_inset
+
+ wird abwechselnd eine Aktion für eine beliebige aktive ActorID ausgewertet
+ oder nicht systemrelvante Aktoren freigegeben\SpecialChar \@.
+ Da TLC die TLA-Komposition
+ von zwei Operationen (
+\begin_inset Formula $\cdot$
+\end_inset
+
+) nicht unterstützt, wird eine Variable 
+\begin_inset Formula $cycle$
+\end_inset
+
+ verwendet, die sicherstellt, dass nach jeder Aktion aufgeräumt wird\SpecialChar \@.
+ Das
+ entspricht zwar nicht exakt der Komposition aus TLA+, hat aber in diesem
+ Zusammenhang den selben gewünschten Effekt\SpecialChar \@.
 
 \end_layout
 
 \begin_layout Standard
-Der vollständige Code der Module des Beispiels zur Berechnung der Fakultät
- befindet sich in den Anhängen 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "sec:Das-EnvironmentActor-Modul"
+\begin_inset Formula 
+\[
+\E id\in ActiveActorIDs:ActorAction(id)\cdot CleanUpActors
+\]
 
 \end_inset
 
-, 
+
+\end_layout
+
+\begin_layout Standard
+
+\end_layout
+
+\begin_layout Subsection
+Die 
+\emph on
+ActorExecutionModel
+\emph default
+ Konfiguration
+\end_layout
+
+\begin_layout Standard
+In der Konfigurationsdatei werden die Konstanten des Aus\SpecialChar \-
+füh\SpecialChar \-
+rungs\SpecialChar \-
+mo\SpecialChar \-
+dells,
+ die in Abschnitt 
 \begin_inset CommandInset ref
-LatexCommand ref
-reference "sec:Das-FactorialStepActor-Modul"
+LatexCommand vref
+reference "sub:Konstanten"
 
 \end_inset
 
- und 
+ erwähnt sind und eventuelle Konstanten der Aktoren gesetzt\SpecialChar \@.
+
+\end_layout
+
+\begin_layout Standard
+Die Festlegung der Konstanten orientiert sich am gegebenen Beispiel zur
+ Berechnung der Fakultät und ist darauf abgestimmt die Fakultät von 4 zu
+ berechnen\SpecialChar \@.
+
+\end_layout
+
+\begin_layout Standard
+Das vollständige Beispiel einer Konfiguration passend zum Beispiel befindet
+ sich im Anhang 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "sec:Das-Actors-Modul"
+reference "sub:Die-ActorExecutionModel-Konfigur"
 
 \end_inset
 
-\SpecialChar \@.
 
 \end_layout
 
@@ -9722,22 +9957,17 @@ Das Modul
 \begin_inset Formula $ActorLifecycle$
 \end_inset
 
- beschreibt die Erzeugung neuer Aktoren und die Verwerfung alter Aktoren,
- die nicht mehr direkt oder indirekt vom Environment Aktor referenziert
- sind\SpecialChar \@.
+ beschreibt die Erzeugung neuer und die Freigabe alter Aktoren, die nicht
+ mehr direkt oder indirekt vom Environment Aktor referenziert sind\SpecialChar \@.
 
 \end_layout
 
 \begin_layout Standard
-Der vollständige Code des Moduls befindet sich im Anhang 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "sec:Das-ActorLifecycle-Modul"
 
-\end_inset
+\end_layout
 
-\SpecialChar \@.
-
+\begin_layout Standard
+Im Folgenden werden die Haupteigenschaften des Lebenszykluses Näher erläutert.
 \end_layout
 
 \begin_layout Subsubsection
@@ -9758,8 +9988,8 @@ Die Operation
 \end_inset
 
  erreichbar sind\SpecialChar \@.
- Es wird sozusagen ein Acquaintance-Baum generiert und eine
- Menge aller IDs diese Baumes zurückgegeben\SpecialChar \@.
+ Es wird ein Erriechbarkeits-Baum generiert und eine Menge
+ aller IDs in diesem Baum zurückgegeben\SpecialChar \@.
 
 \end_layout
 
@@ -9773,7 +10003,7 @@ Die Operation
 \end_inset
 
  werden alle Aktor IDs ermittelt, zu denen noch mindestens eine Nachricht
- existiert, die verarbeitet werden kann\SpecialChar \@.
+ existiert, die verarbeitet werden kann (enabled message)\SpecialChar \@.
  
 \begin_inset Formula $ActorIDsWithEnabledEvent$
 \end_inset
@@ -9788,7 +10018,7 @@ Letztendlich werden in
 \begin_inset Formula $ObsoleteActorIDs$
 \end_inset
 
- alle Aktor IDs ermittelt, die werder durch den Umgebungs-Aktor direkt oder
+ alle Aktor IDs ermittelt, die weder durch den Umgebungs-Aktor direkt oder
  indirekt referenziert werden (
 \begin_inset Formula $ReferencesActorIDs$
 \end_inset
@@ -9797,7 +10027,7 @@ Letztendlich werden in
 \begin_inset Formula $ActorIDsWithPendingMessage$
 \end_inset
 
-) noch bei keinem mögliches Ereignis die Bedingungen für dessen Ausführung
+) noch bei keinem möglichem Ereignis die Bedingungen für dessen Ausführung
  zutreffend sind (
 \begin_inset Formula $ActorIDsWithEnabledEvent$
 \end_inset
@@ -9830,22 +10060,27 @@ Durch die Operation
 \begin_inset Formula $CreateActor(actorInit)$
 \end_inset
 
- erzeugt\SpecialChar \@.
- In der aktuellen Implementierung ist es nicht möglich mehrere Aktoren
- eines Typs mit identischem Startzustand zu initialisieren\SpecialChar \@.
- Bei Bedarf ist
- die Möglichkeit analog zur Operation 
+ erzeugt und der globalen Funktion 
+\begin_inset Formula $actors$
+\end_inset
+
+ hinzugefügt\SpecialChar \@.
+ In der aktuellen Implementierung des Ausführungsmodells ist
+ es nicht möglich mehrere Aktoren eines Typs mit identischem Startzustand
+ zu initialisieren, da es für die in dieser Arbeit verwendeten Beispiele
+ nicht notwendig war\SpecialChar \@.
+ Bei Bedarf ist diese Möglich analog zur Operation 
 \begin_inset Formula $CreateMessages(messagesInitSet)$
 \end_inset
 
-, die 
+ (siehe 
 \begin_inset CommandInset ref
 LatexCommand vpageref
 reference "Operation-CreateMessages"
 
 \end_inset
 
- erwähnt wird, zu formulieren\SpecialChar \@.
+), nachträglich hin zu zu fügen\SpecialChar \@.
 
 \end_layout
 
@@ -9854,8 +10089,8 @@ Bereinigung und Initialisierung
 \end_layout
 
 \begin_layout Standard
-Die Formel 
-\begin_inset Formula $CleaneUpActors$
+Der Ausdruck 
+\begin_inset Formula $CleanUpActors$
 \end_inset
 
  beschreibt einen Systemschritt, indem alle Aktoren die auf Grund der oben
@@ -9872,7 +10107,7 @@ Die Formel
 \end_layout
 
 \begin_layout Standard
-Die Formel 
+Der Ausdruck 
 \begin_inset Formula $ActorsInit$
 \end_inset
 
@@ -9921,11 +10156,17 @@ Die Operation
 \begin_inset Formula $CreateMessage(messageInit)$
 \end_inset
 
- wandelt den einfachen Record mit allen Eckdaten der Nachricht in das Format
- um, mit dem das Ausführungsmodell arbeitet\SpecialChar \@.
- Dadurch muss bei einer Änderung
- des Ausführungsmodells, die diese Formatierung betrifft der Transformator
- nicht entsprechend angepasst werden\SpecialChar \@.
+ erhält mit dem übergebenen Record 
+\begin_inset Formula $messageInit$
+\end_inset
+
+ alle Eckdaten der Nachricht\SpecialChar \@.
+ Sie wandelt diesen in das Format um, mit dem
+ das Ausführungsmodell arbeitet\SpecialChar \@.
+ Durch diese Umwandlung muss bei einer Änderung
+ des Ausführungsmodells, die eine Änderung des Nachrichtenformates zur Folge
+ hat der Transformator nicht komplett angepasst werden, sondern lediglich
+ diese Operation\SpecialChar \@.
 
 \end_layout
 
@@ -9943,6 +10184,15 @@ name "Operation-CreateMessages"
 
  wandelt die gegebene Menge zu erstellender Nachrichten in eine Funktion
  um, die von Empfänger IDs nach Bags von Nachrichten abbildet\SpecialChar \@.
+ Elemente übergeben
+e Menge 
+\begin_inset Formula $messagesInitSet$
+\end_inset
+
+ beinhalten auch Informationen über zu sendene Anzahl der Nachrichten\SpecialChar \@.
+ dadurch
+ können mehrere gleichartige Nachrichten in einem Schritt versendet werden\SpecialChar \@.
+
  
 \begin_inset Formula 
 \[
@@ -9959,14 +10209,13 @@ Durch die Operation
 \begin_inset Formula $MaxLenOfMessageQueue(msgsBuffer)$
 \end_inset
 
- lässt sich die längste Sequenz aller Nachrichten Queues des Nachrichtenpuffers
+ lässt sich die längste Sequenz aller Nachrichtenqueues im Nachrichtenpuffer
  
 \begin_inset Formula $msgsBuffer$
 \end_inset
 
  ermitteln\SpecialChar \@.
- Diese Operation wird unter anderem dann benötigt, wenn durch
- die Invariante 
+ Diese Operation wird benötigt, wenn durch die Invariante 
 \begin_inset Formula $MessageQueueLenInvariant$
 \end_inset
 
@@ -9992,14 +10241,6 @@ reference "Konstante-MaximumSizeOfMessageBag"
 \end_layout
 
 \begin_layout Standard
-Der vollständige Code des Moduls befindet sich im Anhang 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "sec:Das-ActorMessages-Modul"
-
-\end_inset
-
-\SpecialChar \@.
 
 \end_layout
 
@@ -10014,13 +10255,13 @@ Das Modul
 \begin_inset Formula $ActorActions$
 \end_inset
 
- beschreibt die Ausführung der Aktionen, also der Ereignisse und Operationen\SpecialChar \@.
-
- Hierbei werden unter Verwendung der Definitionen der einzelnen Aktoren
- alle möglichen Zustände, mögliche neue Aktoren und mögliche neue Nachrichten
- generiert und gegen das entsprechende Prädikat der jeweiligen Aktionen
- geprüft\SpecialChar \@.
- Durch diese Aktionen werden die Folgezustände des Systems ermittelt\SpecialChar \@.
+ beschreibt Ereignisse und Operationen\SpecialChar \@.
+ Hierbei werden unter Verwendung der
+ Definitionen der einzelnen Aktoren alle möglichen Zustände, mögliche neue
+ Aktoren und mögliche neue Nachrichten generiert und gegen das entsprechende
+ Prädikat der jeweiligen Aktionen geprüft\SpecialChar \@.
+ Durch diese Aktionen werden die
+ Folgezustände des Systems ermittelt\SpecialChar \@.
 
 \end_layout
 
@@ -10031,7 +10272,7 @@ Die Operation
 
  dient der Ermittlung der Anzahl der derzeit freien ActorIDs\SpecialChar \@.
  Diese Information
- wird benötigt, um fest zu stellen, ob alle Aktoren eines Schrittes wirklich
+ wird benötigt, um festzustellen, ob alle Aktoren eines Schrittes wirklich
  erzeugt werden können\SpecialChar \@.
 
 \end_layout
@@ -10040,31 +10281,8 @@ Die Operation
 \begin_inset Formula $ActorsWithReplacedState(id,state)$
 \end_inset
 
- Liefert alle Aktoren, wobei der Status des Aktors mit der ID 
-\begin_inset Quotes pld
-\end_inset
-
-
-\begin_inset Formula $id$
-\end_inset
-
-
-\begin_inset Quotes prd
-\end_inset
-
- komplett durch den gegebenen Status 
-\begin_inset Quotes pld
-\end_inset
-
-
-\begin_inset Formula $state$
-\end_inset
-
-
-\begin_inset Quotes prd
-\end_inset
-
- ersetzt wurde\SpecialChar \@.
+ liefert alle Aktoren, wobei der Status des Aktors mit der angegeben ID
+ durch den neuen Status ersetzt wurde\SpecialChar \@.
 
 \end_layout
 
@@ -10074,17 +10292,34 @@ Die Operation
 \end_inset
 
  nimmt alle in einem Schritt erzeugten Nachrichten (
-\begin_inset Formula $msgs:[TargetActorIDs\rightarrow Bag(NewMessages)]$
+\begin_inset CommandInset ref
+LatexCommand vref
+reference "eq:msgs"
+
 \end_inset
 
 ) und hängt die Bag mit der übergebenen AktorID des Senders an die entsprechende
- Queue des Globalen Nachrichtenpuffers (
-\begin_inset Formula $[SourceActorIDs\times TargetActorIDs\rightarrow Seq(Bag(Messages))]$
+ Queue des globalen Nachrichtenpuffers (siehe 
+\begin_inset CommandInset ref
+LatexCommand vref
+reference "eq:idxid->seq(bag(msg))"
+
 \end_inset
 
 )\SpecialChar \@.
  Wenn noch keine Queue an der entsprechenden Stelle vorhanden ist, wird
  eine neue erzeugt\SpecialChar \@.
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+[TargetActorIDs\rightarrow Bag(NewMessages)]\label{eq:msgs}
+\end{equation}
+
+\end_inset
+
 
 \end_layout
 
@@ -10095,10 +10330,28 @@ In der Operation
 
  wird ein Aktionsschritt ausgewertet\SpecialChar \@.
  Zunächst wird überprüft ob die Vorbedingung
- für den Aktionsschritt erfüllt ist.
- Dann werden aus allen möglichen Zuständen des jeweiligen Typen, möglichen
- neuen Aktoren und möglichen Nachrichten diejenigen gewählt, die das in
- der Aktion formulierte Prädikat erfüllen\SpecialChar \@.
+ für den Aktionsschritt erfüllt ist\SpecialChar \@.
+ Die Vorbedingung wird durch die Operation
+ 
+\begin_inset Formula $ActionCondition(kind,type,name,StateOf(id),message)$
+\end_inset
+
+ aus dem Modul 
+\emph on
+
+\begin_inset Formula $Actors$
+\end_inset
+
+
+\emph default
+ überprüft\SpecialChar \@.
+
+\end_layout
+
+\begin_layout Standard
+Nach der Überprüfung werden aus allen möglichen Zuständen des jeweiligen
+ Typs, neuen Aktoren und gesendete Nachrichten diejenigen gewählt, die das
+ in der Aktion formulierte Prädikat erfüllen\SpecialChar \@.
 
 \end_layout
 
@@ -10317,115 +10570,68 @@ wedge messages' = MergeMessagesToBuffer(}%
 \end_layout
 
 \begin_layout Standard
-Der vollständige Code des Moduls befindet sich im Anhang 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "sec:Das-ActorActions-Modul"
-
-\end_inset
-
-\SpecialChar \@.
 
 \end_layout
 
 \begin_layout Section
-Das Ausführungsmodell
+Die Aktoren
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Standard
+Die Module 
+\begin_inset Formula $EnvironmentActor$
+\end_inset
+
+, 
+\begin_inset Formula $FactorialStepActor$
+\end_inset
+
+ und 
+\begin_inset Formula $Actors$
+\end_inset
+
+ sind automatisch aus dem ReActor Beispiel generiert.
+ Die Module der Aktoren definieren das eigentliche Verhalten des Systems\SpecialChar \@.
+
+ Zur besseren Anschaulichkeit stellen die Aktoren eine beispielhafte 
+\begin_inset Marginal
+status collapsed
+
+\begin_layout Plain Layout
+TODO: Auf das Beispiel aus dem Lösungsansatz verweisen.
+\end_layout
+
+\end_inset
+
+Implementierung eines Systems zur Berechnung der Fakultät dar\SpecialChar \@.
+
+\end_layout
+
+\begin_layout Standard
+Die einzelnen Aktormodule beschreiben Konstanten, mögliche Zustände, Bekannte
+ Aktoren (Acquaintances), den Sichtbaren Zustand, Operationen, Events und
+ sonstige Prädikate der jeweiligen Aktoren, die in den ReActor Quelldateien
+ spezifiziert wurden\SpecialChar \@.
+
+\end_layout
+
+\begin_layout Standard
 Das Modul 
 \emph on
-ActorExecutionModel
-\end_layout
 
-\begin_layout Standard
-Im Modul 
-\begin_inset Formula $ActorExecutionModel$
-\end_inset
-
- wird das Ausführungsmodell zusammen gefasst und die eigentliche Spezifikation
- und ein Theorem definiert.
-\end_layout
-
-\begin_layout Standard
-Im Schritt 
-\begin_inset Formula $Next$
-\end_inset
-
- wird abwechselnd eine Aktion für eine beliebige aktive ActorID ausgewertet
- oder die Aktoren von nicht mehr benötigten bereinigt\SpecialChar \@.
- Da TLC die Komposition
- von zwei Operationen (
-\begin_inset Formula $\cdot$
-\end_inset
-
-) wie in TLA+ nicht unterstützt, wird eine Variable 
-\begin_inset Formula $cycle$
-\end_inset
-
- verwendet, die sicherstellt, dass nach jeder Aktion aufgeräumt wird\SpecialChar \@.
- Das
- entspricht zwar nicht exakt der Komposition aus TLA+, hat aber in diesem
- Zusammenhang denselben gewünschten Effekt\SpecialChar \@.
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\[
-\E id\in ActiveActorIDs:ActorAction(id)\cdot CleanUpActors
-\]
-
+\begin_inset Formula $Actors$
 \end_inset
 
 
-\end_layout
-
-\begin_layout Standard
-Der vollständige Code des Moduls befindet sich im Anhang 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "sec:Das-ActorExecutionModel-Modul"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Subsection
-Die 
-\emph on
-ActorExecutionModel
 \emph default
- Konfiguration
-\end_layout
-
-\begin_layout Standard
-In der Konfigurationsdatei werden die Konstanten des Aus\SpecialChar \-
-füh\SpecialChar \-
-rungs\SpecialChar \-
-mo\SpecialChar \-
-dells
- und der Aktoren gesetzt und die Spezifikation sowie die Invariante festgelegt\SpecialChar \@.
-
-\end_layout
-
-\begin_layout Standard
-Die Festlegung der Konstanten orientiert sich am gegebenen Beispiel zur
- Berechnung der Fakultät und ist darauf abgestimmt die Fakultät von 4 zu
- berechnen\SpecialChar \@.
-
-\end_layout
-
-\begin_layout Standard
-Das vollständige Beispiel einer Konfiguration passend zum Beispiel befindet
- sich im Anhang 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "sub:Die-ActorExecutionModel-Konfigur"
-
+ fasst die Deklarationen aller Aktoren zusammen, und stellt generische Operation
+en zur Verfügung\SpecialChar \@.
+ Das Modul 
+\begin_inset Formula $ActorLifecycle$
 \end_inset
 
+ kann so alle Operationen der Aktoren nutzen ohne jeden einzelnen Aktor
+ zu kennen\SpecialChar \@.
 
 \end_layout
 
