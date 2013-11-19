@@ -1,0 +1,221 @@
+
+(* The description of an actor class *)
+actor = "(", "class", identifier, {declarations}, ")";
+
+identifier = letter, { letter | digit | "_" }
+
+letter = "a" | "b" | "c" | "d" | "e" | "f" | "g"
+       | "h" | "i" | "j" | "k" | "l" | "m" | "n"
+       | "o" | "p" | "q" | "r" | "s" | "t" | "u"
+       | "v" | "w" | "x" | "y" | "z"
+       | "A" | "B" | "C" | "D" | "E" | "F" | "G"
+       | "H" | "I" | "J" | "K" | "L" | "M" | "N"
+       | "O" | "P" | "Q" | "R" | "S" | "T" | "U"
+       | "V" | "W" | "X" | "Y" | "Z";
+
+digit = "0" | "1" | "2" | "3" | "4" 
+      | "5" | "6" | "7" | "8" | "9";
+
+
+declarations = [ constants , assumptions ] ,
+               variables , invariant ,
+               acquaintances ,
+               [public_state] , init_predicate,
+               events, operations
+
+(* declaration of constants *)
+constants = "(", ("constant" | "constants"), { type_identifier_pair }, ")";
+
+(* assumptions for constants *)
+assumptions = "(", "assume", bool, ")";
+
+(* declaration of variables *)
+variables = "(", ("variable" | "variables"), { type_identifier_pair }, ")";
+
+(* invariant for variables *)
+invariant = "(", "invatiant", bool, ")";
+
+(* declaration of acquaintances *)
+acquaintances = "(", ("acquaintance" | "acquaintances") set, ")";
+
+(* declaration of the public state *)
+public_state = "(", "public-state", any_value, ")";
+
+(* declaration of public init predicate *)
+init_predicate = "(" "init-predicate", bool ")";
+
+(* declaration of events *)
+events = "(", "events", {event}, ")"
+
+(* declaration of events *)
+operations = "(", "operations", {operation}, ")"
+
+
+type_identifier_pair = "(", variable_type, identifier, ")"           
+
+(* denotes the type of a constant, variable or argument *)
+(* bool - value is either true or false *)
+(* nat - value is a natural number *)
+(* ref - value is a reference to an actor. *)
+(* set - value is a set. Possibly containing any kind of values (nat, text, set) *)
+(* seq - value is a sequence. The Sequence contains values of the given type *)
+variable_type = "bool" | "nat" | "ref" |
+                "set" | ( "(", "seq", variable_type, ")" )
+
+
+(* identifier for a variable *)
+(* remarks: pre- and post-statements must only appear in an action_body *)
+(*          message-statements must only appear in action_body of operation *)
+variable_identifier = identifier
+                    | pre_statement
+                    | post_statement
+                    | message_statement;
+
+pre_statement = "(", "pre", identifier, ")";
+
+post_statement = "(", "posts", identifier, ")";
+
+message_statement = "(", "message", identifier, ")";
+
+
+any_value = bool | nat | ref | set | sequence | if_then_else | sequence_head;
+
+if_then_else = "(", "if" bool, any_value, any_value, ")"
+
+sequence_head = "(", "head", sequence, ")"
+
+
+(* boolean operations *)
+
+bool = "#t" | "#f"
+     | variable_identifier
+     | operation_bool
+     | operation_comparison_nat,
+     | operation_element_set,
+     | operation_comparison_set;
+
+operation_bool = "(",
+                 (operator_bool_mul, bool, bool, {bool}
+                 | operator_bool_un, bool),
+                 ")";
+
+operator_bool_mul = "and" | "or";
+
+operator_bool_un = "not";
+
+
+operation_comparison_nat = "(", operator_comparison_nat, nat, nat, ")";
+
+operator_comparison_nat = "=" | ">" | "<" | "!="
+
+
+operation_element_set = "(", operator_element_set, any_value, set ")";
+
+operator_element_set = "element-of" | "no-element-of"
+
+
+operation_comparison_set = "(", operator_comparison_set, set, set ")";
+
+operator_comparison_set = "subset" | "proper_subset"
+                          "supset" | "proper_supset"
+
+
+
+(* natural number operations *)
+
+nat = (digit, {digit}) 
+    | variable_identifier 
+    | operation_nat
+    | sequence_length
+    | ( "(", "any", "nat", ")");
+
+operation_nat = "(", operator_nat_bin, nat, nat, ")";
+
+operator_nat_bin = "+" | "-" | "*" | "div" | "mod" ;
+
+operator_nat_un = "-" ;
+
+sequence_length = "(", "length", sequence ")";
+
+
+
+
+(* actor references *)
+
+ref = (digit, {digit})
+    | "self"
+    | new_ref
+    | ( "(", "any", "ref", ")");
+
+new_ref = "(", "@", digit, {digit}, ")";
+
+
+
+(* set operations *)
+
+set = "emptyset"
+    | variable_identifier
+    | operation_set
+    | enum_2_set
+    | ( "(", "any", "set", ")");
+
+operation_set = "(", operator_set, set, set, ")";
+
+operator_set = "set-union" | "set-intersection" | "set-difference";
+
+enum_2_set = "(", "enum->set", {int | bool | set | sequence }, ")"
+
+
+
+(* sequence operations *)
+
+sequence = "empty-sequence"
+         | sequence_append         
+         | sequence_concat
+         | sequence_tail
+         | ( "(", "any", "sequence", ")");
+
+sequence_append = "(", "append", sequence, any_value ")";
+
+sequence_concat = "(", "concat", sequence, sequence, ")";
+
+sequence_tail = "(", "tail", sequence, ")";
+
+
+
+event = "(", "event", identifier, guard_expression,
+           action_body, ")";
+
+operation = "(", "operation", identifier, arguments, guard_expression
+            action_body, ")";
+
+
+guard_expression = bool
+
+
+action_body = bool | action;
+
+action = initializing | messaging | unchanged;
+
+
+(* initializing new actors *)
+initializing = "(", "new", {new} ")";
+               
+new = "(", identifier, ref, assignment_list ")";
+
+assignment_list = "(", {assignment}, ")";
+
+assignment = "(" identifier, any_value, ");"
+
+
+(* communicating: sending a message to another actor *)
+messaging = "(", "send", {send}, ")";
+
+send = "(", amount, identifier, assignment_list, ref, ")";
+
+amount = nat
+
+
+(* value of variable will be unchanged*)
+unchanged = "(", "unchanged", {identifier} ")";
+

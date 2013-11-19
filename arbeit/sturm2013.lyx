@@ -1146,7 +1146,14 @@ Konzeption und Implementierung eines Übersetzungsschemas zur automatischen
 \end_layout
 
 \begin_layout Subtitle
-Version 0.4_alpha
+\begin_inset Formula 
+\[
+4!=24
+\]
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Author
@@ -1315,10 +1322,9 @@ key "agha1990a"
  Das Aktormodell nutzt zur Prozesskommunikation keinen gemeinsamen Speicherberei
 ch (shared memory) sondern Nachrichten (message passing)\SpecialChar \@.
  Ein Aktor kann
- im Nachrichten verarbeiten und senden sowie neue Aktoren erzeugen\SpecialChar \@.
- Eine
- detailiertere Einführung in die Grundprinzipien des Aktormodells befindet
- sich in 
+ Nachrichten verarbeiten und senden sowie neue Aktoren erzeugen\SpecialChar \@.
+ Eine detailierte
+re Einführung in die Grundprinzipien des Aktormodells befindet sich in 
 \begin_inset CommandInset ref
 LatexCommand formatted
 reference "sec:Einführung-Aktormodell"
@@ -1330,18 +1336,20 @@ reference "sec:Einführung-Aktormodell"
 \end_layout
 
 \begin_layout Standard
-Um ein Aktor-Systemen bereits in der Entwurfsphase zu prüfen, ist es notwendig
+Um ein Aktor-System bereits in der Entwurfsphase zu prüfen, ist es notwendig
  ein Aktor-System auf abstraktem Niveau formal zu spezifizieren\SpecialChar \@.
  Eine Möglichkeit
- Aktorsysteme deklarativ
+ Aktor-Systeme deklarativ
 \begin_inset Foot
-status collapsed
+status open
 
 \begin_layout Plain Layout
 Deklarative Sprachen beschreiben keine konkreten Arbeitsschritte und Abläufe,
  wie das bei imperativen Sprachen der Fall ist\SpecialChar \@.
  Sie bestehen hingegen aus
- logischen Ausdrücken und Funktionen bzw.
+ logischen Aus\SpecialChar \-
+drück\SpecialChar \-
+en und Funktionen bzw.
  Operationen\SpecialChar \@.
  Hierbei kann z.B.
  durch die Verwendung des Existenzquantors(
@@ -1375,15 +1383,15 @@ reference "chap:ReActor"
 \end_layout
 
 \begin_layout Standard
-Komplexe Systemen habem meist eine hohe Zahl an möglichen Zuständen und
- Abläufen\SpecialChar \@.
- Dabei reicht es meist nicht einzelne Situationen zu testen oder
- einige Abläufe zu simulieren um die Funktionsfähigkeit fest zu stellen\SpecialChar \@.
+Komplexe Systeme haben meist eine hohe Zahl an möglichen Zuständen und Abläufen\SpecialChar \@.
 
- Besonders bei sicherheitskritischen Systemen ist es wichtig das System
- vollständig zu analysieren\SpecialChar \@.
- Ein formal spezifiziertes System kann durch
- ein automatisches Verfahren, genannt Model-Checking, verifiziert werden
+ Dabei reicht es meist nicht aus einzelne Situationen zu testen oder einige
+ Abläufe zu simulieren, um die Funktionsfähigkeit fest zu stellen\SpecialChar \@.
+ Besonders
+ bei sicherheitskritischen Systemen ist es wichtig das System vollständig
+ zu analysieren\SpecialChar \@.
+ Ein formal spezifiziertes System kann durch ein automatisches
+ Verfahren, genannt Model-Checking, verifiziert werden
 \begin_inset CommandInset citation
 LatexCommand cite
 key "clarke1999"
@@ -1404,7 +1412,7 @@ reference "sec:Einführung-Modellprüfung"
 \end_layout
 
 \begin_layout Standard
-Ein Aktorsystem kann mithilfe eines Modellprüfers verifiziert werden\SpecialChar \@.
+Ein Aktor-System kann mithilfe eines Modellprüfers verifiziert werden\SpecialChar \@.
  Dazu
  muss ein allgemeines Ausführungsmodell für das zu prüfende Aktorsystem
  erstellt werden\SpecialChar \@.
@@ -1435,579 +1443,10 @@ reits vorhandene Spezifikation des allgemeinen Verhaltens
 
 \begin_layout Chapter
 Grundlagen
-\begin_inset CommandInset label
-LatexCommand label
-name "chap:Grundlagen"
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Standard
-Die Ergebnisse dieser Arbeit sollen als Unterstützung beim automatischen
- Verifizieren von Aktor-Modellen dienen\SpecialChar \@.
- Die automatische Verifikation wird
- in diesem Fall durch den TLC-Modellprüfer übernommen\SpecialChar \@.
- Der TLC-Modellprüfer
- validiert TLA+-Modelle, TLC unterstützt dabei lediglich einen Teil von
- TLA+\SpecialChar \@.
 
-\end_layout
-
-\begin_layout Standard
-Um ein Aktorsystem durch den TLC-Modellprüfer zu verifizieren, muss zunächt
- in TLA+ das allgemeine Verhalten eines Aktorsystems modelliert werden\SpecialChar \@.
- Dazu
- gehören Mechanismen wie der Lebenszyklus und die Kommunikation der Aktoren
- im Allgemeinen\SpecialChar \@.
- Auf dieser Grundlage können dann die einzelnen Aktoren mit
- ihren Eigenschaften und ihrem Verhalten deklariert werden\SpecialChar \@.
-
-\end_layout
-
-\begin_layout Standard
-Wie in 
-\begin_inset CommandInset ref
-LatexCommand formatted
-reference "fig:Aktor-Modell-Checking-ohne-Unterstützung"
-
-\end_inset
-
- dargestellt, besteht das allgemeine Ausführungsmodell aus zwei Teilen,
- aus dem individuellen Verhalten der einzelnen Aktoren und allem was den
- Lebenszyklus und die Kommunikation der Aktoren beschreibt\SpecialChar \@.
- Beides zusammen
- wird vom TLC-Modellprüfer ausgewertet\SpecialChar \@.
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\noindent
-\align center
-\begin_inset Caption
-
-\begin_layout Plain Layout
-Aktormodell Checking ohne Unterstützung 
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:Aktor-Modell-Checking-ohne-Unterstützung"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-
-\backslash
-begin{tikzpicture}[
-\end_layout
-
-\begin_layout Plain Layout
-
- >=latex,thick,
-\end_layout
-
-\begin_layout Plain Layout
-
- node distance=5cm,
-\end_layout
-
-\begin_layout Plain Layout
-
- box/.style={rectangle, draw, fill=white, align=center},
-\end_layout
-
-\begin_layout Plain Layout
-
- round/.style={rectangle, draw, fill=white, rounded corners=3mm, align=center},
-\end_layout
-
-\begin_layout Plain Layout
-
- minimum size=6mm,
-\end_layout
-
-\begin_layout Plain Layout
-
- line join=round,
-\end_layout
-
-\begin_layout Plain Layout
-
- line cap=round,
-\end_layout
-
-\begin_layout Plain Layout
-
- auto]
-\end_layout
-
-\begin_layout Plain Layout
-
-  
-\backslash
-node [round, fill=lightgray] (TA) {Aktor in TLA+};
-\end_layout
-
-\begin_layout Plain Layout
-
-  
-\backslash
-node [round, dashed] (AM) [below=0.6cm of TA] {Ausführungsmodell 
-\backslash
-
-\backslash
- in TLA+};
-\end_layout
-
-\begin_layout Plain Layout
-
-  
-\backslash
-node [box] (TLC) [below=0.6cm of AM] {TLC 
-\backslash
-
-\backslash
- Modellprüfer};
-\end_layout
-
-\begin_layout Plain Layout
-
-  
-\backslash
-node (R) [below=0.6cm of TLC] {Ergebnis};
-\end_layout
-
-\begin_layout Plain Layout
-
-  
-\backslash
-node [round, fill=lightgray] (TE) [left of=AM] {Allgemeines Verhalten 
-\backslash
-
-\backslash
- in TLA+};
-\end_layout
-
-\begin_layout Plain Layout
-
-  
-\backslash
-node (S)[above=0.6 of TE] {Spezifizieren};
-\end_layout
-
-\begin_layout Plain Layout
-
-  
-\backslash
-node[rectangle,draw,gray,fit={($(AM.north west)+(-0.2cm,0.2cm)$)
-\end_layout
-
-\begin_layout Plain Layout
-
-                                 ($(AM.south east)+(0,-0.1cm)$)
-\end_layout
-
-\begin_layout Plain Layout
-
-                                 ($(TLC.south west)+(0,-0.1cm)$)
-\end_layout
-
-\begin_layout Plain Layout
-
-                                }] {};
-\end_layout
-
-\begin_layout Plain Layout
-
-  
-\backslash
-draw[->] (S) to node {} (TA);
-\end_layout
-
-\begin_layout Plain Layout
-
-  
-\backslash
-draw[->] (S) to node {} (TE);
-\end_layout
-
-\begin_layout Plain Layout
-
-  
-\backslash
-draw[->] (TA) to node {} (AM);
-\end_layout
-
-\begin_layout Plain Layout
-
-  
-\backslash
-draw[->] (TE) to node {} (AM);
-\end_layout
-
-\begin_layout Plain Layout
-
-  
-\backslash
-draw[->] (AM) to node {} (TLC);
-\end_layout
-
-\begin_layout Plain Layout
-
-  
-\backslash
-draw[->] (TLC) to node {} (R);
-\end_layout
-
-\begin_layout Plain Layout
-
-
-\backslash
-end{tikzpicture}
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-Ist das allgemeine Verhalten des Aktormodells erst mal beschrieben bleibt
- dies für jedes Aktormodell das selbe\SpecialChar \@.
- Lediglich die Beschreibung der Aktoren
- muss entsprechend angepasst werden, wenn ein anderes Verhalten gewünscht
- ist\SpecialChar \@.
-
-\end_layout
-
-\begin_layout Standard
-Wenn die Aktoren direkt in TLA+ beschrieben werden, muss an vielen Stellen
- boilerplate Code
-\begin_inset Foot
-status collapsed
-
-\begin_layout Plain Layout
-Boilerplate Code ist der Teil des Codes, der meist in unveränderter Form
- an mehreren Stellen benötigt wird\SpecialChar \@.
-
-\end_layout
-
-\end_inset
-
- verwendet werden\SpecialChar \@.
- Dieser unnötige Spe\SpecialChar \-
-zi\SpecialChar \-
-fi\SpecialChar \-
-ka\SpecialChar \-
-tions\SpecialChar \-
-auf\SpecialChar \-
-wand und damit potentielle
- Fehlerquelle kann vermieden werden, indem aus der reinen Beschreibung eines
- Aktors in ReActor die zugehörige Spezifikation in TLA+ generiert wird,
- wie in 
-\begin_inset CommandInset ref
-LatexCommand formatted
-reference "fig:Unterstütztes-Aktor-Modell-Checking"
-
-\end_inset
-
- gezeigt\SpecialChar \@.
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\noindent
-\align center
-\begin_inset Caption
-
-\begin_layout Plain Layout
-Aktormodell Checking mit Unterstützung 
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:Unterstütztes-Aktor-Modell-Checking"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-
-\backslash
-begin{tikzpicture}[
-\end_layout
-
-\begin_layout Plain Layout
-
- >=latex,thick,
-\end_layout
-
-\begin_layout Plain Layout
-
- node distance=5cm,
-\end_layout
-
-\begin_layout Plain Layout
-
- box/.style={rectangle, draw, fill=white, align=center},
-\end_layout
-
-\begin_layout Plain Layout
-
- round/.style={rectangle, draw, fill=white, rounded corners=3mm, align=center},
-\end_layout
-
-\begin_layout Plain Layout
-
- minimum size=6mm,
-\end_layout
-
-\begin_layout Plain Layout
-
- line join=round,
-\end_layout
-
-\begin_layout Plain Layout
-
- line cap=round,
-\end_layout
-
-\begin_layout Plain Layout
-
- auto]
-\end_layout
-
-\begin_layout Plain Layout
-
-  
-\backslash
-node [round, fill=lightgray] (RA) {Aktorspezifikation 
-\backslash
-
-\backslash
- in ReActor};
-\end_layout
-
-\begin_layout Plain Layout
-
-  
-\backslash
-node [box] (CT) [below=0.6cm of RA] {Code Transformator};
-\end_layout
-
-\begin_layout Plain Layout
-
-  
-\backslash
-node [round] (TA) [below=0.6cm of CT] {Aktor in TLA+};
-\end_layout
-
-\begin_layout Plain Layout
-
-  
-\backslash
-node [round, dashed] (AM) [below=0.6cm of TA] {Ausfühungsmodell 
-\backslash
-
-\backslash
- in TLA+};
-\end_layout
-
-\begin_layout Plain Layout
-
-  
-\backslash
-node [box] (TLC) [below=0.6cm of AM] {TLC 
-\backslash
-
-\backslash
- Modellprüfer};
-\end_layout
-
-\begin_layout Plain Layout
-
-  
-\backslash
-node (R) [below=0.6cm of TLC] {Ergebnis};
-\end_layout
-
-\begin_layout Plain Layout
-
-  
-\backslash
-node [round] (TE) [left of=AM] {Allgemeines Verhalten 
-\backslash
-
-\backslash
- in TLA+};
-\end_layout
-
-\begin_layout Plain Layout
-
-  
-\backslash
-node (S) [left of=RA] {Spezifizieren};
-\end_layout
-
-\begin_layout Plain Layout
-
-  
-\backslash
-node[rectangle,draw,gray,fit={($(TE.north west)+(-0.1cm,0)$)
-\end_layout
-
-\begin_layout Plain Layout
-
-                                 ($(TLC.south west)+(0,-0.1cm)$)
-\end_layout
-
-\begin_layout Plain Layout
-
-                                 ($(CT.north east)+(0.1cm,0.2cm)$)
-\end_layout
-
-\begin_layout Plain Layout
-
-                                }] {};
-\end_layout
-
-\begin_layout Plain Layout
-
-  
-\backslash
-draw[->] (S) to node {} (RA);
-\end_layout
-
-\begin_layout Plain Layout
-
-  
-\backslash
-draw[->] (RA) to node {} (CT);
-\end_layout
-
-\begin_layout Plain Layout
-
-  
-\backslash
-draw[->] (CT) to node {} (TA);
-\end_layout
-
-\begin_layout Plain Layout
-
-  
-\backslash
-draw[->] (TA) to node {} (AM);
-\end_layout
-
-\begin_layout Plain Layout
-
-  
-\backslash
-draw[->] (TE) to node {} (AM);
-\end_layout
-
-\begin_layout Plain Layout
-
-  
-\backslash
-draw[->] (AM) to node {} (TLC);
-\end_layout
-
-\begin_layout Plain Layout
-
-  
-\backslash
-draw[->] (TLC) to node {} (R);
-\end_layout
-
-\begin_layout Plain Layout
-
-
-\backslash
-end{tikzpicture}
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-Ein Aktormodell wird bei der Variante aus 
-\begin_inset CommandInset ref
-LatexCommand formatted
-reference "fig:Unterstütztes-Aktor-Modell-Checking"
-
-\end_inset
-
- nur aus der Beschreibung des Verhalten der Aktoren in Form von ReActor
- spezifiziert\SpecialChar \@.
- Diese ReActor Spezifikation wird mittels Code Transformation
- in eine entsprechende TLA+ Spezifikation transformiert\SpecialChar \@.
- Diese Spezifikation
- ergibt dann im Zusammenspiel mit der Spezifikation des Allgemeinen Verhaltens
- das Ausführungsmodell, welches dann durch den TLC-Modellprüfer verifiziert
- wird\SpecialChar \@.
-
-\end_layout
-
-\begin_layout Standard
-Eine genaue Beschreibung von ReActor befindet sich in 
-\begin_inset CommandInset ref
-LatexCommand formatted
-reference "chap:ReActor"
-
-\end_inset
-
-\SpecialChar \@.
- Weitere Details zum Ausführungsmodell finden sich in 
-\begin_inset CommandInset ref
-LatexCommand formatted
-reference "chap:Allgemeines-Ausführungsmodell"
-
-\end_inset
-
-\SpecialChar \@.
- 
 \end_layout
 
 \begin_layout Section
@@ -2038,7 +1477,9 @@ Nachrichten
 \begin_inset space ~
 \end_inset
 
-senden Der Aktor sendet eine endliche Menge von Nachrichten an ihm bekannte
+senden Der Aktor sendet eine endliche Menge von Nach\SpecialChar \-
+rich\SpecialChar \-
+ten an ihm bekannte
  Aktoren\SpecialChar \@.
 
 \end_layout
@@ -2065,9 +1506,9 @@ erzeugen Der Aktor erzeugt eine endliche Menge von neuen Aktoren\SpecialChar \@.
 \end_layout
 
 \begin_layout Standard
-Aktoren können Nachrichten unabhängig von einanderverarbeiten\SpecialChar \@.
+Aktoren können Nachrichten unabhängig voneinander verarbeiten\SpecialChar \@.
  Das Konzept
- eines Aktors baut auf zwei getrennten Vorgängen: Nachrichten entgegen nehmen
+ eines Aktors baut auf zwei getrennten Vorgänge: Nachrichten entgegen nehmen
  und Nachrichten verarbeiten\SpecialChar \@.
  Jeder Aktor kann zu jeder Zeit Nachrichten
  empfangen und verarbeitet unabhängig davon diese Nachrich\SpecialChar \-
@@ -2104,16 +1545,18 @@ Eine Besonderheit von ReActor ist, dass zusätzlich zur expliziten Verarbeitung
 
 \begin_layout Standard
 Um eine theoretisch unendliche Menge von Aktoren auf einem praktisch endlichen
- System zu Simulieren hat jeder Aktor eine Menge von ihm bekannten Aktoren
+ System zu simulieren hat jeder Aktor eine Menge von ihm be\SpecialChar \-
+kann\SpecialChar \-
+ten Aktoren
  (acquantances)\SpecialChar \@.
- In dieser Menge wird festgehalten welche Anderen Aktoren
+ In dieser Menge wird festgehalten welche anderen Aktoren
  vom Aktor noch benötigt werden\SpecialChar \@.
 
 \end_layout
 
 \begin_layout Standard
 Aktoren, die bei keinem Aktor mehr bekannt sind und keine Operation oder
- Ereignisse auszuwerten haben können von der Simulation wiederverwertet
+ Ereignisse auszuwerten haben können von der Simulation wieder verwertet
  werden\SpecialChar \@.
 
 \end_layout
@@ -2123,13 +1566,13 @@ Beispiel eines Aktorsystems
 \end_layout
 
 \begin_layout Standard
-Die Oben genannten Eigenschaften, werden nun anhand eines kurzen abstrakten
+Die oben genannten Eigenschaften, werden nun anhand eines kurzen abstrakten
  Beispiels erläutert\SpecialChar \@.
  In diesem Beispiel erhält der Aktor [A] eine Nachrit,
- erzeugt drei weitere Aktoren und sendet Nachrichten an die eben erzeugten
- Aktoren\SpecialChar \@.
- Von diesen Aktoren schicken zwei eine Nachricht zurück und der
- Aktor sendet sein Ergebnis an einen weiteren Aktor\SpecialChar \@.
+ darauf erzeugt er drei weitere Aktoren und sendet Nachrichten an die eben
+ erzeugten Aktoren\SpecialChar \@.
+ Von diesen Aktoren schicken zwei eine Nachricht zurück
+ und der Aktor sendet sein Ergebnis an einen weiteren Aktor\SpecialChar \@.
 
 \end_layout
 
@@ -2417,7 +1860,7 @@ node (C2) [below right=0.2cm of AL] {};
 
   
 \backslash
-node (CD) [right=-0.2cm of C2] {Erzeugen};
+node (CD) [right=-0.2cm of C2] {Erzeugung};
 \end_layout
 
 \begin_layout Plain Layout
@@ -2661,8 +2104,8 @@ reference "fig:Beispiel-Aktorsystem"
 \begin_layout Enumerate
 Der Aktor [A] bekommt von einem nicht näher spezifizierten Aktor eine Nachricht\SpecialChar \@.
 
- Aktor [A] wird nun Aktiv und unternimmt eine reihe von Aktrionen um beispielswe
-ise eine Berechnung durchzuführen\SpecialChar \@.
+ Aktor [A] wird nun aktiv und unternimmt eine Reihe von Aktionen um beispielswei
+se eine Berechnung durchzuführen\SpecialChar \@.
 
 \end_layout
 
@@ -2672,8 +2115,8 @@ Zunächst erzeugt Aktor [A] drei weitere Aktoren [X], [Y] und [Z]\SpecialChar \@
 \end_layout
 
 \begin_layout Enumerate
-An alle Neu erzeugten Aktoren werden nun Nachrichten gesendet, die weitere
- instruktionen enthalten, was diese tun sollen\SpecialChar \@.
+An alle neu erzeugten Aktoren werden nun Nachrichten gesendet, die weitere
+ Instruktionen enthalten, was diese tun sollen\SpecialChar \@.
 
 \end_layout
 
@@ -2705,19 +2148,22 @@ name "sec:Einführung-Modellprüfung"
 \end_layout
 
 \begin_layout Standard
-Die Aufgabe eines Modellprüfers ist es zu validieren, ob eine abstrakte
+Die Aufgabe eines Modellprüfers ist es, zu validieren, ob eine abstrakte
  Systembeschreibung (Modell) die an sie gestellten Anforderungen bzw.
  gewünschte Eigenschaften erfüllt\SpecialChar \@.
  Zum automatischen Prüfen muss das Modell
- formal beschrieben sein und eine formale Spezifikationm der Anforderungen
+ formal beschrieben sein und eine formale Spezifikation der Anforderungen
  an das zu prüfende Modell vorliegen\SpecialChar \@.
  Das Modell beschreibt alle möglichen
- Zustände des Systems, setzt die Startzustände fest und legt übergänge zwischen
+ Zustände des Systems, setzt die Startzustände fest und legt Übergänge zwischen
  Zuständen fest\SpecialChar \@.
  Die Spezifikation der Systemeigenschaften trifft Aussagen
  über einzelne Zustände\SpecialChar \@.
  Ein Modellprüfer verifiziert ob die Startzustände
- und alle Zustandsübergänge des Modells die Bedingungen der spezifizierten
+ und alle Zustandsübergänge des Modells die Be\SpecialChar \-
+ding\SpecialChar \-
+un\SpecialChar \-
+gen der spezifizierten
  Eigenschaften erfüllen\SpecialChar \@.
 
 \begin_inset CommandInset citation
@@ -2831,7 +2277,9 @@ reference "eq:Spec"
 \begin_inset Formula $Next$
 \end_inset
 
- zulässige Zustandsüberführungen herleiten\SpecialChar \@.
+ zulässige Zustandsüberführungen her\SpecialChar \-
+lei\SpecialChar \-
+ten\SpecialChar \@.
  Dadurch lässt sich ausgehend
  von den Startzuständen und durch alle möglichen Zustandsüberführungen der
  Zustandsraum explorieren und eine Art Kripke-Struktur bilden\SpecialChar \@.
@@ -2841,7 +2289,7 @@ reference "eq:Spec"
 \end_layout
 
 \begin_layout Standard
-Die geforderten Eigenschaften des Systems werden in TLA durch Eigenschaften
+Die geforderten Eigenschaften des Systems werden in TLA+ durch Eigenschaften
  bzw.
  Invarianten formalisiert 
 \begin_inset CommandInset ref
@@ -2882,9 +2330,9 @@ reference "eq:Property"
 \end_inset
 
  korrekt ist\SpecialChar \@.
- Der Modelprüfter verifiziert ob alle Zustände die in der Spezifikat
-ion des Models gültig sind auch in der Spezifikation der Eigenschaften gültig
- sind 
+ Der Modellprüfer verifiziert, ob alle Zustände, die in der
+ Spezifikation des Models gültig sind auch in der Spezifikation der Eigenschafte
+n gültig sind 
 \begin_inset CommandInset ref
 LatexCommand eqref
 reference "eq:Prove"
@@ -2922,9 +2370,9 @@ key "lamport2002a"
 
 \end_inset
 
- Abschnitt 14.6 Seite 262)\SpecialChar \@.
- Oder Aktions-Kompositions-Operator, der die kombiniert
-e Ausführung von Aktionen in einem Atomaren Schritt ermöglicht (
+ Abschnitt 14.6 Seite 262) oder den Aktions-Kompositions-Operator, der die
+ kombinierte Ausführung von Aktionen in einem atomaren Schritt ermöglicht
+ (
 \begin_inset CommandInset citation
 LatexCommand cite
 key "lamport2002a"
@@ -2964,7 +2412,7 @@ Beispiel einer Modelbeschreibung in TLA+
 \end_layout
 
 \begin_layout Standard
-In folgendem Beispiel wird ein Modell in TLA+ beschrieben\SpecialChar \@.
+Im folgenden Beispiel wird ein Modell in TLA+ beschrieben\SpecialChar \@.
  Der Zustand wird
  durch die Variablen 
 \begin_inset Formula $a$
@@ -3210,14 +2658,14 @@ reference "fig:Beispiel-Modell"
 \end_inset
 
  gezeigt darstellen\SpecialChar \@.
- Ein Knoten entspricht hierbei einem Möglichen Systemzustand
+ Ein Knoten entspricht hierbei einem möglichen Systemzustand
  und eine Kante entspricht einem Schritt bzw.
  Zustandsübergang\SpecialChar \@.
  Der Zustand in dem 
 \begin_inset Formula $\neg a\land\neg b$
 \end_inset
 
- gillt wird nie erreicht\SpecialChar \@.
+ gilt wird nie erreicht\SpecialChar \@.
 
 \end_layout
 
@@ -3235,7 +2683,7 @@ reference "fig:Beispiel-Modell"
 
 \begin_layout Standard
 \begin_inset Wrap figure
-lines 20
+lines 22
 placement L
 overhang 0in
 width "50col%"
@@ -3290,9 +2738,11 @@ Die Formel für die Folgezustände (
 \begin_inset Formula $Next$
 \end_inset
 
-) ist kann durch die Disjunktion durch zwei Möglichkeiten erfüllt werden\SpecialChar \@.
-
- Entweder ist 
+) kann durch die Dis\SpecialChar \-
+junk\SpecialChar \-
+tion durch zwei Möglichkeiten erfüllt werden\SpecialChar \@.
+ Entweder
+ ist 
 \begin_inset Formula $a$
 \end_inset
 
@@ -3334,7 +2784,7 @@ Ausgehend vom Startzustand in dem
 ge\SpecialChar \-
 wer\SpecialChar \-
 tet\SpecialChar \@.
- Der Wert der Variable 
+ Der Wert der Variablen 
 \begin_inset Formula $a$
 \end_inset
 
@@ -3354,7 +2804,7 @@ tet\SpecialChar \@.
 \begin_inset Formula $b$
 \end_inset
 
- immer zwischen Wahr und Falsch\SpecialChar \@.
+ immer zwischen wahr und falsch\SpecialChar \@.
 
 \end_layout
 
@@ -3373,7 +2823,7 @@ Die zu prüfenden Eigenschaften bzw.
 \begin_inset Formula $Invariant$
 \end_inset
 
-) spezifiziert, die aussagt, das entweder 
+) spezifiziert, die aussagt, dass entweder 
 \begin_inset Formula $a$
 \end_inset
 
@@ -3382,8 +2832,8 @@ Die zu prüfenden Eigenschaften bzw.
 \end_inset
 
  wahr sein müssen\SpecialChar \@.
- Das Theorems sagt aus, dass aus der Spezifikation des
- Modells (
+ Das Theorem sagt aus, dass aus der Spezifikation des Modells
+ (
 \begin_inset Formula $Spec$
 \end_inset
 
@@ -3391,7 +2841,7 @@ Die zu prüfenden Eigenschaften bzw.
 \begin_inset Formula $\Box$
 \end_inset
 
-) die Invariante gillt, die Invariante also für Jeden Zustand gelten soll\SpecialChar \@.
+) die Invariante gilt, die Invariante also für jeden Zustand gelten soll\SpecialChar \@.
 
 \end_layout
 
@@ -3406,7 +2856,7 @@ Es soll notwendig
 
  gelten oder anders formuliert
 \begin_inset Foot
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Formula $\Box(a\lor b)=\neg\lozenge(\neg a\land\neg b)$
@@ -3417,7 +2867,7 @@ status open
 
 \end_inset
 
- soll nie der Fall eintreten, in dem sowohl 
+, soll nie der Fall eintreten, in dem sowohl 
 \begin_inset Formula $a$
 \end_inset
 
@@ -3445,7 +2895,7 @@ reference "fig:Beispiel-TLA"
 \begin_inset Formula $b$
 \end_inset
 
- gelten nie erreicht, Entspricht das beschriebene Modell den Anforderungen\SpecialChar \@.
+ gelten nie erreicht, entspricht das beschriebene Modell den Anforderungen\SpecialChar \@.
 
 \end_layout
 
@@ -3465,7 +2915,9 @@ Unter Code Transformation versteht man im Allgemeinen die Übertragung von
  Code einer formalen Sprache in den Code einer anderen formalen Sprache
  unter Beibehaltung der Semantik\SpecialChar \@.
  Ein Code-Transformator parst wie ein Compiler
- die Eingabesprache und erzeugt eine Ausgabe in der gewünschten Form\SpecialChar \@.
+ die Eingabesprache und erzeugt eine Ausgabe im ge\SpecialChar \-
+wünsch\SpecialChar \-
+ten Format\SpecialChar \@.
 
 \end_layout
 
@@ -3489,16 +2941,18 @@ Homoikonizität bezeichnet die Eigenschaft einer Sprache, die Datenstrukturen
 n der Sprache gearbeitet werden kann\SpecialChar \@.
  Das trifft im Besonderen zu, wenn die
  Eingabesprache dasselbe Format hat\SpecialChar \@.
- Ein in Scheme implementierter Transformator
- würde ReActor in Form einer an Scheme angelehnten Präfixnotation einlesen
- und daraus eine TLA+ Spezifikation erzeugen (
+ Wie in Ab\SpecialChar \-
+bild\SpecialChar \-
+ung 
 \begin_inset CommandInset ref
-LatexCommand formatted
+LatexCommand ref
 reference "fig:Code-Transformation-Scheme"
 
 \end_inset
 
-)\SpecialChar \@.
+ dargestellt lisest ein in Scheme implementierter Transformator ReActor
+ in Form einer an Scheme angelehnten Präfixnotation ein und erzeugt daraus
+ eine TLA+ Spezifikation\SpecialChar \@.
 
 \end_layout
 
@@ -3643,35 +3097,18 @@ end{tikzpicture}
 
 \begin_layout Standard
 Eine weitere Möglichkeit der Code Transformation besteht in der Verwendung
- von XSLT
-\begin_inset Foot
-status collapsed
-
-\begin_layout Plain Layout
-XSLT ist zwar ebenfalls homoikonizitär, aber es bestehen dadurch in diesem
- Zusammenhang keine Vorteile\SpecialChar \@.
- Nicht der Compiler sondern nur die Transformationsr
-egeln werden in XSLT geschrieben\SpecialChar \@.
-
-\end_layout
-
-\end_inset
-
-\SpecialChar \@.
- Hierbei werden lediglich Transformationsregeln for\SpecialChar \-
-ma\SpecialChar \-
-li\SpecialChar \-
-siert, die beschreiben,
- wie die Eingabesprache interpretiert, verarbeitet und wieder ausgegeben
- werden soll, wie in 
+ von XSLT\SpecialChar \@.
+ Hierbei werden wie in 
 \begin_inset CommandInset ref
 LatexCommand formatted
 reference "fig:Code-Transformation-XSLT"
 
 \end_inset
 
- beschrieben\SpecialChar \@.
- Hierbei muss die Eingabesprache in XML sein\SpecialChar \@.
+ beschrieben lediglich Transformationsregeln erstellt, die beschreiben,
+ wie die Eingabesprache interpretiert, verarbeitet und wieder ausgegeben
+ werden soll\SpecialChar \@.
+ Die Eingabesprache muss dafür XML sein\SpecialChar \@.
 
 \end_layout
 
@@ -3880,11 +3317,16 @@ reference "fig:Code-Transformation-XSLT"
 
 \begin_layout Standard
 Die Verwendung von Scheme hat den Vorteil, dass der Code übersichtlicher
- wird, allerdings würde hierbei die Transformation vollständig in Scheme
+ wird, allerdings muss hierfür die Transformation vollständig in Scheme
  implementiert werden\SpecialChar \@.
- XML hat den Vorteil, dass lediglich die Transformationsreg
-eln geschrieben werden müssen, dafür ist XML bei gleichem Informationsgehalt
- umfangreicher\SpecialChar \@.
+ XML hat den Vorteil, dass lediglich die Trans\SpecialChar \-
+for\SpecialChar \-
+ma\SpecialChar \-
+tions\SpecialChar \-
+re\SpecialChar \-
+g
+eln geschrieben werden müssen, dafür benötigt XML für die Darstellung gleicher
+ Informationen mehr Zeichen\SpecialChar \@.
 
 \end_layout
 
@@ -3896,10 +3338,1239 @@ Je nachdem welcher Ansatz gewählt wird unterscheidet sich die Codierung
 
 \begin_layout Chapter
 Lösungsansatz
+\begin_inset CommandInset label
+LatexCommand label
+name "chap:Lösungsansatz"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
-TODO
+Die Ergebnisse dieser Arbeit sollen als Unterstützung beim au\SpecialChar \-
+to\SpecialChar \-
+ma\SpecialChar \-
+ti\SpecialChar \-
+schen
+ Verifizieren von Aktor-Modellen dienen\SpecialChar \@.
+ Die automatische Verifikation wird
+ in diesem Fall durch den TLC-Modellprüfer übernommen\SpecialChar \@.
+ Der TLC-Modellprüfer
+ validiert TLA+-Modelle, TLC unterstützt dabei lediglich einen Teil von
+ TLA+\SpecialChar \@.
+
+\end_layout
+
+\begin_layout Standard
+Um ein Aktorsystem durch den TLC-Modellprüfer zu verifizieren, muss zunächt
+ in TLA+ das allgemeine Verhalten eines Aktorsystems modelliert werden\SpecialChar \@.
+ Dazu
+ gehören Mechanismen wie der Lebenszyklus und die Kommunikation der Aktoren
+ im Allgemeinen\SpecialChar \@.
+ Auf dieser Grundlage können dann die einzelnen Aktoren mit
+ ihren Eigenschaften und ihrem Verhalten deklariert werden\SpecialChar \@.
+
+\end_layout
+
+\begin_layout Standard
+Wie in 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "fig:Aktor-Modell-Checking-ohne-Unterstützung"
+
+\end_inset
+
+ dargestellt, besteht das allgemeine Aus\SpecialChar \-
+füh\SpecialChar \-
+rungs\SpecialChar \-
+mo\SpecialChar \-
+dell aus zwei Teilen,
+ aus dem individuellen Verhalten der einzelnen Aktoren und allem was den
+ Lebenszyklus und die Kommunikation der Aktoren beschreibt\SpecialChar \@.
+ Beides zusammen
+ wird vom TLC-Modellprüfer ausgewertet\SpecialChar \@.
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Aktormodell Checking ohne Unterstützung 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Aktor-Modell-Checking-ohne-Unterstützung"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{tikzpicture}[
+\end_layout
+
+\begin_layout Plain Layout
+
+ >=latex,thick,
+\end_layout
+
+\begin_layout Plain Layout
+
+ node distance=5cm,
+\end_layout
+
+\begin_layout Plain Layout
+
+ box/.style={rectangle, draw, fill=white, align=center},
+\end_layout
+
+\begin_layout Plain Layout
+
+ round/.style={rectangle, draw, fill=white, rounded corners=3mm, align=center},
+\end_layout
+
+\begin_layout Plain Layout
+
+ minimum size=6mm,
+\end_layout
+
+\begin_layout Plain Layout
+
+ line join=round,
+\end_layout
+
+\begin_layout Plain Layout
+
+ line cap=round,
+\end_layout
+
+\begin_layout Plain Layout
+
+ auto]
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+node [round, fill=lightgray] (TA) {Aktor in TLA+};
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+node [round, dashed] (AM) [below=0.6cm of TA] {Ausführungsmodell 
+\backslash
+
+\backslash
+ in TLA+};
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+node [box] (TLC) [below=0.6cm of AM] {TLC 
+\backslash
+
+\backslash
+ Modellprüfer};
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+node (R) [below=0.6cm of TLC] {Ergebnis};
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+node [round, fill=lightgray] (TE) [left of=AM] {Allgemeines Verhalten 
+\backslash
+
+\backslash
+ in TLA+};
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+node (S)[above=0.6 of TE] {Spezifizieren};
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+node[rectangle,draw,gray,fit={($(AM.north west)+(-0.2cm,0.2cm)$)
+\end_layout
+
+\begin_layout Plain Layout
+
+                                 ($(AM.south east)+(0,-0.1cm)$)
+\end_layout
+
+\begin_layout Plain Layout
+
+                                 ($(TLC.south west)+(0,-0.1cm)$)
+\end_layout
+
+\begin_layout Plain Layout
+
+                                }] {};
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+draw[->] (S) to node {} (TA);
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+draw[->] (S) to node {} (TE);
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+draw[->] (TA) to node {} (AM);
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+draw[->] (TE) to node {} (AM);
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+draw[->] (AM) to node {} (TLC);
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+draw[->] (TLC) to node {} (R);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{tikzpicture}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Ist das allgemeine Verhalten des Aktormodells beschrieben, so bleibt dies
+ für jedes Aktormodell dasselbe\SpecialChar \@.
+ Lediglich die Beschreibung der Aktoren muss
+ entsprechend angepasst werden, wenn ein anderes Verhalten gewünscht ist\SpecialChar \@.
+
+\end_layout
+
+\begin_layout Standard
+Wenn die Aktoren direkt in TLA+ beschrieben werden, muss an vielen Stellen
+ boilerplate Code
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+Boilerplate Code ist der Teil des Codes, der meist in unveränderter Form
+ an mehreren Stellen benötigt wird\SpecialChar \@.
+
+\end_layout
+
+\end_inset
+
+ verwendet werden\SpecialChar \@.
+ Dieser unnötige Spe\SpecialChar \-
+zi\SpecialChar \-
+fi\SpecialChar \-
+ka\SpecialChar \-
+tions\SpecialChar \-
+auf\SpecialChar \-
+wand und damit potentielle
+ Fehlerquelle kann vermieden werden, indem aus der reinen Beschreibung eines
+ Aktors in ReActor, die zugehörige Spezifikation in TLA+ generiert wird,
+ wie in 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "fig:Unterstütztes-Aktor-Modell-Checking"
+
+\end_inset
+
+ gezeigt\SpecialChar \@.
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Aktormodell Checking mit Unterstützung 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Unterstütztes-Aktor-Modell-Checking"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{tikzpicture}[
+\end_layout
+
+\begin_layout Plain Layout
+
+ >=latex,thick,
+\end_layout
+
+\begin_layout Plain Layout
+
+ node distance=5cm,
+\end_layout
+
+\begin_layout Plain Layout
+
+ box/.style={rectangle, draw, fill=white, align=center},
+\end_layout
+
+\begin_layout Plain Layout
+
+ round/.style={rectangle, draw, fill=white, rounded corners=3mm, align=center},
+\end_layout
+
+\begin_layout Plain Layout
+
+ minimum size=6mm,
+\end_layout
+
+\begin_layout Plain Layout
+
+ line join=round,
+\end_layout
+
+\begin_layout Plain Layout
+
+ line cap=round,
+\end_layout
+
+\begin_layout Plain Layout
+
+ auto]
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+node [round, fill=lightgray] (RA) {Aktorspezifikation 
+\backslash
+
+\backslash
+ in ReActor};
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+node [box] (CT) [below=0.6cm of RA] {Code Transformator};
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+node [round] (TA) [below=0.6cm of CT] {Aktor in TLA+};
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+node [round, dashed] (AM) [below=0.6cm of TA] {Ausfühungsmodell 
+\backslash
+
+\backslash
+ in TLA+};
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+node [box] (TLC) [below=0.6cm of AM] {TLC 
+\backslash
+
+\backslash
+ Modellprüfer};
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+node (R) [below=0.6cm of TLC] {Ergebnis};
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+node [round] (TE) [left of=AM] {Allgemeines Verhalten 
+\backslash
+
+\backslash
+ in TLA+};
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+node (S) [left of=RA] {Spezifizieren};
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+node[rectangle,draw,gray,fit={($(TE.north west)+(-0.1cm,0)$)
+\end_layout
+
+\begin_layout Plain Layout
+
+                                 ($(TLC.south west)+(0,-0.1cm)$)
+\end_layout
+
+\begin_layout Plain Layout
+
+                                 ($(CT.north east)+(0.1cm,0.2cm)$)
+\end_layout
+
+\begin_layout Plain Layout
+
+                                }] {};
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+draw[->] (S) to node {} (RA);
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+draw[->] (RA) to node {} (CT);
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+draw[->] (CT) to node {} (TA);
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+draw[->] (TA) to node {} (AM);
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+draw[->] (TE) to node {} (AM);
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+draw[->] (AM) to node {} (TLC);
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+draw[->] (TLC) to node {} (R);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{tikzpicture}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Ein Aktormodell wird bei der Variante aus 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "fig:Unterstütztes-Aktor-Modell-Checking"
+
+\end_inset
+
+ nur aus der Beschreibung des Verhaltens der Aktoren in Form von ReActor
+ spezifiziert\SpecialChar \@.
+ Diese ReActor Spezifikation wird mittels Code Transformation
+ in eine entsprechende TLA+ Spezifikation transformiert\SpecialChar \@.
+ Diese Spezifikation
+ ergibt dann im Zusammenspiel mit der Spezifikation des allgemeinen Verhaltens
+ das Ausführungsmodell, welches dann durch den TLC-Modellprüfer verifiziert
+ wird\SpecialChar \@.
+
+\end_layout
+
+\begin_layout Standard
+Eine genaue Beschreibung von ReActor ist in 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "chap:ReActor"
+
+\end_inset
+
+\SpecialChar \@.
+ Weitere Details zum Ausführungsmodell sind dem 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "chap:Allgemeines-Ausführungsmodell"
+
+\end_inset
+
+ zu entnehmen\SpecialChar \@.
+
+\end_layout
+
+\begin_layout Section
+Beispiel zur Veranschaulichung
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Beispiel-zur-Veranschaulichung"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Zur besseren Anschaulichkeit des Lösungsweges und der Resultate dieser Arbeit
+ wird ein durchgehendes Beispiel verwendet\SpecialChar \@.
+ Das verwendete Beispiel berechnet
+ die Fakultät einer gegebenen Nummer\SpecialChar \@.
+ Es enthält neben dem Umgebungs-Aktor
+ (
+\begin_inset Flex Code
+status collapsed
+
+\begin_layout Plain Layout
+EnvironmentActor
+\end_layout
+
+\end_inset
+
+), zusätzlich noch einen Aktor, der einen Schritt zur Berechnung der Fakultät
+ durchführt (
+\begin_inset Flex Code
+status collapsed
+
+\begin_layout Plain Layout
+FactorialStepActor
+\end_layout
+
+\end_inset
+
+)\SpecialChar \@.
+
+\end_layout
+
+\begin_layout Standard
+Bei dem zu Grunde liegenden Algorithmus sollen alle wichtigen Aspekte des
+ Aktormodells, wie das Versenden von Nachrichten, das Erzeugen von Aktoren
+ und das situationsabhängige Verhalten gezeigt werden\SpecialChar \@.
+ Daher steht die Effizienz
+ oder Sinnhaftigkeit des verwendeten Algorithmus im Hintergrund\SpecialChar \@.
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Ablauf des in der Arbeit verwendeten Beispiels
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Beispiel-Der-Arbeit"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{tikzpicture}[
+\end_layout
+
+\begin_layout Plain Layout
+
+ >=latex,thick,
+\end_layout
+
+\begin_layout Plain Layout
+
+ node distance=0.6cm,
+\end_layout
+
+\begin_layout Plain Layout
+
+  box/.style={rectangle, draw, fill=white, align=center},
+\end_layout
+
+\begin_layout Plain Layout
+
+ minimum size=6mm,
+\end_layout
+
+\begin_layout Plain Layout
+
+ auto]
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+node [box] (E1) {E};
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+node (1) [left=1.6cm of E1.north] {1.};
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+node [box] (W1) [right=of E1] {4};
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+node [box] (E2) [right=3.5cm of E1] {E};
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+node (2) [left=1.6cm of E2.north] {2.};
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+node [box] (W2) [right=of E2] {4};
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+node [box] (Y2) [below=0.8cm of E2] {2};
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+node [box] (X2) [right=of Y2] {3};
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+node [box] (Z2) [left=of Y2] {1};
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+node [box] (E3) [right=3.5cm of E2] {E};
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+node (3) [left=1.5cm of E3.north] {3.};
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+node [box] (W3) [right=of E3] {4};
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+node [box] (Y3) [below=0.8cm of E3] {2};
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+node [box] (X3) [right=of Y3] {3};
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+node [box] (Z3) [left=of Y3] {1};
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+node [box] (E4) [below=2.5cm of E1] {E};
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+node (4) [left=1.5cm of E4.north] {4.};
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+node [box] (W4) [right=of E4] {4};
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+node [box] (Y4) [below=0.8cm of E4] {2};
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+node [box] (X4) [right=of Y4] {3};
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+node [box, dashed] (Z4) [left=of Y4] {1};
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+node [box] (E5) [right=3.5cm of E4] {E};
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+node (4) [left=1.5cm of E5.north] {5.};
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+node [box] (W5) [right=of E5] {4};
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+node [box, dashed] (Y5) [below=0.8cm of E5] {2};
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+node [box, dashed] (X5) [right=of Y5] {3};
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+node [box, dashed] (Z5) [left=of Y5] {1};
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+node [box] (AL) [right=2.5cm of A5] {};
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+node (AD) [right=0.6cm of AL] {Aktor};
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+node (C1) [below left=0.2cm of AL] {};
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+node (C2) [below right=0.2cm of AL] {};
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+node (CD) [right=-0.2cm of C2] {Erzeugung};
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+node (M1) [below left=0.8cm and 0.2cm of AL] {};
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+node (M2) [below right=0.8cm and 0.2cm of AL] {};
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+node (MD) [right=-0.2cm of M2] {Nachricht};
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[rectangle,draw,lightgray,fit={(AD)
+\end_layout
+
+\begin_layout Plain Layout
+
+                                   ($(M1.south west)+(+0.6cm,-0.2cm)$)
+\end_layout
+
+\begin_layout Plain Layout
+
+                                   ($(AD.north west)+(+0.4cm,0)$)
+\end_layout
+
+\begin_layout Plain Layout
+
+                                   ($(MD.south west)+(+2.0,0)$)
+\end_layout
+
+\begin_layout Plain Layout
+
+                                  }] {};
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+  %creations
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+begin{scope}[dashed,->]
+\end_layout
+
+\begin_layout Plain Layout
+
+    
+\backslash
+draw (E1) to node {} (W1);
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+    
+\backslash
+draw (W2) to node {} (X2);
+\end_layout
+
+\begin_layout Plain Layout
+
+    
+\backslash
+draw (X2) to node {} (Y2);
+\end_layout
+
+\begin_layout Plain Layout
+
+    
+\backslash
+draw (Y2) to node {} (Z2);
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+    
+\backslash
+draw (C1) to node {} (C2);
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+end{scope}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+  %messages
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+begin{scope}[->]
+\end_layout
+
+\begin_layout Plain Layout
+
+    
+\backslash
+draw (Z3) to node {} (Y3);
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+    
+\backslash
+draw (Y4) to node {} (X4);
+\end_layout
+
+\begin_layout Plain Layout
+
+    
+\backslash
+draw (X4) to node {} (W4);
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+    
+\backslash
+draw (W5) to node {} (E5);
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+    
+\backslash
+draw (M1) to node {} (M2);
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+end{scope}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{tikzpicture}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Der in 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "fig:Beispiel-Der-Arbeit"
+
+\end_inset
+
+ dargestellte Algorithmus funktioniert folgenderweise:
+\end_layout
+
+\begin_layout Enumerate
+Der Umgebungsaktor initialisiert einen Aktor vom Typ 
+\begin_inset Quotes pld
+\end_inset
+
+Fakultätsschritt
+\begin_inset Quotes prd
+\end_inset
+
+ mit dem Wert, für den die Fakultät berechnet werden soll\SpecialChar \@.
+
+\end_layout
+
+\begin_layout Enumerate
+Der neue Aktor wiederum merkt sich seinen Wert und die Adresse des anfragenden
+ Aktors und initialisiert den nächsten Aktor mit einem um eins verringerten
+ Wert\SpecialChar \@.
+ Diese Initialisierungskette setzt sich so lange fort, bis der Parameter
+ zur Berechnung den Wert 1 erreicht hat\SpecialChar \@.
+
+\end_layout
+
+\begin_layout Enumerate
+Wenn ein Aktor merkt, dass er der Letzte der Initialisierungskette ist,
+ sendet er eine Nachricht mit dem Wert 1 an den Aktor, der ihn erstellt
+ hat\SpecialChar \@.
+
+\begin_inset Formula 
+\[
+1!=1
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Empfängt ein Aktor einen Wert, multipliziert er seinen eigenen Wert zu dem
+ empfangenen und sendet das Resultat an den Aktor, der ihn erstellt hat\SpecialChar \@.
+
+\begin_inset Formula 
+\[
+n!=n(n-1)!
+\]
+
+\end_inset
+
+Der Aktor der die Nachricht versendet hat wird nicht mehr benötigt\SpecialChar \@.
+
+\end_layout
+
+\begin_layout Enumerate
+Die Nachricht des l etzten Aktors wird an den Umgebungsaktor weitergegeben
+ und enthält das Ergebnis der Berechnung\SpecialChar \@.
+
+\begin_inset Formula 
+\[
+4!=24
+\]
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Chapter
@@ -3925,7 +4596,7 @@ key "burmeister2013a"
 
  Die Beschreibung orientiert sich dabei an den Möglichkeiten von TLA+\SpecialChar \@.
  Mit
- ReActor wird ein Modell definiert, welches mehrere Aktor-Klassen enthält,
+ ReActor wird ein Modell definiert, welches mehrere Aktorklassen enthält,
  deren Instanzen gemäß der Semantik von ReActor miteinander interagieren\SpecialChar \@.
 
 \end_layout
@@ -3935,13 +4606,9 @@ Die Beschreibung eines Aktors besteht dabei aus der Spezifizierung des Initialzu
 standes und der Deklaration von Zustandsübergängen (Schritten) die Ereignisse
  und Operationen beschreiben\SpecialChar \@.
  Ereignisse können unabhängig von eingehenden
- Nachrichten eintreten, Operationen werden nur im Zusammenhang mit einer
- eingehenden Nachricht evaluiert\SpecialChar \@.
+ Nachrichten eintreten, Operationen werden nur im Zusammenhang einer eingehenden
+ Nachricht evaluiert\SpecialChar \@.
 
-\end_layout
-
-\begin_layout Standard
-[fülltext]
 \end_layout
 
 \begin_layout Standard
@@ -3953,7 +4620,7 @@ reference "sec:Grundlagen_Code-Transformation"
 
 \end_inset
 
- erwähnt werden zu wählen reicht ein kurzer Blick auf ein kleines Beispiel\SpecialChar \@.
+ erwähnt werden, zu wählen, reicht ein kurzer Blick auf ein kleines Beispiel\SpecialChar \@.
 
 \end_layout
 
@@ -4091,10 +4758,10 @@ P(x,y)\defeq & \land & \lor & x & = & B_{x,1}\\
 \end_layout
 
 \begin_layout Standard
-Eine DNF hätte dieselbe Aussagemöglichkeit wie jede andere Formel allerdings
+Eine DNF hätte dieselbe Aussagemöglichkeit wie jede andere Formel jedoch
  ohne Quantoren\SpecialChar \@.
- Allerdings wäre in diesem Fall durch die Begrenztheit der
- gegebenen Formel eine Entscheidbarkeit von 
+ In diesem Fall ist durch die Begrenztheit der gegebenen
+ Formel eine Entscheidbarkeit von 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "eq:unbound_predicate"
@@ -4114,7 +4781,11 @@ reference "eq:unbound_predicate"
 
 \end_inset
 
- auf Werte aus endlichen Mengen:
+ auf Werte aus endlichen Mengen ( 
+\begin_inset Formula $n\in\mathbb{{N}}$
+\end_inset
+
+):
 \end_layout
 
 \begin_layout Standard
@@ -4125,11 +4796,6 @@ x,y\in\left\{ 1,\dots\text{,n}\right\} :P(x,y)\label{eq:restricted_types}
 
 \end_inset
 
-mit 
-\begin_inset Formula $n\in\mathbb{{N}}$
-\end_inset
-
-\SpecialChar \@.
 
 \end_layout
 
@@ -4196,10 +4862,6 @@ In gleicher Weise werden werden Sequenzen in ihrer Länge beschränkt, da
 
 \begin_layout Section
 Notation
-\end_layout
-
-\begin_layout Standard
-[Einleitender Absatz]
 \end_layout
 
 \begin_layout Standard
@@ -4388,14 +5050,14 @@ reference "tab:particular-values"
 \end_inset
 
 )\SpecialChar \@.
- Der Datentyp set kann aus Komplexitätsgrunden (siehe Abschnitt 
+ Der Datentyp set kann aus Komplexitätsgründen (siehe Abschnitt 
 \begin_inset CommandInset ref
 LatexCommand vref
 reference "sec:ReActor-Einschränkungen"
 
 \end_inset
 
-) derzeit nicht für zustandsvariablen von Aktoren verwendet werden\SpecialChar \@.
+) derzeit nicht für Zustandsvariablen von Aktoren verwendet werden\SpecialChar \@.
 
 \end_layout
 
@@ -4409,7 +5071,7 @@ sequence
 
 \end_inset
 
- Zusammenfassender Datentypen der aus einer Sequenz von Werten eines bestimmten
+ Zusammenfassende Datentypen, die aus einer Sequenz von Werten eines bestimmten
  Typs besteht\SpecialChar \@.
  Eine Sequenz kann leer sein (siehe 
 \begin_inset CommandInset ref
@@ -4701,11 +5363,11 @@ Operationen
 Auf den oben genannten Datentypen sind Operationen definiert, die in diesem
  Abschnitt näher erläutert sind\SpecialChar \@.
  Sofern nicht anders gekennzeichnet handelt
- es sich bei der Schreibweise in TeX um infixnotation (
+ es sich bei der Schreibweise in TeX um Infixnotation (
 \begin_inset Formula $a\times b$
 \end_inset
 
-) und bei der Schreibweise in ASCII um präfixnotation (
+) und bei der Schreibweise in ASCII um Präfixnotation (
 \begin_inset Flex Code
 status collapsed
 
@@ -4738,7 +5400,7 @@ bool
 \begin_inset Quotes pld
 \end_inset
 
-Und
+und
 \begin_inset Quotes prd
 \end_inset
 
@@ -4746,7 +5408,7 @@ Und
 \begin_inset Quotes pld
 \end_inset
 
-Oder
+oder
 \begin_inset Quotes prd
 \end_inset
 
@@ -4754,7 +5416,7 @@ Oder
 \begin_inset Quotes pld
 \end_inset
 
-Nicht
+nicht
 \begin_inset Quotes prd
 \end_inset
 
@@ -4763,7 +5425,7 @@ Nicht
 \begin_inset Quotes pld
 \end_inset
 
-Und
+und
 \begin_inset Quotes prd
 \end_inset
 
@@ -4771,7 +5433,7 @@ Und
 \begin_inset Quotes pld
 \end_inset
 
-Oder
+oder
 \begin_inset Quotes prd
 \end_inset
 
@@ -4796,7 +5458,7 @@ status collapsed
 \begin_inset Quotes pld
 \end_inset
 
-Und
+und
 \begin_inset Quotes prd
 \end_inset
 
@@ -4804,7 +5466,7 @@ Und
 \begin_inset Quotes pld
 \end_inset
 
-Oder
+oder
 \begin_inset Quotes prd
 \end_inset
 
@@ -4816,7 +5478,7 @@ Oder
 \begin_inset Quotes pld
 \end_inset
 
-Nicht
+nicht
 \begin_inset Quotes prd
 \end_inset
 
@@ -4914,7 +5576,7 @@ and
 \begin_inset Text
 
 \begin_layout Plain Layout
-Und
+und
 \end_layout
 
 \end_inset
@@ -4955,7 +5617,7 @@ or
 \begin_inset Text
 
 \begin_layout Plain Layout
-Oder
+oder
 \end_layout
 
 \end_inset
@@ -4996,7 +5658,7 @@ not
 \begin_inset Text
 
 \begin_layout Plain Layout
-Nicht
+nicht
 \end_layout
 
 \end_inset
@@ -5062,7 +5724,7 @@ nat
 \begin_inset Quotes pld
 \end_inset
 
-Plus
+plus
 \begin_inset Quotes prd
 \end_inset
 
@@ -5070,7 +5732,7 @@ Plus
 \begin_inset Quotes pld
 \end_inset
 
-Minus
+minus
 \begin_inset Quotes prd
 \end_inset
 
@@ -5078,7 +5740,7 @@ Minus
 \begin_inset Quotes pld
 \end_inset
 
-Mal
+mal
 \begin_inset Quotes prd
 \end_inset
 
@@ -5086,7 +5748,7 @@ Mal
 \begin_inset Quotes pld
 \end_inset
 
-Ganzzahldivision
+ganzzahldivision
 \begin_inset Quotes prd
 \end_inset
 
@@ -5098,7 +5760,7 @@ Ganzzahldivision
 \begin_inset Quotes pld
 \end_inset
 
-Modulo
+modulo
 \begin_inset Quotes prd
 \end_inset
 
@@ -5215,7 +5877,7 @@ status collapsed
 \begin_inset Text
 
 \begin_layout Plain Layout
-Plus
+plus
 \end_layout
 
 \end_inset
@@ -5256,7 +5918,7 @@ status collapsed
 \begin_inset Text
 
 \begin_layout Plain Layout
-Minus
+minus
 \end_layout
 
 \end_inset
@@ -5297,7 +5959,7 @@ status collapsed
 \begin_inset Text
 
 \begin_layout Plain Layout
-Mal
+mal
 \end_layout
 
 \end_inset
@@ -5338,7 +6000,7 @@ div
 \begin_inset Text
 
 \begin_layout Plain Layout
-Ganzzahldivision
+ganzzahldivision
 \end_layout
 
 \end_inset
@@ -5379,7 +6041,7 @@ mod
 \begin_inset Text
 
 \begin_layout Plain Layout
-Modulo
+modulo
 \end_layout
 
 \end_inset
@@ -5981,7 +6643,10 @@ reference "tab:Operationen-auf-sequence"
 \end_inset
 
  zu entnehmen\SpecialChar \@.
- Alle Operationen bilden von zwei Mengen auf eine ab (
+ Alle Ope\SpecialChar \-
+ra\SpecialChar \-
+tion\SpecialChar \-
+en bilden von zwei Mengen auf eine ab (
 \begin_inset Formula $set\times set\rightarrow set$
 \end_inset
 
@@ -6643,7 +7308,7 @@ bool
 \end_inset
 
 )\SpecialChar \@.
- Die beiden zu letzt aufgeführten Operationen bilden von Element und Menge
+ Die beiden zuletzt aufgeführten Operationen bilden von Element und Menge
  auf einen 
 \begin_inset Flex Code
 status collapsed
@@ -6679,8 +7344,19 @@ Length
 \begin_inset Quotes prd
 \end_inset
 
- bestimmt die Länge einer gegebenen Sequenz\SpecialChar \@.
- Append hängt einer Sequenz 
+ bestimmt die Länge einer ge\SpecialChar \-
+ge\SpecialChar \-
+ben\SpecialChar \-
+en Sequenz\SpecialChar \@.
+ 
+\begin_inset Quotes pld
+\end_inset
+
+Append
+\begin_inset Quotes prd
+\end_inset
+
+ hängt einer Sequenz 
 \begin_inset Flex Code
 status collapsed
 
@@ -6701,7 +7377,15 @@ e
 \end_inset
 
  an\SpecialChar \@.
- Die Konkatenation verbindet die beiden Übergebenen Listen 
+ Die 
+\begin_inset Quotes pld
+\end_inset
+
+Konkatenation
+\begin_inset Quotes prd
+\end_inset
+
+ verbindet die beiden übergebenen Listen 
 \begin_inset Flex Code
 status collapsed
 
@@ -6722,7 +7406,15 @@ t
 \end_inset
 
  zu einer Liste\SpecialChar \@.
- Head liefert das erste Element der Sequenz 
+ 
+\begin_inset Quotes pld
+\end_inset
+
+Head
+\begin_inset Quotes prd
+\end_inset
+
+ liefert das erste Element der Sequenz 
 \begin_inset Flex Code
 status collapsed
 
@@ -6733,7 +7425,15 @@ s
 \end_inset
 
 \SpecialChar \@.
- Tail liefert eine Sequenz, die alle Elemente außer dem Ersten der gegebenen
+ 
+\begin_inset Quotes pld
+\end_inset
+
+Tail
+\begin_inset Quotes prd
+\end_inset
+
+ liefert eine Sequenz, die alle Elemente außer dem Ersten der gegebenen
  Sequenz 
 \begin_inset Flex Code
 status collapsed
@@ -7357,12 +8057,13 @@ new
 
 \end_inset
 
- kann eine beliebige Anzal von Aktoren erzeugt werden\SpecialChar \@.
+ kann eine beliebige Anzahl von Aktoren erzeugt werden\SpecialChar \@.
  Die Argumentliste
  zur Erzeugung der Aktoren werden einfach aneinander gereiht\SpecialChar \@.
  Wenn kein Aktor
- erzeugt werde soll bleibt diese Liste einfach leer\SpecialChar \@.
- Das erste Argument (
+ erzeugt werden soll bleibt diese Liste einfach leer\SpecialChar \@.
+ Das erste Argument
+ (
 \begin_inset Flex Code
 status collapsed
 
@@ -7556,7 +8257,7 @@ status collapsed
 
 \end_inset
 
- wählt eine feste aber beliebige Adresse aus dem Pool der noch freien Adresse
+ wählt eine feste aber beliebige Adresse aus dem Pool der noch freien Adressen
  aus\SpecialChar \@.
  Das Argument (
 \begin_inset Flex Code
@@ -7581,7 +8282,7 @@ status collapsed
 
 \end_inset
 
- Innerhalb eines Prädikates während eines Schrittes stets den selben Wert\SpecialChar \@.
+ Innerhalb eines Prädikates während eines Schrittes stets denselben Wert\SpecialChar \@.
 
 \begin_inset CommandInset include
 LatexCommand lstinputlisting
@@ -7668,8 +8369,17 @@ post
 \end_layout
 
 \begin_layout Description
-unchanged Variablen, die durch eine Aktion nicht veränderb, werden mit dem
- Ausdruck 
+\begin_inset Flex Code
+status collapsed
+
+\begin_layout Plain Layout
+unchanged
+\end_layout
+
+\end_inset
+
+ Variablen, die durch eine Aktion nicht verändert werden, sind mit dem Ausdruck
+ 
 \begin_inset Flex Code
 status collapsed
 
@@ -7681,7 +8391,8 @@ unchanged
 
 \end_inset
 
- versehen
+ versehen\SpecialChar \@.
+
 \end_layout
 
 \begin_layout Subsubsection
@@ -7708,7 +8419,7 @@ Bedingungen
 \end_layout
 
 \begin_layout Standard
-Für die bedingte Formeln wird ein If-Ausdruck(
+Für bedingte Formeln wird ein If-Ausdruck(
 \begin_inset Flex Code
 status collapsed
 
@@ -7727,8 +8438,8 @@ Aktivitäten
 \end_layout
 
 \begin_layout Standard
-Aktivitäten teilen sich in Operationen und Events auf\SpecialChar \@.
- Beide bilden den den
+Aktivitäten teilen sich in Operationen und Ereignisse auf\SpecialChar \@.
+ Beide bilden den
  
 \begin_inset Quotes eld
 \end_inset
@@ -7768,7 +8479,7 @@ name
 
 ), dieser entspricht dem Namen der eingehenden Nachricht, die verarbeitet
  werden soll\SpecialChar \@.
- Nach dem Namen steht Liste von Argumenten (
+ Nach dem Namen steht eine Liste von Argumenten (
 \begin_inset Flex Code
 status collapsed
 
@@ -7795,8 +8506,9 @@ varN
 \end_inset
 
 ), die mit der Nachricht übergeben werden\SpecialChar \@.
- Zusetzt stehen zwei booleschen
- Aüsdrucke, einer der festlegt, unter welchen Bedingungen die Operation
+ Zuletzt stehen zwei booleschen
+ Ausdrücke, einer der fest\SpecialChar \-
+legt, unter welchen Bedingungen die Operation
  nicht ausgewertet werden soll (
 \begin_inset Flex Code
 status collapsed
@@ -7860,8 +8572,8 @@ event
 
 ) ist eine Operation, die unabhängig von Nachrichten ausgewertet wird\SpecialChar \@.
  Ereignisse
- gleichen im prinzip einer Operation mit dem einzigen Unterschied, dass
- keine Nachricht notwendig ist um ein Ereigniss auszuwerten\SpecialChar \@.
+ gleichen im Prinzip einer Operation mit dem einzigen Unterschied, dass
+ keine Nachricht notwendig ist, um ein Ereignis auszuwerten\SpecialChar \@.
  Daher entfällt
  bei der Notation eines Ereignisses die Liste der Argumente\SpecialChar \@.
  Alle Events
@@ -7890,51 +8602,24 @@ lstparams "basicstyle={\\small\\ttfamily},breaklines=true,caption={Events},frame
 
 \end_layout
 
-\begin_layout Section
-Beispielcode
+\begin_layout Subsection
+Beispiel
 \end_layout
 
 \begin_layout Standard
-Dies ist eine beispielhafte Beschreibung einer Teilmenge von ReActor\SpecialChar \@.
- Die
- Teilmenge ist so gewählt, dass sie ausreicht ein einfaches Beispiel zu
- beschreiben\SpecialChar \@.
- In dem gewählten Beispiel geht es um die 
-\begin_inset Quotes eld
+Zur Veranschaulichung der gewählten Notation ist das in Abschnitt 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Beispiel-zur-Veranschaulichung"
+
 \end_inset
 
-rekursive
-\begin_inset Quotes erd
-\end_inset
-
- Berechnung der Fakultät, unter Verwendung von Aktoren für jeden einzelnen
- Rekursionsschritt\SpecialChar \@.
+ beschriebene Beispiel in ReActor verfasst worden\SpecialChar \@.
 
 \end_layout
 
 \begin_layout Standard
-Die aktorbasierte Variante der Fakultätsberechnung wurde folgendermaßen
- implementiert: Der erste Aktor wird initialisiert mit dem Wert für den
- die Fakultät berechnet werden soll\SpecialChar \@.
- Dieser wiederum merkt sich seinen Wert
- und die Adresse des anfragenden Aktors und initialisiert den nächsten Aktor
- mit einem um eins verringerten Wert\SpecialChar \@.
- Diese Initialisierungskette setzt sich
- so lange fort, bis der Parameter zur Berechnung den Wert 1 erreicht hat\SpecialChar \@.
-
-\end_layout
-
-\begin_layout Standard
-Wenn ein Aktor merkt, dass er der Letzte in der Kette ist, sendet er eine
- Nachricht mit dem Wert 1 an den Aktor, der ihn erstellt hat\SpecialChar \@.
- Empfängt ein
- Aktor einen Wert, multipliziert er seinen eigenen Wert zu dem Empfangenen
- und sendet das Resultat an den Aktor, der ihn erstellt hat und so weiter\SpecialChar \@.
-
-\end_layout
-
-\begin_layout Standard
-Siehe: Anhang 
+Der vollständige Quelltext befindet sich in Anhang 
 \begin_inset CommandInset ref
 LatexCommand vref
 reference "environment-actor"
@@ -7948,6 +8633,7 @@ reference "factorial-step-actor"
 
 \end_inset
 
+\SpecialChar \@.
 
 \end_layout
 
@@ -7971,7 +8657,7 @@ reference "ReActor-EBNF"
 status open
 
 \begin_layout Plain Layout
-TODO: Interessante Aspekte der Grammatik herausnehmen und Erläutern\SpecialChar \@.
+TODO: Interessante Aspekte der Grammatik herausnehmen und erläutern\SpecialChar \@.
 
 \end_layout
 
@@ -7982,7 +8668,7 @@ TODO: Interessante Aspekte der Grammatik herausnehmen und Erläutern\SpecialChar
 
 \begin_layout Standard
 Die Grammatik soll mit Kommentaren versehen werden, die alle Aspekte noch
- genauer erläutert sobald die Grammatik endgültig feststeht\SpecialChar \@.
+ genauer erläutert, sobald die Grammatik endgültig feststeht\SpecialChar \@.
  So könnte eine
  mögliche Visuali\SpecialChar \-
 sierung einer Regel aussehen:
@@ -8320,16 +9006,18 @@ name "chap:Allgemeines-Ausführungsmodell"
 Das allgemeine Ausführungsmodell ist ein Modell eines Aktor-Systems, das
  mit dem TLC-Modellprüfer überprüft werden soll\SpecialChar \@.
  Wie be\SpecialChar \-
-reits in 
+reits im Lösungs\SpecialChar \-
+ansatz
+ 
 \begin_inset CommandInset ref
-LatexCommand formatted
-reference "chap:Grundlagen"
+LatexCommand vpageref
+reference "chap:Lösungsansatz"
 
 \end_inset
 
- beschrieben besteht dieses Modell aus zwei Teilen\SpecialChar \@.
- Ein Teil beschreibt das
- allgemeine Verhalten des Ausführungsmodells, das für alle Aktorsysteme
+ beschrieben, besteht dieses Modell aus zwei Teilen\SpecialChar \@.
+ Ein Teil beschreibt
+ das allgemeine Verhalten des Ausführungsmodells, das für alle Aktorsysteme
  gleich bleibt.
  Der andere Teil beschreibt die Aktoren, die für jedes Aktorsystem variieren
  und der aus der ReActor-Spezifikation generiert wird\SpecialChar \@.
@@ -8352,7 +9040,11 @@ Der Zustand des Aktorsystems wird durch zwei Variablen repräsentiert\SpecialCha
 \begin_inset Formula $messages$
 \end_inset
 
- beinhaltet alle gesendeten, noch nicht verarbeiteten Nachrichten\SpecialChar \@.
+ beinhaltet alle gesendeten, noch nicht ver\SpecialChar \-
+ar\SpecialChar \-
+bei\SpecialChar \-
+te\SpecialChar \-
+ten Nachrichten\SpecialChar \@.
 
 \end_layout
 
@@ -8403,7 +9095,7 @@ Wird im Laufe der Simulation ein neuer Aktor erzeugt, dann wird die Funktion
  entsprechend erweitert\SpecialChar \@.
  In ReActor ist die Anzahl der Aktorobjekte zur Laufzeit
  unbegrenzt\SpecialChar \@.
- Um diesem Sprachmerkmal in der Simulation entgegen zu kommen
+ Um diesem Sprachmerkmal in der Simulation entgegen zu kommen,
  werden Aktoren, die nicht mehr für das System benötigt werden aus der 
 \begin_inset Formula $actors$
 \end_inset
@@ -8426,7 +9118,8 @@ name "sub:Nachrichten"
 \begin_layout Standard
 Nachrichten, die eine Aktivität sendet, werden in keiner vorgeschriebenen
  Reihenfolge ausgewertet\SpecialChar \@.
- Deswegen werden Nachrichten, eines Aktivitätsschrittes
+ Deswegen werden Nachrichten, eines Aktivitäts\SpecialChar \-
+schrittes
  in einer Bag (Multimenge) zusammengefasst\SpecialChar \@.
  Bei der Auswertung der Nachrichten
  wird immer eine beliebige Nachricht dieser Bag ausgewählt\SpecialChar \@.
@@ -8434,8 +9127,8 @@ Nachrichten, die eine Aktivität sendet, werden in keiner vorgeschriebenen
 \end_layout
 
 \begin_layout Standard
-Daraus ergibt sich die Nachrichten in einer Funktion zu speichern, die von
- den Ziel-IDs (
+Daraus ergibt sich, die Nachrichten in einer Funktion zu speichern, die
+ von den Ziel-IDs (
 \begin_inset Formula $TargetActorIDs$
 \end_inset
 
@@ -8485,7 +9178,7 @@ reference "eq:id->bag(msg)"
 
 \end_inset
 
- um eine Sequenz ergänzt, in der die Nachrichten-Bags enthalten sind, wie
+ um eine Sequenz ergänzt, in der die Nachrichtenbags enthalten sind, wie
  in Formel 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -8506,11 +9199,12 @@ reference "eq:id->seq(bag(msg))"
 \end_layout
 
 \begin_layout Standard
-Damit bei Nachrichten von anderen Aktoren die Zufälligkeit der Auswertungsreihen
-folge immer noch gewährgeleistet ist, werden diese Sequenzen nach Sender
- und Empfänger getrennt\SpecialChar \@.
+Damit bei Nachrichten von anderen Aktoren die Zufälligkeit der Auswertungs\SpecialChar \-
+reihen
+folge immer noch gewährleistet ist, werden diese Sequenzen nach Sender und
+ Empfänger getrennt\SpecialChar \@.
  Dadurch können Nachrichten, die von unterschiedlichen
- Aktoren gesendet wurden trotz der Sortierung der Sequenz, in zufälliger
+ Aktoren gesendet wurden, trotz der Sortierung der Sequenz, in zufälliger
  Reihenfolge durch den Zielaktor ausgewertet werden\SpecialChar \@.
  Es gibt für jedes Sender-Emp
 fänger-Paar eine eigene Sequenz\SpecialChar \@.
@@ -9071,7 +9765,9 @@ te Aktoren (
 \end_inset
 
 )\SpecialChar \@.
- Die Aktoren sind der einzige veränderliche Teil des Ausführungsmodells
+ Die Aktoren sind der einzige veränderliche Teil des Ausführungs\SpecialChar \-
+mo\SpecialChar \-
+dells
  und werden durch den Transformator aus ReActor generiert (siehe 
 \begin_inset CommandInset ref
 LatexCommand formatted
@@ -9148,8 +9844,8 @@ Die Module
  und bleiben unverändert\SpecialChar \@.
  Die Module der Aktoren werden aus ReAktor für jeden
  Aktor generiert\SpecialChar \@.
- Um das Verhalten des gesamten Aktor-Modells zu ändern,
- müssen lediglich die Module der Gruppe 
+ Um das Verhalten des gesamten Aktormodells zu ändern, müssen
+ lediglich die Module der Gruppe 
 \begin_inset Quotes pld
 \end_inset
 
@@ -9170,6 +9866,7 @@ reference "chap:Ausführungsmodell"
 
 \end_inset
 
+\SpecialChar \@.
 
 \end_layout
 
@@ -9201,7 +9898,7 @@ Im Modul
 \begin_inset Formula $Utils$
 \end_inset
 
- sind Formel definiert, die für das Ausführungsmodell benötigt werden\SpecialChar \@.
+ sind Formeln definiert, die für das Ausführungsmodell benötigt werden\SpecialChar \@.
  Sie
  sind so allgemein formuliert, dass sie auch in anderen Modellen genutzt
  werden könnten\SpecialChar \@.
@@ -9344,7 +10041,7 @@ f
 \emph on
 g
 \emph default
-) Prüft ob die Funktion 
+) Prüft, ob die Funktion 
 \begin_inset Formula $f$
 \end_inset
 
@@ -9428,11 +10125,11 @@ MergeFunctionsWithBags(f,
 
 g)
 \emph default
- Kombiniert ähnlich wie 
-\emph on
-CombineFunctions(f,g)
-\emph default
- die zwei Funktionen 
+ Kombiniert ähnlich wie die Operation 
+\begin_inset Formula $CombineFunctions(f,g)$
+\end_inset
+
+ zwei Funktionen 
 \begin_inset Formula $f$
 \end_inset
 
@@ -9467,7 +10164,10 @@ Das Modul
 \begin_inset Formula $ActorBase$
 \end_inset
 
- definiert Konstanten die den Rahmen der Simulation eingrenzen, Variablen
+ definiert Konstanten, die den Rahmen der Si\SpecialChar \-
+mu\SpecialChar \-
+la\SpecialChar \-
+tion eingrenzen, Variablen
  für Aktoren und Nachrichten, Typen (siehe Abschnitt 
 \begin_inset CommandInset ref
 LatexCommand vref
@@ -9502,11 +10202,14 @@ name "sub:Konstanten"
 ActorIDs
 \emph default
  Die Menge aller AktorIDs\SpecialChar \@.
- Der Einfachheit halber sind AktorIDs Zahlen\SpecialChar \@.
+ Der einfachheitshalber sind AktorIDs Zahlen\SpecialChar \@.
  Die
- Menge sollte nur so viele IDs enthalten wie in der Simulation tatsächlich
+ Menge sollte nur so viele IDs enthalten, wie in der Si\SpecialChar \-
+mu\SpecialChar \-
+la\SpecialChar \-
+tion tatsächlich
  benötigt werden\SpecialChar \@.
- Die Anzahl der AktorIDs entspricht der Anzahl der Aktoren
+ Die Anzahl der AktorIDs entspricht der Anzahl der Aktoren,
  die zu einem Zeitpunkt der Simulation maximal existieren können\SpecialChar \@.
 
 \end_layout
@@ -9523,10 +10226,10 @@ name "Konstante-MaximumSizeOfMessageBag"
 
 
 \emph default
- Die maximal zulässige Länge der Einzelnen Queues in dem globalen Nachrichtenpuf
+ Die maximal zulässige Länge der einzelnen Queues in dem globalen Nachrichtenpuf
 fer\SpecialChar \@.
  Ist die maximale Größe erreicht, müssen erst Nachrichten zugestellt
- werden, bevor ein Ereignis ausgewertet werden kann, das eine Nachricht
+ werden, bevor ein Ereignis ausgewertet werden kann, welches eine Nachricht
  für die entsprechenden Queues sendet\SpecialChar \@.
 
 \end_layout
@@ -9603,7 +10306,7 @@ Um den Unterschied zwischen
 \begin_inset Formula $FNat$
 \end_inset
 
- besser deutlich zu machen sollen beide Mengen so gewählt werden, dass deren
+ deutlicher zu machen sollen beide Mengen so gewählt werden, dass deren
  Schnittmenge leer ist\SpecialChar \@.
 
 \end_layout
@@ -9799,7 +10502,7 @@ SeqType
 \emph on
 x
 \emph default
-) Endliche Menge aller sequenzen, die aus Elementen der Menge 
+) Endliche Menge aller Sequenzen, die aus Elementen der Menge 
 \emph on
 x
 \emph default
@@ -9866,7 +10569,7 @@ Im Schritt
 \end_inset
 
  wird abwechselnd eine Aktion für eine beliebige aktive ActorID ausgewertet
- oder nicht systemrelvante Aktoren freigegeben\SpecialChar \@.
+ oder nicht systemrelevante Aktoren freigegeben\SpecialChar \@.
  Da TLC die TLA-Komposition
  von zwei Operationen (
 \begin_inset Formula $\cdot$
@@ -9879,7 +10582,7 @@ Im Schritt
  verwendet, die sicherstellt, dass nach jeder Aktion aufgeräumt wird\SpecialChar \@.
  Das
  entspricht zwar nicht exakt der Komposition aus TLA+, hat aber in diesem
- Zusammenhang den selben gewünschten Effekt\SpecialChar \@.
+ Zusammenhang denselben gewünschten Effekt\SpecialChar \@.
 
 \end_layout
 
@@ -9939,6 +10642,7 @@ reference "sub:Die-ActorExecutionModel-Konfigur"
 
 \end_inset
 
+\SpecialChar \@.
 
 \end_layout
 
@@ -9963,11 +10667,7 @@ Das Modul
 \end_layout
 
 \begin_layout Standard
-
-\end_layout
-
-\begin_layout Standard
-Im Folgenden werden die Haupteigenschaften des Lebenszykluses Näher erläutert.
+Im Folgenden werden die Haupteigenschaften des Lebenszykluses näher erläutert.
 \end_layout
 
 \begin_layout Subsubsection
@@ -9988,7 +10688,8 @@ Die Operation
 \end_inset
 
  erreichbar sind\SpecialChar \@.
- Es wird ein Erriechbarkeits-Baum generiert und eine Menge
+ Es wird ein Erriechbarkeitsbaum gene\SpecialChar \-
+riert und eine Menge
  aller IDs in diesem Baum zurückgegeben\SpecialChar \@.
 
 \end_layout
@@ -10027,7 +10728,7 @@ Letztendlich werden in
 \begin_inset Formula $ActorIDsWithPendingMessage$
 \end_inset
 
-) noch bei keinem möglichem Ereignis die Bedingungen für dessen Ausführung
+) noch bei keinem möglichen Ereignis die Bedingungen für dessen Ausführung
  zutreffend sind (
 \begin_inset Formula $ActorIDsWithEnabledEvent$
 \end_inset
@@ -10047,7 +10748,8 @@ Die Operation
 
  erzeugt einen Aktor.
  Der Zustand des neuen Aktors erfüllt dabei das Initial-Prädikat des entsprechen
-den Aktor Typs\SpecialChar \@.
+den Aktor\SpecialChar \-
+typs\SpecialChar \@.
 
 \end_layout
 
@@ -10069,7 +10771,7 @@ Durch die Operation
  es nicht möglich mehrere Aktoren eines Typs mit identischem Startzustand
  zu initialisieren, da es für die in dieser Arbeit verwendeten Beispiele
  nicht notwendig war\SpecialChar \@.
- Bei Bedarf ist diese Möglich analog zur Operation 
+ Bei Bedarf ist diese möglich analog zur Operation 
 \begin_inset Formula $CreateMessages(messagesInitSet)$
 \end_inset
 
@@ -10080,7 +10782,7 @@ reference "Operation-CreateMessages"
 
 \end_inset
 
-), nachträglich hin zu zu fügen\SpecialChar \@.
+), nachträglich hinzuzufügen\SpecialChar \@.
 
 \end_layout
 
@@ -10093,12 +10795,12 @@ Der Ausdruck
 \begin_inset Formula $CleanUpActors$
 \end_inset
 
- beschreibt einen Systemschritt, indem alle Aktoren die auf Grund der oben
+ beschreibt einen Systemschritt, indem alle Aktoren, die auf Grund der oben
  genannten Bedingungen(
 \begin_inset Formula $ObsoleteActorIDs$
 \end_inset
 
-) nicht mehr benötigt werden, aus der Funktion 
+) nicht mehr benötigt werden und aus der Funktion 
 \begin_inset Formula $actors$
 \end_inset
 
@@ -10164,9 +10866,9 @@ Die Operation
  Sie wandelt diesen in das Format um, mit dem
  das Ausführungsmodell arbeitet\SpecialChar \@.
  Durch diese Umwandlung muss bei einer Änderung
- des Ausführungsmodells, die eine Änderung des Nachrichtenformates zur Folge
- hat der Transformator nicht komplett angepasst werden, sondern lediglich
- diese Operation\SpecialChar \@.
+ des Ausführungsmodells, die eine anderes Nachrichtenformat verwendet, der
+ Transformator nicht komplett angepasst werden, sondern lediglich diese
+ Operation\SpecialChar \@.
 
 \end_layout
 
@@ -10183,14 +10885,14 @@ name "Operation-CreateMessages"
 \end_inset
 
  wandelt die gegebene Menge zu erstellender Nachrichten in eine Funktion
- um, die von Empfänger IDs nach Bags von Nachrichten abbildet\SpecialChar \@.
- Elemente übergeben
-e Menge 
+ um, die von Empfänger IDs auf Bags von Nachrichten abbildet\SpecialChar \@.
+ Die Elemente
+ der übergebenen Menge 
 \begin_inset Formula $messagesInitSet$
 \end_inset
 
  beinhalten auch Informationen über zu sendene Anzahl der Nachrichten\SpecialChar \@.
- dadurch
+ Dadurch
  können mehrere gleichartige Nachrichten in einem Schritt versendet werden\SpecialChar \@.
 
  
@@ -10291,7 +10993,7 @@ Die Operation
 \begin_inset Formula $MergeMessagesToBuffer(msgsBuffer,actorID,msgs)$
 \end_inset
 
- nimmt alle in einem Schritt erzeugten Nachrichten (
+ nimmt alle in einem Schritt erzeugten Nachrichten (siehe Abschnitt 
 \begin_inset CommandInset ref
 LatexCommand vref
 reference "eq:msgs"
@@ -10299,7 +11001,7 @@ reference "eq:msgs"
 \end_inset
 
 ) und hängt die Bag mit der übergebenen AktorID des Senders an die entsprechende
- Queue des globalen Nachrichtenpuffers (siehe 
+ Queue des globalen Nachrichtenpuffers (siehe Abschnitt
 \begin_inset CommandInset ref
 LatexCommand vref
 reference "eq:idxid->seq(bag(msg))"
@@ -10329,14 +11031,15 @@ In der Operation
 \end_inset
 
  wird ein Aktionsschritt ausgewertet\SpecialChar \@.
- Zunächst wird überprüft ob die Vorbedingung
- für den Aktionsschritt erfüllt ist\SpecialChar \@.
+ Zunächst wird überprüft, ob die Vorbedingun
+g für den Aktionsschritt erfüllt ist\SpecialChar \@.
  Die Vorbedingung wird durch die Operation
  
 \begin_inset Formula $ActionCondition(kind,type,name,StateOf(id),message)$
 \end_inset
 
- aus dem Modul 
+ aus dem Mo\SpecialChar \-
+dul 
 \emph on
 
 \begin_inset Formula $Actors$
@@ -10608,8 +11311,8 @@ Implementierung eines Systems zur Berechnung der Fakultät dar\SpecialChar \@.
 \end_layout
 
 \begin_layout Standard
-Die einzelnen Aktormodule beschreiben Konstanten, mögliche Zustände, Bekannte
- Aktoren (Acquaintances), den Sichtbaren Zustand, Operationen, Events und
+Die einzelnen Aktormodule beschreiben Konstanten, mögliche Zustände, bekannte
+ Aktoren (Acquaintances), den sichtbaren Zustand, Operationen, Events und
  sonstige Prädikate der jeweiligen Aktoren, die in den ReActor Quelldateien
  spezifiziert wurden\SpecialChar \@.
 
@@ -10640,7 +11343,8 @@ Die Tranformation
 \end_layout
 
 \begin_layout Standard
-In diesem Kapitel wird die Transformation am Beispiel des Environment-Aktors
+In diesem Kapitel wird die Transformation am Beispiel des Environment\SpecialChar \-
+aktors
  der Fakultätsberechnung erläutert\SpecialChar \@.
 
 \end_layout
@@ -10661,7 +11365,7 @@ lstparams "basicstyle={\\small\\ttfamily},breaklines=true,caption={Klassendeklar
 \end_layout
 
 \begin_layout Standard
-Die Transformation der Spezifikation einer Aktor-Klasse beginnt stets mit
+Die Transformation der Spezifikation einer Aktorklasse beginnt stets mit
  der Deklaration der Klasse\SpecialChar \@.
  Der Name des Moduls wird aus dem Klassennamen
  gebildet\SpecialChar \@.
@@ -10698,7 +11402,7 @@ EnvironmentActor
  genannt\SpecialChar \@.
  Alle generierten Mo\SpecialChar \-
 du\SpecialChar \-
-le enthalten als Kommentar einen Hinweiß,
+le enthalten als Kommentar einen Hinweis,
  dass sie automatisch generiert wurden und verwenden das Modul 
 \begin_inset Quotes pld
 \end_inset
@@ -10767,9 +11471,9 @@ EnvironmentActorConstant_
 
 \SpecialChar \@.
  Für jede Konstante wird gemäß des angegebenen Typs die Annahme formuliert,
- dass der Wert der Konstante sich im ereich des Typs befindet\SpecialChar \@.
- Außerdem werden
- explizit angegebene Annahmen (
+ dass der Wert der Konstante sich im Bereich dessen Typs befindet\SpecialChar \@.
+ Außerdem
+ werden explizit angegebene Annahmen (
 \begin_inset Flex Code
 status collapsed
 
@@ -10953,7 +11657,7 @@ Initialprädikat
 \begin_inset CommandInset include
 LatexCommand lstinputlisting
 filename "/home/dstulle/diplom/transformator/input-fac/environment-init-predicate.ral"
-lstparams "basicstyle={\\small\\ttfamily},breaklines=true,caption={Initialpädikat},firstnumber=21,frame=ltb,label={init-predicate-example},language=ReActor,numbers=left,numbersep=5pt,numberstyle={\\tiny}"
+lstparams "basicstyle={\\small\\ttfamily},breaklines=true,caption={Initialprädikat},firstnumber=21,frame=ltb,label={init-predicate-example},language=ReActor,numbers=left,numbersep=5pt,numberstyle={\\tiny}"
 
 \end_inset
 
@@ -10962,7 +11666,7 @@ lstparams "basicstyle={\\small\\ttfamily},breaklines=true,caption={Initialpädik
 
 \begin_layout Standard
 Der boolesche Ausdruck des Initialprädikates wird aus der Präfixnotation
- direkt in ein entsprechenden TLA-Ausdruck übersetzt\SpecialChar \@.
+ direkt in einen entsprechenden TLA-Ausdruck übersetzt\SpecialChar \@.
 
 \end_layout
 
@@ -11006,7 +11710,7 @@ Bei der Transformation von Ereignissen wird zunächst eine Liste mit den
  Ereignisses versehen werden\SpecialChar \@.
  Die booleschen Ausdrücke hinter dem Bezeichner
  des Ereignisses, die die Auswertungsbedingung und den Auswertungsausdruck
- des Ereignisses darstellen werden in die 
+ des Ereignisses darstellen, werden in die 
 \begin_inset Formula $\text{…\_}Event\text{…}\_Condition(state)$
 \end_inset
 
@@ -11283,13 +11987,9 @@ EBNF-Grammatik für ReActor
 \end_layout
 
 \begin_layout Standard
-OUT OF DATE!
-\end_layout
-
-\begin_layout Standard
 \begin_inset CommandInset include
 LatexCommand lstinputlisting
-filename "/home/dstulle/usr/uni/diplom/reactor/prefix/grammar-simple.ebnf"
+filename "/home/dstulle/usr/uni/diplom/reactor/reactor.ebnf"
 lstparams "basicstyle={\\small\\ttfamily},breaklines=true,caption={ReActor Gammatik als EBNF},frame=ltb,label={ReActor-EBNF},language=EBNF,numbers=left,numbersep=5pt,numberstyle={\\tiny}"
 
 \end_inset

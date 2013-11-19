@@ -24,19 +24,21 @@ post_statement = "(", "posts", identifier, ")";
 (* denotes the type of a constant, variable or argument *)
 (* nat - value is a natural number *)
 (* text - value is any kind of text *)
-(* set - value is a set. Possibly containing any kind of values (nat, text, set) *)
 (* ref - value is a reference to an actor. *)
-variable_type = "nat", "text", "set", "ref"
+(* set - value is a set. Possibly containing any kind of values (nat, text, set) *)
+(* seq - value is a sequence. The Sequence contains values of the given type *)
+variable_type = "nat" | "text" | "ref" |
+                "set" | ( "(", "seq", variable_type, ")" )
 
 (* identifier for a variable *)
 (* remarks: pre- and post-statement, aswell as local variable *)
-(*          identifierts must only appear in an event_body *)
+(*          identifierts must only appear in an action_body *)
 variable_identifier = identifier | local_variable,
-                 | pre_statement | post_statement;
+                    | pre_statement | post_statement;
 
 variable_list = {"(", variable_type, variable_identifier, ")"}
 
-arguments = "(", variable_list}, ")";
+arguments = "(", variable_list, ")";
 
 nat = {digit}+;
 
@@ -90,7 +92,7 @@ operation_comparison_int = "(", operator_comparison, nat, nat, ")";
 if_then_else = "(", "if"
                bool, any_value, any_value, ")"
 
-any_value = (int | bool | set | if_then_else);
+any_value = (int | bool | set | sequence | if_then_else);
 
 operator_element_set = "element-of" | "no-element-of"
 
@@ -108,7 +110,7 @@ assignment = "(" identifier, any_value, ");"
 assignment_list = "(", {assignment}, ")";
 
 (* initializing new actors *)
-initializing = "(", "init", identifier,
+initializing = "(", "new", identifier,
                (identifier | local_variable),
                assignment_list, ")";
 
@@ -118,58 +120,59 @@ termination = "(", "terminate", ")";
 (* communicating: sending a message to another actor *)
 messaging = "(", "send", nat, identifier, arguments, operand, ")";
 
-print = "(", "print", (nat, bool), ")";
-
 unchanged = "(", "unchanged", {identifier} ")";
 
-action = initializing | termination | messaging | print | unchanged;
+action = initializing | messaging | unchanged;
 
-bool_with_action = "#t" | "#f"
-                 | variable_identifier
-                 | operation_bool_with_action
-                 | operation_comparison_int,
-                 | operation_element_set,
-                 | operation_comparison_set
-                 | action;
+action_body = "#t" | "#f"
+            | variable_identifier
+            | operation_comparison_int
+            | operation_element_set
+            | operation_comparison_set
+            | action;
+                 
+type_identifier_pair = "(", variable_type, identifier, ")"           
 
 (* declaration of constants *)
-constants = "(", ("constant" | "constants"), {identifier}, ")";
+constants = "(", ("constant" | "constants"), { type_identifier_pair }, ")";
 
 (* assumptions for constants *)
 assumptions = "(", "assume", bool, ")";
 
 (* declaration of variables *)
-variables = "(", ("variable" | "variables"), {identifier}, ")";
+variables = "(", ("variable" | "variables"), { type_identifier_pair }, ")";
 
 (* invariant for variables *)
-invariant = "(", "invatiant", identifier, bool, ")";
-
+invariant = "(", "invatiant", bool, ")";
 
 (* declaration of acquaintances *)
 acquaintances = "(", ("acquaintance" | "acquaintances") set, ")";
 
 (* declaration of the public state *)
-public_state = "(", "public-state" (int|bool|set) ")";
+public_state = "(", "public-state", any_value, ")";
 
 (* declaration of public init predicate *)
 init_predicate = "(" "init-predicate", bool ")";
 
-declaration = constants | assumptions
-            | variables | invariant
-            | acquaintances
-            | public_state | init_predicate
+guard_expression = bool
 
-event_body = bool
+event = "(", "event", identifier, guard_expression,
+           action_body, ")";
 
-activity = "(", "activity", identifier, bool,
-           event_body, ")";
+operation = "(", "operation", identifier, arguments, guard_expression
+            action_body, ")";
 
-operation = "(", "operation", identifier, arguments, bool
-            event_body, ")";
+(* declaration of events *)
+events = "(", "events", {event}, ")"
 
+(* declaration of events *)
+operations = "(", "operations", {operation}, ")"
 
-
-event = activity | operation;
+declaration = [ constants , assumptions ] ,
+              variables , invariant ,
+              acquaintances ,
+              [public_state] , init_predicate,
+              events, operations
 
 (* The description of an actor class *)
-actor = "(", "class", identifier, {declaration}, {event}, ")";
+actor = "(", "class", identifier, {declaration}, {actions}, ")";
